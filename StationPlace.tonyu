@@ -1,0 +1,21 @@
+/*f=file("location.txt");
+for(var line of f.lines()){
+    field=line.sprit("\t");
+    a=field[1].split(",");
+}
+*/
+$stationPlace=[
+{name:"東京",x:20,y:300},
+{name:"新日本橋",x:60,y:270},
+{name:"馬喰町",x:90,y:240},
+{name:"錦糸町",x:230,y:210},
+{name:"亀戸",x:290,y:210},
+{name:"平井",x:320,y:180},
+{name:"新小岩",x:360,y:140},
+{name:"小岩",x:400,y:110},
+{name:"市川",x:450,y:120},
+{name:"本八幡",x:510,y:130},
+{name:"下総中山",x:580,y:140},
+{name:"西船橋",x:640,y:150},
+{name:"船橋",x:700,y:160},
+];

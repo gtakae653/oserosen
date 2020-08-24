@@ -1,0 +1,95 @@
+//$Screen.resize(1000,1000);
+new Lines;//路線と駅のデータ
+update();
+new StationPlace;//各駅の座標のデータ
+update();
+new MapScroll;
+
+$search = new Button{top:10,left:300,width:150,height:30,text:"路線の検索"};
+
+$owner={};
+$turn = 1;
+$red=0;
+$blue=0;
+
+new Label{x:150,y:70,template:"赤:$red"};
+new Label{x:200,y:70,template:"青:$blue"};
+
+//何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
+//人数の上限を決めておく(８人とか)
+
+for(i=0;i<$stationPlace.length;i++){//駅名を表示する
+    bx=$stationPlace[i].x-50;
+    by=$stationPlace[i].y-30;
+    $sta = new Button{left:bx,top:by,width:40,height:30,text:$stationPlace[i].name,
+    layer=$mainLayer,onClick:clicked};
+}
+
+function clicked(b){
+    if(! $owner[b.text]){//$ownerに押された駅が無かったら
+        $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
+        
+        //colorCount($owner[b.text]);
+        
+        if($turn==1){
+            b.fillStyle=new Color(255,0,0);
+        }else{
+            b.fillStyle=new Color(0,0,255);
+        }
+        $s = new Search{lineName = "総武本線",stationName = b.text};
+        
+        $s.on("complete") \{
+            //print("complete");
+            
+            //色を変える処理
+            for (var b2 of all(Button)) {
+                if($owner[b2.text]){
+                    if($owner[b2.text].owner==1){
+                        b2.fillStyle=new Color(255,0,0);
+                    }else if($owner[b2.text].owner==2){
+                        b2.fillStyle=new Color(0,0,255);
+                    }else{
+                        print("????");
+                    }
+                }
+            }
+            
+            //Searchの処理が最後まで到達したことを確認後、$turnを変更する
+            if($turn==1){
+                $turn = 2;
+            }else if($turn==2){
+                $turn = 1;
+            }else{
+                
+            }
+        };//;は必要
+    }
+}
+
+function colorCount(s){//色別に数える
+    $red=0;
+    $blue=0;
+    for(var s in $owner){
+        if($owner[s].owner==1){
+            $red++;
+        }else{
+            $blue++;
+        }
+    }
+}
+
+if($search && $search.clicked==1){
+    $InputBox.open("路線名の入力");
+}
+/*
+while文にして......
+状態管理が必要(例：$searching = true/false)
+Name = $InputBox.getText();
+if ($InputBox.getStatus()==1 && $searching) {
+    //OKが押されたら、getした路線名をindexOfに反映する？
+}
+*/
+
+
+
+

@@ -1,0 +1,20 @@
+x=0;
+y=250;
+alpha=0;
+$Screen.setPivot($screenWidth/2,$screenHeight/2);
+while(true){
+    $Screen.scrollTo(x,y);
+    if(getkey("right")>0){
+        x+=3;
+    }
+    if(getkey("left")>0){
+        x-=3;
+    }
+    if(getkey("down")>0){
+        y+=3;
+    }
+    if(getkey("up")>0){
+        y-=3;
+    }
+    update();
+}
