@@ -39,7 +39,7 @@ function clicked(b){
         $s = new Search{lineName = "総武本線",stationName = b.text};
         
         $s.on("complete") \{
-            //print("complete");
+            print("complete");
             
             //色を変える処理
             for (var b2 of all(Button)) {
