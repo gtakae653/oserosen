@@ -7,18 +7,31 @@ function searchNextStation(stationName,direction){
     var station=$stations[stationName];//駅名から駅情報を取り出す
     var nextst = station.nexts;//次の駅名
     f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
+    nextlength = f.length;//次の駅の総数
     
-    a = isTerminal(stationName);
-    if(a==0){//終点ではないなら
-        return f[direction];
-    }else if(a==1 && direction==1){//上りの終点かつ出力方向が下りなら
-        return f[0];//次の駅を返す
-    }else if(a==1 && direction==0){//上りの終点かつ出力方向が上りなら
-        return null;
-    }else if(a==2 && direction==1){//下りの終点かつ出力方向が下りなら
-        return null;
-    }else{//下りの終点かつ出力方向が上りなら
-        return f[0];//次の駅を返す
+    //f[2]が存在する場合(次の駅が３つ以上ある場合)
+    if(nextlength < 3){
+        a = isTerminal(stationName);
+        if(a==0){//終点ではないなら
+            return f[direction];
+        }else if(a==1 && direction==1){//上りの終点かつ出力方向が下りなら
+            return f[0];//次の駅を返す
+        }else if(a==1 && direction==0){//上りの終点かつ出力方向が上りなら
+            return null;
+        }else if(a==2 && direction==1){//下りの終点かつ出力方向が下りなら
+            return null;
+        }else{//下りの終点かつ出力方向が上りなら
+            return f[0];//次の駅を返す
+        }
+    }else{
+        /*　考え中
+        f[2]の駅(両国)を起点に考えたとき、３方向分岐駅(錦糸町)の隣駅(亀戸)が、
+        ３方向分岐駅から見た時上りにあるか下りにあるかを調べることで、
+        f[2]が３方向分岐駅から見て上りにあるか下りにあるかを判断する
+        
+        例外は？
+        */
+        return f[2];
     }
 }
 
@@ -107,9 +120,6 @@ for(i=0;i<500;i++){//上り方面用
 
 /*上り方面の挟む駅*/
 //起点駅　s　　終端駅　sta
-//Searchファイルの中で$ownerの中身を書き換えて、色を付ける処理はMainで行う
-
-
 
 print("");
 stationName = s;//上り方面の処理でstationNameを上書きされてしまうため
