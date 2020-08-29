@@ -24,14 +24,15 @@ function searchNextStation(stationName,direction){
             return f[0];//次の駅を返す
         }
     }else{
-        /*　考え中(両国を錦糸町から見て上りとして判定させたい)
+        /*
+        上りの時にf[2]を返すのか下りの時にf[2]を返すのかがわからない？
         
         f[2]の駅(両国)のnextsを見て、三方向分岐駅(錦糸町)が上り方面か下り方面か
         を判定し、f[2]が３方向分岐駅から見て上りにあるか下りにあるかを判断する
         
         例外は？
         */
-        return f[2];
+        return f[2];//2駅以上returnしなければならない
     }
 }
 
@@ -40,6 +41,22 @@ if(方面の違う && 既出ではない駅(f[2]など)があるならば){
     その駅(支線の駅を想定)を出力する
 }
 */
+
+function searchDirection(stationName){
+    var station=$stations[stationName];//駅名から駅情報を取り出す
+    var nextst = station.nexts;//次の駅名
+    f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
+    
+    if(f.indexOf(stationName) > -1){//f(次の駅)の中にstationaNameがあるか判定
+        num = f.indexOf(stationName); //あったなら、stationNameがnextsの何番目にあるか判定
+        if(num == 0){//次の駅が３つあったら使えない(鶴見線とか？)
+            return 0;//上り
+        }else{
+            return 1;//下り
+        }
+    }
+}
+
 
 function isLineOf(stationName){//駅名がlineNameかを判定する関数
     var station=$stations[stationName];//駅名から駅情報を取り出す
