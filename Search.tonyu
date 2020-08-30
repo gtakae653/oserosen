@@ -27,7 +27,15 @@ function searchNextStation(stationName,direction){
         /*
         isTerminalは不要？(3方向以上の分岐駅は終点にはならない...？)
         */
-        return f[2];//2駅以上returnしなければならない
+        var z=[];
+        print(nextlength);
+        for(var i=0;i<nextlength;i++){
+            nextDirection = (searchDirection(f[i]));
+            if(nextDirection == direction){
+                z.push(f[i]);
+            }
+        }
+        return z;//2駅以上returnしなければならない場合がある
     }
 }
 
@@ -44,10 +52,11 @@ function searchDirection(stationName){
     
     if(f.indexOf(stationName) > -1){//f(次の駅)の中にstationaNameがあるか判定
         num = f.indexOf(stationName); //あったなら、stationNameがnextsの何番目にあるか判定
-        if(num == 0){//次の駅が３つあったら使えない(鶴見線とか？)
-            return 0;//上り
-        }else{
+        if(num == 0){//stationNameが0番目にあったら
+            //次の駅が３つあったら使えない(鶴見線とか？)
             return 1;//下り
+        }else{
+            return 0;//上り
         }
     }
 }
@@ -108,6 +117,17 @@ function updateOwner(startStation,endStation,direction){
             }
             $owner[st].owner = $turn;
             startStation = st;
+        }else{
+            for(var i=0;i<st.length;i++){
+                if(st[i] == endStation){
+                    break;
+                }
+                if(! $owner[st[i]]){
+                    $owner[st[i]]={owner:0};
+                }
+                $owner[st[i]].owner = $turn;
+                startStation = st[i];
+            }
         }
     }
 }
@@ -132,6 +152,15 @@ for(i=0;i<500;i++){//上り方面用
             break;
         }
         stationName = sta;
+    }else{
+        for(var i=0;i<sta.length;i++){
+            a = (searchOwner(sta[i]));
+            if(a == so){
+                o = (updateOwner(s,sta[i],0));
+                break;
+            }
+            stationName = sta[i];
+        }
     }
 }
 
@@ -156,6 +185,15 @@ for(i=0;i<500;i++){//下り方面用
             break;
         }
         stationName = sta;
+    }else{
+        for(var i=0;i<sta.length;i++){
+            a = (searchOwner(sta[i]));
+            if(a == so){
+                o = (updateOwner(s,sta[i],1));
+                break;
+            }
+            stationName = sta[i];
+        }
     }
 }
 
