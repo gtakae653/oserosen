@@ -25,12 +25,7 @@ function searchNextStation(stationName,direction){
         }
     }else{
         /*
-        上りの時にf[2]を返すのか下りの時にf[2]を返すのかがわからない？
-        
-        f[2]の駅(両国)のnextsを見て、三方向分岐駅(錦糸町)が上り方面か下り方面か
-        を判定し、f[2]が３方向分岐駅から見て上りにあるか下りにあるかを判断する
-        
-        例外は？
+        isTerminalは不要？(3方向以上の分岐駅は終点にはならない...？)
         */
         return f[2];//2駅以上returnしなければならない
     }
@@ -101,16 +96,19 @@ function searchOwner(stationName){//stationNameのownerを調べる
 }
 
 function updateOwner(startStation,endStation,direction){
-    while(true){
-        var st = searchNextStation(startStation,direction);
-        if(st == endStation){
-            break;
+    while(true){//無限ループに頼るのはやめるべき
+        var st = (searchNextStation(startStation,direction));
+        var array = Array.isArray(st);
+        if(array == false){//stがfalse(配列ではないなら)
+            if(st == endStation){
+                break;
+            }
+            if(! $owner[st]){
+                $owner[st]={owner:0};
+            }
+            $owner[st].owner = $turn;
+            startStation = st;
         }
-        if(! $owner[st]){
-            $owner[st]={owner:0};
-        }
-        $owner[st].owner = $turn;
-        startStation = st;
     }
 }
 
@@ -119,20 +117,22 @@ so = (searchOwner(stationName));
 print("");
 
 for(i=0;i<500;i++){//上り方面用
-    end = isTerminal(stationName);
+    end = (isTerminal(stationName));
     if(end == 1){//上り終点なら
         break;
     }
     
     //print(isTerminal(stationName));//終点駅の方向確認
     sta = (searchNextStation(stationName,0));
-    //print(sta);
-    a = (searchOwner(sta));
-    if(a == so){
-        o = (updateOwner(s,sta,0));
-        break;
+    var array = Array.isArray(sta);
+    if(array == false){
+        a = (searchOwner(sta));
+        if(a == so){
+            o = (updateOwner(s,sta,0));
+            break;
+        }
+        stationName = sta;
     }
-    stationName = sta;
 }
 
 /*上り方面の挟む駅*/
@@ -142,19 +142,21 @@ print("");
 stationName = s;//上り方面の処理でstationNameを上書きされてしまうため
 
 for(i=0;i<500;i++){//下り方面用
-    end = isTerminal(stationName);
+    end = (isTerminal(stationName));
     if(end == 2){//下り終点なら
         break;
     }
     //print(isTerminal(stationName));//終点駅の方向確認
     sta = (searchNextStation(stationName,1));
-    //print(sta);
-    a = (searchOwner(sta));
-    if(a == so){
-        o = (updateOwner(s,sta,1));
-        break;
+    var array = Array.isArray(sta);
+    if(array == false){
+        a = (searchOwner(sta));
+        if(a == so){
+            o = (updateOwner(s,sta,1));
+            break;
+        }
+        stationName = sta;
     }
-    stationName = sta;
 }
 
 
