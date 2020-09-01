@@ -7,10 +7,8 @@ function searchNextStation(stationName,direction){
     var station=$stations[stationName];//駅名から駅情報を取り出す
     var nextst = station.nexts;//次の駅名
     f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
-    nextlength = f.length;//次の駅の総数
     
-    //f[2]が存在する場合(次の駅が３つ以上ある場合)
-    if(nextlength < 3){
+    if(f.length < 3){
         a = isTerminal(stationName);
         if(a==0){//終点ではないなら
             return f[direction];
@@ -28,8 +26,7 @@ function searchNextStation(stationName,direction){
         isTerminalは不要？(3方向以上の分岐駅は終点にはならない...？)
         */
         var z=[];
-        print(nextlength);
-        for(var i=0;i<nextlength;i++){
+        for(var i=0;i<f.length;i++){
             nextDirection = (searchDirection(f[i]));
             if(nextDirection == direction){
                 z.push(f[i]);
@@ -99,7 +96,6 @@ function searchOwner(stationName){//stationNameのownerを調べる
     if($owner[stationName]){
         var staown = $owner[stationName];
         var owner = staown.owner;
-        //print(owner);
         return owner;
     }
 }
@@ -133,7 +129,7 @@ function updateOwner(startStation,endStation,direction){
 }
 
 s = stationName;//Mainから渡された駅名
-so = (searchOwner(stationName));
+so = (searchOwner(stationName));//Mainで押された駅のowner
 print("");
 
 for(i=0;i<500;i++){//上り方面用
@@ -164,7 +160,6 @@ for(i=0;i<500;i++){//上り方面用
     }
 }
 
-/*上り方面の挟む駅*/
 //起点駅　s　　終端駅　sta
 
 print("");
@@ -179,12 +174,14 @@ for(i=0;i<500;i++){//下り方面用
     sta = (searchNextStation(stationName,1));
     var array = Array.isArray(sta);
     if(array == false){
+        
         a = (searchOwner(sta));
         if(a == so){
             o = (updateOwner(s,sta,1));
             break;
         }
         stationName = sta;
+        
     }else{
         for(var i=0;i<sta.length;i++){
             a = (searchOwner(sta[i]));
