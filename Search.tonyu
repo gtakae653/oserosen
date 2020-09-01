@@ -21,7 +21,7 @@ function searchNextStation(stationName,direction){
             
             if(nextDirection == direction){
                 z.push(f[i]);
-                print(z[0]+"   "+z[1]+"   "+direction);
+                //print(z[0]+"   "+z[1]+"   "+direction);
             }
         }
         return z;//2駅以上returnしなければならない場合がある
@@ -107,41 +107,52 @@ function searchOwner(stationName){//stationNameのownerを調べる
     }
 }
 
-function updateOwner(startStation,endStation,direction){
-    while(true){//無限ループに頼るのはやめるべき
-        var st = (searchNextStation(startStation,direction));
+$p=0;//updateOwnerで使用する、分岐駅を全て調査するための変数
+function updateOwner(stationName,endStation,direction){
+    for(var i=0;;i++){//無限ループに頼るのはやめるべき
+        if(st == endStation){
+            if($p != 0 && savest.length != $point){
+                stationName = savest[$p];
+                $p++;
+                continue;
+            }
+            break;
+        }
+        var st = (searchNextStation(stationName,direction));
+        
         var array = Array.isArray(st);
         if(array == false){//stがfalse(配列ではないなら)
-            if(st == endStation){
-                break;
-            }
+            
             if(! $owner[st]){
                 $owner[st]={owner:0};
             }
             $owner[st].owner = $turn;
-            startStation = st;
+            stationName = st;
         }else{
-            for(var i=0;i<st.length;i++){
-                if(st[i] == endStation){
-                    break;
-                }
-                if(! $owner[st[i]]){
-                    $owner[st[i]]={owner:0};
-                }
-                $owner[st[i]].owner = $turn;
-                startStation = st[i];
+            savest = st;//st[]を保存するための配列
+            if(! $owner[st[$p]]){
+                $owner[st[$p]]={owner:0};
             }
+            $owner[st[$p]].owner = $turn;
+            stationName = savest[$p];
+            $p++;
         }
     }
 }
 
 s = stationName;//Mainから渡された駅名
 so = (searchOwner(stationName));//Mainで押された駅のowner
+$point=0;//分岐駅ですべてを調査するために必要な変数
 print("");
 
-for(i=0;i<5;i++){//上り方面用
+for(i=0;i<50;i++){//上り方面用
     end = (isTerminal(stationName));
     if(end == 1){//上り終点なら
+        if($point != 0 && savestation.length != $point){
+            stationName = savestation[$point];
+            $point++;
+            continue;
+        }
         break;
     }
     
@@ -156,14 +167,9 @@ for(i=0;i<5;i++){//上り方面用
         }
         stationName = sta;
     }else{
-        for(var i=0;i<sta.length;i++){
-            a = (searchOwner(sta[i]));
-            if(a == so){
-                o = (updateOwner(s,sta[i],0));
-                break;
-            }
-            stationName = sta[i];
-        }
+        savestation = sta;//sta[]を保存するための配列
+        stationName = savestation[$point];
+        $point++;
     }
 }
 
@@ -175,6 +181,11 @@ stationName = s;//上り方面の処理でstationNameを上書きされてしま
 for(i=0;i<5;i++){//下り方面用
     end = (isTerminal(stationName));
     if(end == 2){//下り終点なら
+        if($point != 0 && savestation.length != $point){
+            stationName = savestation[$point];
+            $point++;
+            continue;
+        }
         break;
     }
     //print(isTerminal(stationName));//終点駅の方向確認
@@ -188,16 +199,10 @@ for(i=0;i<5;i++){//下り方面用
             break;
         }
         stationName = sta;
-        
     }else{
-        for(var i=0;i<sta.length;i++){
-            a = (searchOwner(sta[i]));
-            if(a == so){
-                o = (updateOwner(s,sta[i],1));
-                break;
-            }
-            stationName = sta[i];
-        }
+        savestation = sta;//sta[]を保存するための配列
+        stationName = savestation[$point];
+        $point++;
     }
 }
 
