@@ -7,8 +7,27 @@ function searchNextStation(stationName,direction){
     var station=$stations[stationName];//駅名から駅情報を取り出す
     var nextst = station.nexts;//次の駅名
     f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
-    
-    if(f.length < 3){
+    if(f.length > 2){
+        /*
+        isTerminalは不要？(3方向以上の分岐駅は終点にはならない...？)
+        */
+        var z=[];
+        for(var i=0;i<f.length;i++){
+            nextDirection = (searchDirection(f[i],stationName));
+            
+            var station=$stations[stationName];//駅名から駅情報を取り出す
+            var nextst = station.nexts;//次の駅名
+            f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
+            
+            if(nextDirection == direction){
+                z.push(f[i]);
+                print(z[0]+"   "+z[1]+"   "+direction);
+            }
+        }
+        return z;//2駅以上returnしなければならない場合がある
+        
+        
+    }else{
         a = isTerminal(stationName);
         if(a==0){//終点ではないなら
             return f[direction];
@@ -21,18 +40,6 @@ function searchNextStation(stationName,direction){
         }else{//下りの終点かつ出力方向が上りなら
             return f[0];//次の駅を返す
         }
-    }else{
-        /*
-        isTerminalは不要？(3方向以上の分岐駅は終点にはならない...？)
-        */
-        var z=[];
-        for(var i=0;i<f.length;i++){
-            nextDirection = (searchDirection(f[i]));
-            if(nextDirection == direction){
-                z.push(f[i]);
-            }
-        }
-        return z;//2駅以上returnしなければならない場合がある
     }
 }
 
@@ -42,13 +49,13 @@ if(方面の違う && 既出ではない駅(f[2]など)があるならば){
 }
 */
 
-function searchDirection(stationName){
-    var station=$stations[stationName];//駅名から駅情報を取り出す
+function searchDirection(stationName1,stationName2){
+    var station=$stations[stationName1];//駅名から駅情報を取り出す
     var nextst = station.nexts;//次の駅名
     f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
     
-    if(f.indexOf(stationName) > -1){//f(次の駅)の中にstationaNameがあるか判定
-        num = f.indexOf(stationName); //あったなら、stationNameがnextsの何番目にあるか判定
+    if(f.indexOf(stationName2) > -1){//f(次の駅)の中にstationaName2があるか判定
+        num = f.indexOf(stationName2); //あったなら、stationNameがnextsの何番目にあるか判定
         if(num == 0){//stationNameが0番目にあったら
             //次の駅が３つあったら使えない(鶴見線とか？)
             return 1;//下り
@@ -132,7 +139,7 @@ s = stationName;//Mainから渡された駅名
 so = (searchOwner(stationName));//Mainで押された駅のowner
 print("");
 
-for(i=0;i<500;i++){//上り方面用
+for(i=0;i<5;i++){//上り方面用
     end = (isTerminal(stationName));
     if(end == 1){//上り終点なら
         break;
@@ -165,7 +172,7 @@ for(i=0;i<500;i++){//上り方面用
 print("");
 stationName = s;//上り方面の処理でstationNameを上書きされてしまうため
 
-for(i=0;i<500;i++){//下り方面用
+for(i=0;i<5;i++){//下り方面用
     end = (isTerminal(stationName));
     if(end == 2){//下り終点なら
         break;
