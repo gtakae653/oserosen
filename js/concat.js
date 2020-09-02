@@ -178,14 +178,14 @@ Tonyu.klass.define({
           //$LASTPOS=2001020;//user.Main:1020
           Tonyu.globals.$s.on("complete",(function anonymous_1038() {
             var b2;
-            var _it_1;
+            var _it_23;
             
             //$LASTPOS=2001053;//user.Main:1053
             _this.print("complete");
             //$LASTPOS=2001119;//user.Main:1119
-            _it_1=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
-            while(_it_1.next()) {
-              b2=_it_1[0];
+            _it_23=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
+            while(_it_23.next()) {
+              b2=_it_23[0];
               
               //$LASTPOS=2001165;//user.Main:1165
               if (Tonyu.globals.$owner[b2.text]) {
@@ -255,14 +255,14 @@ Tonyu.klass.define({
           //$LASTPOS=2001020;//user.Main:1020
           Tonyu.globals.$s.on("complete",(function anonymous_1038() {
             var b2;
-            var _it_1;
+            var _it_23;
             
             //$LASTPOS=2001053;//user.Main:1053
             _this.print("complete");
             //$LASTPOS=2001119;//user.Main:1119
-            _it_1=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
-            while(_it_1.next()) {
-              b2=_it_1[0];
+            _it_23=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
+            while(_it_23.next()) {
+              b2=_it_23[0];
               
               //$LASTPOS=2001165;//user.Main:1165
               if (Tonyu.globals.$owner[b2.text]) {
@@ -313,16 +313,16 @@ Tonyu.klass.define({
         "use strict";
         var _this=this;
         var s;
-        var _it_4;
+        var _it_26;
         
         //$LASTPOS=2001813;//user.Main:1813
         Tonyu.globals.$red=0;
         //$LASTPOS=2001825;//user.Main:1825
         Tonyu.globals.$blue=0;
         //$LASTPOS=2001838;//user.Main:1838
-        _it_4=Tonyu.iterator(Tonyu.globals.$owner,1);
-        while(_it_4.next()) {
-          s=_it_4[0];
+        _it_26=Tonyu.iterator(Tonyu.globals.$owner,1);
+        while(_it_26.next()) {
+          s=_it_26[0];
           
           //$LASTPOS=2001868;//user.Main:1868
           if (Tonyu.globals.$owner[s].owner==1) {
@@ -343,16 +343,16 @@ Tonyu.klass.define({
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         var s;
-        var _it_4;
+        var _it_26;
         
         //$LASTPOS=2001813;//user.Main:1813
         Tonyu.globals.$red=0;
         //$LASTPOS=2001825;//user.Main:1825
         Tonyu.globals.$blue=0;
         //$LASTPOS=2001838;//user.Main:1838
-        _it_4=Tonyu.iterator(Tonyu.globals.$owner,1);
-        while(_it_4.next()) {
-          s=_it_4[0];
+        _it_26=Tonyu.iterator(Tonyu.globals.$owner,1);
+        while(_it_26.next()) {
+          s=_it_26[0];
           
           //$LASTPOS=2001868;//user.Main:1868
           if (Tonyu.globals.$owner[s].owner==1) {
@@ -506,30 +506,30 @@ Tonyu.klass.define({
         "use strict";
         var _this=this;
         
-        //$LASTPOS=4003835;//user.Search:3835
+        //$LASTPOS=4003014;//user.Search:3014
+        Tonyu.globals.$p=0;
+        //$LASTPOS=4003953;//user.Search:3953
         _this.s=_this.stationName;
-        //$LASTPOS=4003866;//user.Search:3866
+        //$LASTPOS=4003984;//user.Search:3984
         _this.so=(_this.searchOwner(_this.stationName));
-        //$LASTPOS=4003917;//user.Search:3917
+        //$LASTPOS=4004035;//user.Search:4035
         Tonyu.globals.$point=0;
-        //$LASTPOS=4003927;//user.Search:3927
+        //$LASTPOS=4004067;//user.Search:4067
         _this.print("");
-        //$LASTPOS=4003939;//user.Search:3939
-        //$LASTPOS=4003943;//user.Search:3943
+        //$LASTPOS=4004079;//user.Search:4079
+        //$LASTPOS=4004083;//user.Search:4083
         _this.i=0;for (; _this.i<50 ; _this.i++) {
           Tonyu.checkLoop();
           {
-            //$LASTPOS=4003969;//user.Search:3969
-            _this.print(_this.stationName);
-            //$LASTPOS=4003993;//user.Search:3993
+            //$LASTPOS=4004109;//user.Search:4109
             _this.end=(_this.isTerminal(_this.stationName));
-            //$LASTPOS=4004030;//user.Search:4030
+            //$LASTPOS=4004146;//user.Search:4146
             if (_this.end==1) {
-              //$LASTPOS=4004060;//user.Search:4060
+              //$LASTPOS=4004176;//user.Search:4176
               if (Tonyu.globals.$point!=0&&_this.savestation.length!=Tonyu.globals.$point) {
-                //$LASTPOS=4004121;//user.Search:4121
+                //$LASTPOS=4004237;//user.Search:4237
                 _this.stationName=_this.savestation[Tonyu.globals.$point];
-                //$LASTPOS=4004168;//user.Search:4168
+                //$LASTPOS=4004284;//user.Search:4284
                 Tonyu.globals.$point++;
                 continue;
                 
@@ -539,55 +539,55 @@ Tonyu.klass.define({
               
               
             }
-            //$LASTPOS=4004288;//user.Search:4288
+            //$LASTPOS=4004404;//user.Search:4404
             _this.sta=(_this.searchNextStation(_this.stationName,0));
-            //$LASTPOS=4004334;//user.Search:4334
+            //$LASTPOS=4004450;//user.Search:4450
             _this.array = Array.isArray(_this.sta);
             
-            //$LASTPOS=4004370;//user.Search:4370
+            //$LASTPOS=4004486;//user.Search:4486
             if (_this.array==false) {
-              //$LASTPOS=4004398;//user.Search:4398
+              //$LASTPOS=4004514;//user.Search:4514
               _this.a=(_this.searchOwner(_this.sta));
-              //$LASTPOS=4004430;//user.Search:4430
+              //$LASTPOS=4004546;//user.Search:4546
               if (_this.a==_this.so) {
-                //$LASTPOS=4004455;//user.Search:4455
+                //$LASTPOS=4004571;//user.Search:4571
                 _this.o=(_this.updateOwner(_this.s,_this.sta,0));
                 break;
                 
                 
               }
-              //$LASTPOS=4004520;//user.Search:4520
+              //$LASTPOS=4004636;//user.Search:4636
               _this.stationName=_this.sta;
               
             } else {
-              //$LASTPOS=4004558;//user.Search:4558
+              //$LASTPOS=4004674;//user.Search:4674
               _this.savestation=_this.sta;
-              //$LASTPOS=4004602;//user.Search:4602
+              //$LASTPOS=4004718;//user.Search:4718
               _this.stationName=_this.savestation[Tonyu.globals.$point];
-              //$LASTPOS=4004645;//user.Search:4645
+              //$LASTPOS=4004761;//user.Search:4761
               Tonyu.globals.$point++;
               
             }
           }
         }
-        //$LASTPOS=4004682;//user.Search:4682
+        //$LASTPOS=4004798;//user.Search:4798
         _this.print("");
-        //$LASTPOS=4004693;//user.Search:4693
+        //$LASTPOS=4004809;//user.Search:4809
         _this.stationName=_this.s;
-        //$LASTPOS=4004744;//user.Search:4744
-        //$LASTPOS=4004748;//user.Search:4748
+        //$LASTPOS=4004860;//user.Search:4860
+        //$LASTPOS=4004864;//user.Search:4864
         _this.i=0;for (; _this.i<5 ; _this.i++) {
           Tonyu.checkLoop();
           {
-            //$LASTPOS=4004773;//user.Search:4773
+            //$LASTPOS=4004889;//user.Search:4889
             _this.end=(_this.isTerminal(_this.stationName));
-            //$LASTPOS=4004810;//user.Search:4810
+            //$LASTPOS=4004926;//user.Search:4926
             if (_this.end==2) {
-              //$LASTPOS=4004840;//user.Search:4840
+              //$LASTPOS=4004956;//user.Search:4956
               if (Tonyu.globals.$point!=0&&_this.savestation.length!=Tonyu.globals.$point) {
-                //$LASTPOS=4004901;//user.Search:4901
+                //$LASTPOS=4005017;//user.Search:5017
                 _this.stationName=_this.savestation[Tonyu.globals.$point];
-                //$LASTPOS=4004948;//user.Search:4948
+                //$LASTPOS=4005064;//user.Search:5064
                 Tonyu.globals.$point++;
                 continue;
                 
@@ -597,38 +597,38 @@ Tonyu.klass.define({
               
               
             }
-            //$LASTPOS=4005063;//user.Search:5063
+            //$LASTPOS=4005179;//user.Search:5179
             _this.sta=(_this.searchNextStation(_this.stationName,1));
-            //$LASTPOS=4005109;//user.Search:5109
+            //$LASTPOS=4005225;//user.Search:5225
             _this.array = Array.isArray(_this.sta);
             
-            //$LASTPOS=4005145;//user.Search:5145
+            //$LASTPOS=4005261;//user.Search:5261
             if (_this.array==false) {
-              //$LASTPOS=4005182;//user.Search:5182
+              //$LASTPOS=4005298;//user.Search:5298
               _this.a=(_this.searchOwner(_this.sta));
-              //$LASTPOS=4005214;//user.Search:5214
+              //$LASTPOS=4005330;//user.Search:5330
               if (_this.a==_this.so) {
-                //$LASTPOS=4005239;//user.Search:5239
+                //$LASTPOS=4005355;//user.Search:5355
                 _this.o=(_this.updateOwner(_this.s,_this.sta,1));
                 break;
                 
                 
               }
-              //$LASTPOS=4005304;//user.Search:5304
+              //$LASTPOS=4005420;//user.Search:5420
               _this.stationName=_this.sta;
               
             } else {
-              //$LASTPOS=4005342;//user.Search:5342
+              //$LASTPOS=4005458;//user.Search:5458
               _this.savestation=_this.sta;
-              //$LASTPOS=4005386;//user.Search:5386
+              //$LASTPOS=4005502;//user.Search:5502
               _this.stationName=_this.savestation[Tonyu.globals.$point];
-              //$LASTPOS=4005429;//user.Search:5429
+              //$LASTPOS=4005545;//user.Search:5545
               Tonyu.globals.$point++;
               
             }
           }
         }
-        //$LASTPOS=4005450;//user.Search:5450
+        //$LASTPOS=4005566;//user.Search:5566
         _this.fireEvent("complete");
       },
       fiber$main :function _trc_Search_f_main(_thread) {
@@ -637,30 +637,30 @@ Tonyu.klass.define({
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         
-        //$LASTPOS=4003835;//user.Search:3835
+        //$LASTPOS=4003014;//user.Search:3014
+        Tonyu.globals.$p=0;
+        //$LASTPOS=4003953;//user.Search:3953
         _this.s=_this.stationName;
-        //$LASTPOS=4003866;//user.Search:3866
+        //$LASTPOS=4003984;//user.Search:3984
         _this.so=(_this.searchOwner(_this.stationName));
-        //$LASTPOS=4003917;//user.Search:3917
+        //$LASTPOS=4004035;//user.Search:4035
         Tonyu.globals.$point=0;
-        //$LASTPOS=4003927;//user.Search:3927
+        //$LASTPOS=4004067;//user.Search:4067
         _this.print("");
-        //$LASTPOS=4003939;//user.Search:3939
-        //$LASTPOS=4003943;//user.Search:3943
+        //$LASTPOS=4004079;//user.Search:4079
+        //$LASTPOS=4004083;//user.Search:4083
         _this.i=0;for (; _this.i<50 ; _this.i++) {
           Tonyu.checkLoop();
           {
-            //$LASTPOS=4003969;//user.Search:3969
-            _this.print(_this.stationName);
-            //$LASTPOS=4003993;//user.Search:3993
+            //$LASTPOS=4004109;//user.Search:4109
             _this.end=(_this.isTerminal(_this.stationName));
-            //$LASTPOS=4004030;//user.Search:4030
+            //$LASTPOS=4004146;//user.Search:4146
             if (_this.end==1) {
-              //$LASTPOS=4004060;//user.Search:4060
+              //$LASTPOS=4004176;//user.Search:4176
               if (Tonyu.globals.$point!=0&&_this.savestation.length!=Tonyu.globals.$point) {
-                //$LASTPOS=4004121;//user.Search:4121
+                //$LASTPOS=4004237;//user.Search:4237
                 _this.stationName=_this.savestation[Tonyu.globals.$point];
-                //$LASTPOS=4004168;//user.Search:4168
+                //$LASTPOS=4004284;//user.Search:4284
                 Tonyu.globals.$point++;
                 continue;
                 
@@ -670,55 +670,55 @@ Tonyu.klass.define({
               
               
             }
-            //$LASTPOS=4004288;//user.Search:4288
+            //$LASTPOS=4004404;//user.Search:4404
             _this.sta=(_this.searchNextStation(_this.stationName,0));
-            //$LASTPOS=4004334;//user.Search:4334
+            //$LASTPOS=4004450;//user.Search:4450
             _this.array = Array.isArray(_this.sta);
             
-            //$LASTPOS=4004370;//user.Search:4370
+            //$LASTPOS=4004486;//user.Search:4486
             if (_this.array==false) {
-              //$LASTPOS=4004398;//user.Search:4398
+              //$LASTPOS=4004514;//user.Search:4514
               _this.a=(_this.searchOwner(_this.sta));
-              //$LASTPOS=4004430;//user.Search:4430
+              //$LASTPOS=4004546;//user.Search:4546
               if (_this.a==_this.so) {
-                //$LASTPOS=4004455;//user.Search:4455
+                //$LASTPOS=4004571;//user.Search:4571
                 _this.o=(_this.updateOwner(_this.s,_this.sta,0));
                 break;
                 
                 
               }
-              //$LASTPOS=4004520;//user.Search:4520
+              //$LASTPOS=4004636;//user.Search:4636
               _this.stationName=_this.sta;
               
             } else {
-              //$LASTPOS=4004558;//user.Search:4558
+              //$LASTPOS=4004674;//user.Search:4674
               _this.savestation=_this.sta;
-              //$LASTPOS=4004602;//user.Search:4602
+              //$LASTPOS=4004718;//user.Search:4718
               _this.stationName=_this.savestation[Tonyu.globals.$point];
-              //$LASTPOS=4004645;//user.Search:4645
+              //$LASTPOS=4004761;//user.Search:4761
               Tonyu.globals.$point++;
               
             }
           }
         }
-        //$LASTPOS=4004682;//user.Search:4682
+        //$LASTPOS=4004798;//user.Search:4798
         _this.print("");
-        //$LASTPOS=4004693;//user.Search:4693
+        //$LASTPOS=4004809;//user.Search:4809
         _this.stationName=_this.s;
-        //$LASTPOS=4004744;//user.Search:4744
-        //$LASTPOS=4004748;//user.Search:4748
+        //$LASTPOS=4004860;//user.Search:4860
+        //$LASTPOS=4004864;//user.Search:4864
         _this.i=0;for (; _this.i<5 ; _this.i++) {
           Tonyu.checkLoop();
           {
-            //$LASTPOS=4004773;//user.Search:4773
+            //$LASTPOS=4004889;//user.Search:4889
             _this.end=(_this.isTerminal(_this.stationName));
-            //$LASTPOS=4004810;//user.Search:4810
+            //$LASTPOS=4004926;//user.Search:4926
             if (_this.end==2) {
-              //$LASTPOS=4004840;//user.Search:4840
+              //$LASTPOS=4004956;//user.Search:4956
               if (Tonyu.globals.$point!=0&&_this.savestation.length!=Tonyu.globals.$point) {
-                //$LASTPOS=4004901;//user.Search:4901
+                //$LASTPOS=4005017;//user.Search:5017
                 _this.stationName=_this.savestation[Tonyu.globals.$point];
-                //$LASTPOS=4004948;//user.Search:4948
+                //$LASTPOS=4005064;//user.Search:5064
                 Tonyu.globals.$point++;
                 continue;
                 
@@ -728,38 +728,38 @@ Tonyu.klass.define({
               
               
             }
-            //$LASTPOS=4005063;//user.Search:5063
+            //$LASTPOS=4005179;//user.Search:5179
             _this.sta=(_this.searchNextStation(_this.stationName,1));
-            //$LASTPOS=4005109;//user.Search:5109
+            //$LASTPOS=4005225;//user.Search:5225
             _this.array = Array.isArray(_this.sta);
             
-            //$LASTPOS=4005145;//user.Search:5145
+            //$LASTPOS=4005261;//user.Search:5261
             if (_this.array==false) {
-              //$LASTPOS=4005182;//user.Search:5182
+              //$LASTPOS=4005298;//user.Search:5298
               _this.a=(_this.searchOwner(_this.sta));
-              //$LASTPOS=4005214;//user.Search:5214
+              //$LASTPOS=4005330;//user.Search:5330
               if (_this.a==_this.so) {
-                //$LASTPOS=4005239;//user.Search:5239
+                //$LASTPOS=4005355;//user.Search:5355
                 _this.o=(_this.updateOwner(_this.s,_this.sta,1));
                 break;
                 
                 
               }
-              //$LASTPOS=4005304;//user.Search:5304
+              //$LASTPOS=4005420;//user.Search:5420
               _this.stationName=_this.sta;
               
             } else {
-              //$LASTPOS=4005342;//user.Search:5342
+              //$LASTPOS=4005458;//user.Search:5458
               _this.savestation=_this.sta;
-              //$LASTPOS=4005386;//user.Search:5386
+              //$LASTPOS=4005502;//user.Search:5502
               _this.stationName=_this.savestation[Tonyu.globals.$point];
-              //$LASTPOS=4005429;//user.Search:5429
+              //$LASTPOS=4005545;//user.Search:5545
               Tonyu.globals.$point++;
               
             }
           }
         }
-        //$LASTPOS=4005450;//user.Search:5450
+        //$LASTPOS=4005566;//user.Search:5566
         _this.fireEvent("complete");
         
         _thread.retVal=_this;return;
@@ -1189,152 +1189,150 @@ Tonyu.klass.define({
         
         _thread.retVal=_this;return;
       },
-      updateOwner :function _trc_Search_updateOwner(startStation,endStation,direction) {
+      updateOwner :function _trc_Search_updateOwner(stationName,endStation,direction) {
         "use strict";
         var _this=this;
+        var i;
         var st;
         var array;
-        var i;
         
-        //$LASTPOS=4003075;//user.Search:3075
-        while (true) {
+        //$LASTPOS=4003114;//user.Search:3114
+        //$LASTPOS=4003118;//user.Search:3118
+        i = 0;
+        for (; i<100 ; i++) {
           Tonyu.checkLoop();
-          //$LASTPOS=4003113;//user.Search:3113
-          st = (_this.searchNextStation(startStation,direction));
-          
-          //$LASTPOS=4003175;//user.Search:3175
-          array = Array.isArray(st);
-          
-          //$LASTPOS=4003214;//user.Search:3214
-          if (array==false) {
-            //$LASTPOS=4003266;//user.Search:3266
+          {
+            //$LASTPOS=4003163;//user.Search:3163
             if (st==endStation) {
+              //$LASTPOS=4003197;//user.Search:3197
+              if (Tonyu.globals.$p!=0&&_this.savest.length!=Tonyu.globals.$point) {
+                //$LASTPOS=4003253;//user.Search:3253
+                stationName=_this.savest[Tonyu.globals.$p];
+                //$LASTPOS=4003295;//user.Search:3295
+                Tonyu.globals.$p++;
+                continue;
+                
+                
+              }
               break;
               
               
             }
-            //$LASTPOS=4003337;//user.Search:3337
-            if (! Tonyu.globals.$owner[st]) {
-              //$LASTPOS=4003371;//user.Search:3371
-              Tonyu.globals.$owner[st]={owner: 0};
+            //$LASTPOS=4003378;//user.Search:3378
+            st = (_this.searchNextStation(stationName,direction));
+            
+            //$LASTPOS=4003448;//user.Search:3448
+            array = Array.isArray(st);
+            
+            //$LASTPOS=4003487;//user.Search:3487
+            if (array==false) {
+              //$LASTPOS=4003552;//user.Search:3552
+              if (! Tonyu.globals.$owner[st]) {
+                //$LASTPOS=4003586;//user.Search:3586
+                Tonyu.globals.$owner[st]={owner: 0};
+                
+              }
+              //$LASTPOS=4003634;//user.Search:3634
+              Tonyu.globals.$owner[st].owner=Tonyu.globals.$turn;
+              //$LASTPOS=4003672;//user.Search:3672
+              stationName=st;
+              
+            } else {
+              //$LASTPOS=4003717;//user.Search:3717
+              _this.savest=st;
+              //$LASTPOS=4003758;//user.Search:3758
+              if (! Tonyu.globals.$owner[st[Tonyu.globals.$p]]) {
+                //$LASTPOS=4003796;//user.Search:3796
+                Tonyu.globals.$owner[st[Tonyu.globals.$p]]={owner: 0};
+                
+              }
+              //$LASTPOS=4003848;//user.Search:3848
+              Tonyu.globals.$owner[st[Tonyu.globals.$p]].owner=Tonyu.globals.$turn;
+              //$LASTPOS=4003890;//user.Search:3890
+              stationName=_this.savest[Tonyu.globals.$p];
+              //$LASTPOS=4003928;//user.Search:3928
+              Tonyu.globals.$p++;
               
             }
-            //$LASTPOS=4003419;//user.Search:3419
-            Tonyu.globals.$owner[st].owner=Tonyu.globals.$turn;
-            //$LASTPOS=4003457;//user.Search:3457
-            startStation=st;
-            
-          } else {
-            //$LASTPOS=4003503;//user.Search:3503
-            //$LASTPOS=4003507;//user.Search:3507
-            i = 0;
-            for (; i<st.length ; i++) {
-              Tonyu.checkLoop();
-              {
-                //$LASTPOS=4003549;//user.Search:3549
-                if (st[i]==endStation) {
-                  break;
-                  
-                  
-                }
-                //$LASTPOS=4003635;//user.Search:3635
-                if (! Tonyu.globals.$owner[st[i]]) {
-                  //$LASTPOS=4003676;//user.Search:3676
-                  Tonyu.globals.$owner[st[i]]={owner: 0};
-                  
-                }
-                //$LASTPOS=4003735;//user.Search:3735
-                Tonyu.globals.$owner[st[i]].owner=Tonyu.globals.$turn;
-                //$LASTPOS=4003780;//user.Search:3780
-                startStation=st[i];
-              }
-            }
-            
           }
-          
         }
       },
-      fiber$updateOwner :function _trc_Search_f_updateOwner(_thread,startStation,endStation,direction) {
+      fiber$updateOwner :function _trc_Search_f_updateOwner(_thread,stationName,endStation,direction) {
         "use strict";
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
+        var i;
         var st;
         var array;
-        var i;
         
-        
-        _thread.enter(function _trc_Search_ent_updateOwner(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              //$LASTPOS=4003075;//user.Search:3075
-            case 1:
-              //$LASTPOS=4003113;//user.Search:3113
-              st = (_this.searchNextStation(startStation,direction));
+        //$LASTPOS=4003114;//user.Search:3114
+        //$LASTPOS=4003118;//user.Search:3118
+        i = 0;
+        for (; i<100 ; i++) {
+          Tonyu.checkLoop();
+          {
+            //$LASTPOS=4003163;//user.Search:3163
+            if (st==endStation) {
+              //$LASTPOS=4003197;//user.Search:3197
+              if (Tonyu.globals.$p!=0&&_this.savest.length!=Tonyu.globals.$point) {
+                //$LASTPOS=4003253;//user.Search:3253
+                stationName=_this.savest[Tonyu.globals.$p];
+                //$LASTPOS=4003295;//user.Search:3295
+                Tonyu.globals.$p++;
+                continue;
+                
+                
+              }
+              break;
               
-              //$LASTPOS=4003175;//user.Search:3175
-              array = Array.isArray(st);
               
-              //$LASTPOS=4003214;//user.Search:3214
-              if (!(array==false)) { __pc=3     ; break; }
-              //$LASTPOS=4003266;//user.Search:3266
-              if (!(st==endStation)) { __pc=2     ; break; }
-              __pc=5     ; break;
-              
-            case 2     :
-              
-              //$LASTPOS=4003337;//user.Search:3337
+            }
+            //$LASTPOS=4003378;//user.Search:3378
+            st = (_this.searchNextStation(stationName,direction));
+            
+            //$LASTPOS=4003448;//user.Search:3448
+            array = Array.isArray(st);
+            
+            //$LASTPOS=4003487;//user.Search:3487
+            if (array==false) {
+              //$LASTPOS=4003552;//user.Search:3552
               if (! Tonyu.globals.$owner[st]) {
-                //$LASTPOS=4003371;//user.Search:3371
+                //$LASTPOS=4003586;//user.Search:3586
                 Tonyu.globals.$owner[st]={owner: 0};
                 
               }
-              //$LASTPOS=4003419;//user.Search:3419
+              //$LASTPOS=4003634;//user.Search:3634
               Tonyu.globals.$owner[st].owner=Tonyu.globals.$turn;
-              //$LASTPOS=4003457;//user.Search:3457
-              startStation=st;
-              __pc=4     ;break;
-            case 3     :
-              //$LASTPOS=4003503;//user.Search:3503
-              //$LASTPOS=4003507;//user.Search:3507
-              i = 0;
-              for (; i<st.length ; i++) {
-                Tonyu.checkLoop();
-                {
-                  //$LASTPOS=4003549;//user.Search:3549
-                  if (st[i]==endStation) {
-                    break;
-                    
-                    
-                  }
-                  //$LASTPOS=4003635;//user.Search:3635
-                  if (! Tonyu.globals.$owner[st[i]]) {
-                    //$LASTPOS=4003676;//user.Search:3676
-                    Tonyu.globals.$owner[st[i]]={owner: 0};
-                    
-                  }
-                  //$LASTPOS=4003735;//user.Search:3735
-                  Tonyu.globals.$owner[st[i]].owner=Tonyu.globals.$turn;
-                  //$LASTPOS=4003780;//user.Search:3780
-                  startStation=st[i];
-                }
+              //$LASTPOS=4003672;//user.Search:3672
+              stationName=st;
+              
+            } else {
+              //$LASTPOS=4003717;//user.Search:3717
+              _this.savest=st;
+              //$LASTPOS=4003758;//user.Search:3758
+              if (! Tonyu.globals.$owner[st[Tonyu.globals.$p]]) {
+                //$LASTPOS=4003796;//user.Search:3796
+                Tonyu.globals.$owner[st[Tonyu.globals.$p]]={owner: 0};
+                
               }
-            case 4     :
+              //$LASTPOS=4003848;//user.Search:3848
+              Tonyu.globals.$owner[st[Tonyu.globals.$p]].owner=Tonyu.globals.$turn;
+              //$LASTPOS=4003890;//user.Search:3890
+              stationName=_this.savest[Tonyu.globals.$p];
+              //$LASTPOS=4003928;//user.Search:3928
+              Tonyu.globals.$p++;
               
-              __pc=1;break;
-            case 5     :
-              
-              _thread.exit(_this);return;
             }
           }
-        });
+        }
+        
+        _thread.retVal=_this;return;
       },
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"searchNextStation":{"nowait":false},"searchDirection":{"nowait":false},"isLineOf":{"nowait":false},"isTerminal":{"nowait":false},"searchOwner":{"nowait":false},"updateOwner":{"nowait":false}},"fields":{"array":{},"s":{},"stationName":{},"so":{},"i":{},"end":{},"savestation":{},"sta":{},"a":{},"o":{},"f":{},"nextDirection":{},"num":{},"lineName":{},"n":{},"m":{}}}
+  decls: {"methods":{"main":{"nowait":false},"searchNextStation":{"nowait":false},"searchDirection":{"nowait":false},"isLineOf":{"nowait":false},"isTerminal":{"nowait":false},"searchOwner":{"nowait":false},"updateOwner":{"nowait":false}},"fields":{"array":{},"s":{},"stationName":{},"so":{},"i":{},"end":{},"savestation":{},"sta":{},"a":{},"o":{},"f":{},"nextDirection":{},"num":{},"lineName":{},"n":{},"m":{},"savest":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.StationPlace',

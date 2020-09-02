@@ -109,7 +109,7 @@ function searchOwner(stationName){//stationNameのownerを調べる
 
 $p=0;//updateOwnerで使用する、分岐駅を全て調査するための変数
 function updateOwner(stationName,endStation,direction){
-    for(var i=0;;i++){//無限ループに頼るのはやめるべき
+    for(var i=0;i<100;i++){//無限ループに頼るのはやめるべき
         if(st == endStation){
             if($p != 0 && savest.length != $point){
                 stationName = savest[$p];
