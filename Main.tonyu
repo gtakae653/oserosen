@@ -38,6 +38,7 @@ function clicked(b){
         }
         
         lines = $stations[b.text].lines;
+        count = lines.length;
         for (line of lines){
             $s = new Search{lineName = line,stationName = b.text};
             
@@ -57,13 +58,16 @@ function clicked(b){
                     }
                 }
                 
-                //Searchの処理が最後まで到達したことを確認後、$turnを変更する
-                if($turn==1){
-                    $turn = 2;
-                }else if($turn==2){
-                    $turn = 1;
-                }else{
-                    
+                count--;
+                if (count==0) {
+                    //全てのSearchの処理が最後まで到達したことを確認後、$turnを変更する
+                    if($turn==1){
+                        $turn = 2;
+                    }else if($turn==2){
+                        $turn = 1;
+                    }else{
+                        
+                    }
                 }
             };//;は必要
         }
