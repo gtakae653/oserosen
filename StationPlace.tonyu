@@ -1,9 +1,9 @@
-/*f=file("location.txt");
+f=file("location.txt");
 for(var line of f.lines()){
-    field=line.sprit("\t");
+    field=line.split("\t");
     a=field[1].split(",");
 }
-*/
+
 $stationPlace=[
 {name:"東京",x:20,y:300},
 {name:"新日本橋",x:60,y:270},
@@ -22,4 +22,10 @@ $stationPlace=[
 {name:"両国",x:20,y:210},
 {name:"浅草橋",x:-40,y:210},
 {name:"秋葉原",x:-110,y:210},
+{name:"御茶ノ水",x:-180,y:210},
+
+{name:"船橋法典",x:640,y:80},
+{name:"市川大野",x:640,y:10},
+{name:"東松戸",x:640,y:-60},
+{name:"新八柱",x:640,y:-140},
 ];

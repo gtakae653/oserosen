@@ -146,6 +146,7 @@ $point=0;//分岐駅ですべてを調査するために必要な変数
 print("");
 
 for(i=0;i<50;i++){//上り方面用
+    print(stationName);
     end = (isTerminal(stationName));
     if(end == 1){//上り終点なら
         if($point != 0 && savestation.length != $point){

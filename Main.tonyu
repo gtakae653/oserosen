@@ -36,33 +36,41 @@ function clicked(b){
         }else{
             b.fillStyle=new Color(0,0,255);
         }
-        $s = new Search{lineName = "総武本線",stationName = b.text};
         
-        $s.on("complete") \{
-            print("complete");
+        lines = $stations[b.text].lines;
+        for (line of lines){
+            $s = new Search{lineName = line,stationName = b.text};
             
-            //色を変える処理
-            for (var b2 of all(Button)) {
-                if($owner[b2.text]){
-                    if($owner[b2.text].owner==1){
-                        b2.fillStyle=new Color(255,0,0);
-                    }else if($owner[b2.text].owner==2){
-                        b2.fillStyle=new Color(0,0,255);
-                    }else{
-                        print("????");
+            $s.on("complete") \{
+                print("complete");
+                
+                //色を変える処理
+                for (var b2 of all(Button)) {
+                    if($owner[b2.text]){
+                        if($owner[b2.text].owner==1){
+                            b2.fillStyle=new Color(255,0,0);
+                        }else if($owner[b2.text].owner==2){
+                            b2.fillStyle=new Color(0,0,255);
+                        }else{
+                            print("????");
+                        }
                     }
                 }
-            }
-            
-            //Searchの処理が最後まで到達したことを確認後、$turnを変更する
-            if($turn==1){
-                $turn = 2;
-            }else if($turn==2){
-                $turn = 1;
-            }else{
                 
-            }
-        };//;は必要
+                //Searchの処理が最後まで到達したことを確認後、$turnを変更する
+                if($turn==1){
+                    $turn = 2;
+                }else if($turn==2){
+                    $turn = 1;
+                }else{
+                    
+                }
+            };//;は必要
+        }
+        
+        //$s = new Search{lineName = "総武本線",stationName = b.text};
+        
+        
     }
 }
 
