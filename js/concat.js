@@ -82,9 +82,9 @@ Tonyu.klass.define({
             Tonyu.globals.$sta=new Tonyu.classes.kernel.Button({left: _this.bx,top: _this.by,width: 40,height: 30,text: Tonyu.globals.$stationPlace[_this.i].name,layer: Tonyu.globals.$mainLayer,onClick: Tonyu.bindFunc(_this,_this.clicked)});
           }
         }
-        //$LASTPOS=2002393;//user.Main:2393
+        //$LASTPOS=2002396;//user.Main:2396
         if (Tonyu.globals.$search&&Tonyu.globals.$search.clicked==1) {
-          //$LASTPOS=2002432;//user.Main:2432
+          //$LASTPOS=2002435;//user.Main:2435
           Tonyu.globals.$InputBox.open("路線名の入力");
           
         }
@@ -144,9 +144,9 @@ Tonyu.klass.define({
                   Tonyu.globals.$sta=new Tonyu.classes.kernel.Button({left: _this.bx,top: _this.by,width: 40,height: 30,text: Tonyu.globals.$stationPlace[_this.i].name,layer: Tonyu.globals.$mainLayer,onClick: Tonyu.bindFunc(_this,_this.clicked)});
                 }
               }
-              //$LASTPOS=2002393;//user.Main:2393
+              //$LASTPOS=2002396;//user.Main:2396
               if (Tonyu.globals.$search&&Tonyu.globals.$search.clicked==1) {
-                //$LASTPOS=2002432;//user.Main:2432
+                //$LASTPOS=2002435;//user.Main:2435
                 Tonyu.globals.$InputBox.open("路線名の入力");
                 
               }
@@ -158,7 +158,7 @@ Tonyu.klass.define({
       clicked :function _trc_Main_clicked(b) {
         "use strict";
         var _this=this;
-        var _it_27;
+        var _it_1;
         
         //$LASTPOS=2000631;//user.Main:631
         if (! Tonyu.globals.$owner[b.text]) {
@@ -179,23 +179,23 @@ Tonyu.klass.define({
           //$LASTPOS=2000996;//user.Main:996
           _this.count=_this.lines.length;
           //$LASTPOS=2001026;//user.Main:1026
-          _it_27=Tonyu.iterator(_this.lines,1);
-          while(_it_27.next()) {
-            _this.line=_it_27[0];
+          _it_1=Tonyu.iterator(_this.lines,1);
+          while(_it_1.next()) {
+            _this.line=_it_1[0];
             
             //$LASTPOS=2001059;//user.Main:1059
             Tonyu.globals.$s=new Tonyu.classes.user.Search({lineName: _this.line,stationName: b.text});
             //$LASTPOS=2001139;//user.Main:1139
             Tonyu.globals.$s.on("complete",(function anonymous_1157() {
               var b2;
-              var _it_29;
+              var _it_3;
               
               //$LASTPOS=2001176;//user.Main:1176
               _this.print("complete");
               //$LASTPOS=2001254;//user.Main:1254
-              _it_29=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
-              while(_it_29.next()) {
-                b2=_it_29[0];
+              _it_3=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
+              while(_it_3.next()) {
+                b2=_it_3[0];
                 
                 //$LASTPOS=2001304;//user.Main:1304
                 if (Tonyu.globals.$owner[b2.text]) {
@@ -224,15 +224,15 @@ Tonyu.klass.define({
               _this.count--;
               //$LASTPOS=2001759;//user.Main:1759
               if (_this.count==0) {
-                //$LASTPOS=2001853;//user.Main:1853
+                //$LASTPOS=2001856;//user.Main:1856
                 if (Tonyu.globals.$turn==1) {
-                  //$LASTPOS=2001891;//user.Main:1891
+                  //$LASTPOS=2001894;//user.Main:1894
                   Tonyu.globals.$turn=2;
                   
                 } else {
-                  //$LASTPOS=2001928;//user.Main:1928
+                  //$LASTPOS=2001931;//user.Main:1931
                   if (Tonyu.globals.$turn==2) {
-                    //$LASTPOS=2001966;//user.Main:1966
+                    //$LASTPOS=2001969;//user.Main:1969
                     Tonyu.globals.$turn=1;
                     
                   } else {
@@ -253,7 +253,7 @@ Tonyu.klass.define({
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
-        var _it_27;
+        var _it_1;
         
         //$LASTPOS=2000631;//user.Main:631
         if (! Tonyu.globals.$owner[b.text]) {
@@ -274,23 +274,23 @@ Tonyu.klass.define({
           //$LASTPOS=2000996;//user.Main:996
           _this.count=_this.lines.length;
           //$LASTPOS=2001026;//user.Main:1026
-          _it_27=Tonyu.iterator(_this.lines,1);
-          while(_it_27.next()) {
-            _this.line=_it_27[0];
+          _it_1=Tonyu.iterator(_this.lines,1);
+          while(_it_1.next()) {
+            _this.line=_it_1[0];
             
             //$LASTPOS=2001059;//user.Main:1059
             Tonyu.globals.$s=new Tonyu.classes.user.Search({lineName: _this.line,stationName: b.text});
             //$LASTPOS=2001139;//user.Main:1139
             Tonyu.globals.$s.on("complete",(function anonymous_1157() {
               var b2;
-              var _it_29;
+              var _it_3;
               
               //$LASTPOS=2001176;//user.Main:1176
               _this.print("complete");
               //$LASTPOS=2001254;//user.Main:1254
-              _it_29=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
-              while(_it_29.next()) {
-                b2=_it_29[0];
+              _it_3=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
+              while(_it_3.next()) {
+                b2=_it_3[0];
                 
                 //$LASTPOS=2001304;//user.Main:1304
                 if (Tonyu.globals.$owner[b2.text]) {
@@ -319,15 +319,15 @@ Tonyu.klass.define({
               _this.count--;
               //$LASTPOS=2001759;//user.Main:1759
               if (_this.count==0) {
-                //$LASTPOS=2001853;//user.Main:1853
+                //$LASTPOS=2001856;//user.Main:1856
                 if (Tonyu.globals.$turn==1) {
-                  //$LASTPOS=2001891;//user.Main:1891
+                  //$LASTPOS=2001894;//user.Main:1894
                   Tonyu.globals.$turn=2;
                   
                 } else {
-                  //$LASTPOS=2001928;//user.Main:1928
+                  //$LASTPOS=2001931;//user.Main:1931
                   if (Tonyu.globals.$turn==2) {
-                    //$LASTPOS=2001966;//user.Main:1966
+                    //$LASTPOS=2001969;//user.Main:1969
                     Tonyu.globals.$turn=1;
                     
                   } else {
@@ -349,24 +349,24 @@ Tonyu.klass.define({
         "use strict";
         var _this=this;
         var s;
-        var _it_32;
+        var _it_6;
         
-        //$LASTPOS=2002239;//user.Main:2239
+        //$LASTPOS=2002242;//user.Main:2242
         Tonyu.globals.$red=0;
-        //$LASTPOS=2002251;//user.Main:2251
+        //$LASTPOS=2002254;//user.Main:2254
         Tonyu.globals.$blue=0;
-        //$LASTPOS=2002264;//user.Main:2264
-        _it_32=Tonyu.iterator(Tonyu.globals.$owner,1);
-        while(_it_32.next()) {
-          s=_it_32[0];
+        //$LASTPOS=2002267;//user.Main:2267
+        _it_6=Tonyu.iterator(Tonyu.globals.$owner,1);
+        while(_it_6.next()) {
+          s=_it_6[0];
           
-          //$LASTPOS=2002294;//user.Main:2294
+          //$LASTPOS=2002297;//user.Main:2297
           if (Tonyu.globals.$owner[s].owner==1) {
-            //$LASTPOS=2002330;//user.Main:2330
+            //$LASTPOS=2002333;//user.Main:2333
             Tonyu.globals.$red++;
             
           } else {
-            //$LASTPOS=2002365;//user.Main:2365
+            //$LASTPOS=2002368;//user.Main:2368
             Tonyu.globals.$blue++;
             
           }
@@ -379,24 +379,24 @@ Tonyu.klass.define({
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         var s;
-        var _it_32;
+        var _it_6;
         
-        //$LASTPOS=2002239;//user.Main:2239
+        //$LASTPOS=2002242;//user.Main:2242
         Tonyu.globals.$red=0;
-        //$LASTPOS=2002251;//user.Main:2251
+        //$LASTPOS=2002254;//user.Main:2254
         Tonyu.globals.$blue=0;
-        //$LASTPOS=2002264;//user.Main:2264
-        _it_32=Tonyu.iterator(Tonyu.globals.$owner,1);
-        while(_it_32.next()) {
-          s=_it_32[0];
+        //$LASTPOS=2002267;//user.Main:2267
+        _it_6=Tonyu.iterator(Tonyu.globals.$owner,1);
+        while(_it_6.next()) {
+          s=_it_6[0];
           
-          //$LASTPOS=2002294;//user.Main:2294
+          //$LASTPOS=2002297;//user.Main:2297
           if (Tonyu.globals.$owner[s].owner==1) {
-            //$LASTPOS=2002330;//user.Main:2330
+            //$LASTPOS=2002333;//user.Main:2333
             Tonyu.globals.$red++;
             
           } else {
-            //$LASTPOS=2002365;//user.Main:2365
+            //$LASTPOS=2002368;//user.Main:2368
             Tonyu.globals.$blue++;
             
           }
@@ -1381,22 +1381,8 @@ Tonyu.klass.define({
       main :function _trc_StationPlace_main() {
         "use strict";
         var _this=this;
-        var _it_25;
         
-        //$LASTPOS=5000000;//user.StationPlace:0
-        _this.f=_this.file("location.txt");
-        //$LASTPOS=5000024;//user.StationPlace:24
-        _it_25=Tonyu.iterator(_this.f.lines(),1);
-        while(_it_25.next()) {
-          _this.line=_it_25[0];
-          
-          //$LASTPOS=5000056;//user.StationPlace:56
-          _this.field=_this.line.split("\t");
-          //$LASTPOS=5000084;//user.StationPlace:84
-          _this.a=_this.field[1].split(",");
-          
-        }
-        //$LASTPOS=5000110;//user.StationPlace:110
+        //$LASTPOS=5000269;//user.StationPlace:269
         Tonyu.globals.$stationPlace=[{name: "東京",x: 20,y: 300},{name: "新日本橋",x: 60,y: 270},{name: "馬喰町",x: 90,y: 240},{name: "錦糸町",x: 230,y: 210},{name: "亀戸",x: 290,y: 210},{name: "平井",x: 320,y: 180},{name: "新小岩",x: 360,y: 140},{name: "小岩",x: 400,y: 110},{name: "市川",x: 450,y: 120},{name: "本八幡",x: 510,y: 130},{name: "下総中山",x: 580,y: 140},{name: "西船橋",x: 640,y: 150},{name: "船橋",x: 700,y: 160},{name: "両国",x: 20,y: 210},{name: "浅草橋",x: - 40,y: 210},{name: "秋葉原",x: - 110,y: 210},{name: "御茶ノ水",x: - 180,y: 210},{name: "船橋法典",x: 640,y: 80},{name: "市川大野",x: 640,y: 10},{name: "東松戸",x: 640,y: - 60},{name: "新八柱",x: 640,y: - 140}];
       },
       fiber$main :function _trc_StationPlace_f_main(_thread) {
@@ -1404,42 +1390,16 @@ Tonyu.klass.define({
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
-        var _it_25;
         
+        //$LASTPOS=5000269;//user.StationPlace:269
+        Tonyu.globals.$stationPlace=[{name: "東京",x: 20,y: 300},{name: "新日本橋",x: 60,y: 270},{name: "馬喰町",x: 90,y: 240},{name: "錦糸町",x: 230,y: 210},{name: "亀戸",x: 290,y: 210},{name: "平井",x: 320,y: 180},{name: "新小岩",x: 360,y: 140},{name: "小岩",x: 400,y: 110},{name: "市川",x: 450,y: 120},{name: "本八幡",x: 510,y: 130},{name: "下総中山",x: 580,y: 140},{name: "西船橋",x: 640,y: 150},{name: "船橋",x: 700,y: 160},{name: "両国",x: 20,y: 210},{name: "浅草橋",x: - 40,y: 210},{name: "秋葉原",x: - 110,y: 210},{name: "御茶ノ水",x: - 180,y: 210},{name: "船橋法典",x: 640,y: 80},{name: "市川大野",x: 640,y: 10},{name: "東松戸",x: 640,y: - 60},{name: "新八柱",x: 640,y: - 140}];
         
-        _thread.enter(function _trc_StationPlace_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              //$LASTPOS=5000000;//user.StationPlace:0
-              _this.fiber$file(_thread, "location.txt");
-              __pc=1;return;
-            case 1:
-              _this.f=_thread.retVal;
-              
-              //$LASTPOS=5000024;//user.StationPlace:24
-              _it_25=Tonyu.iterator(_this.f.lines(),1);
-              while(_it_25.next()) {
-                _this.line=_it_25[0];
-                
-                //$LASTPOS=5000056;//user.StationPlace:56
-                _this.field=_this.line.split("\t");
-                //$LASTPOS=5000084;//user.StationPlace:84
-                _this.a=_this.field[1].split(",");
-                
-              }
-              //$LASTPOS=5000110;//user.StationPlace:110
-              Tonyu.globals.$stationPlace=[{name: "東京",x: 20,y: 300},{name: "新日本橋",x: 60,y: 270},{name: "馬喰町",x: 90,y: 240},{name: "錦糸町",x: 230,y: 210},{name: "亀戸",x: 290,y: 210},{name: "平井",x: 320,y: 180},{name: "新小岩",x: 360,y: 140},{name: "小岩",x: 400,y: 110},{name: "市川",x: 450,y: 120},{name: "本八幡",x: 510,y: 130},{name: "下総中山",x: 580,y: 140},{name: "西船橋",x: 640,y: 150},{name: "船橋",x: 700,y: 160},{name: "両国",x: 20,y: 210},{name: "浅草橋",x: - 40,y: 210},{name: "秋葉原",x: - 110,y: 210},{name: "御茶ノ水",x: - 180,y: 210},{name: "船橋法典",x: 640,y: 80},{name: "市川大野",x: 640,y: 10},{name: "東松戸",x: 640,y: - 60},{name: "新八柱",x: 640,y: - 140}];
-              _thread.exit(_this);return;
-            }
-          }
-        });
+        _thread.retVal=_this;return;
       },
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"line":{},"f":{},"field":{},"a":{}}}
+  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
 });
 
 //# sourceMappingURL=concat.js.map
