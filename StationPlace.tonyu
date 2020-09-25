@@ -1,8 +1,18 @@
-f=file("location.txt");
+/*f=file("location.txt");
+$stationPlace={};
 for(var line of f.lines()){
     field=line.split("\t");
     a=field[1].split(",");
-}
+    
+    //ここに緯度経度を補正する式
+    
+    if(! $stationPlace[field[0]]){
+        $stationPlace[field[0]]={name:field[0],x:a[0],y:a[1]};
+    }
+}*/
+
+
+
 
 $stationPlace=[
 {name:"東京",x:20,y:300},

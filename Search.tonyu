@@ -7,6 +7,7 @@ function searchNextStation(stationName,direction){
     var station=$stations[stationName];//駅名から駅情報を取り出す
     var nextst = station.nexts;//次の駅名
     f=nextst.filter(isLineOf);//fはindexOfで判定した駅の配列
+    //print(lineName,stationName,f);
     if(f.length > 2){
         /*
         isTerminalは不要？(3方向以上の分岐駅は終点にはならない...？)
@@ -146,7 +147,7 @@ $point=0;//分岐駅ですべてを調査するために必要な変数
 print("");
 
 for(i=0;i<50;i++){//上り方面用
-    print(stationName);
+    //print(stationName);
     end = (isTerminal(stationName));
     if(end == 1){//上り終点なら
         if($point != 0 && savestation.length != $point){
