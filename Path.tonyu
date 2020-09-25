@@ -1,0 +1,29 @@
+\new(p){
+    super(p);
+    nodes=nodes||[];
+    strokeStyle=strokeStyle||new Color{h:rnd(360), s:1, l:0.5};
+}
+\draw(ctx) {
+    var first=true;
+    ctx.strokeStyle=strokeStyle+"";
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    for(var node of nodes) {
+        if (first) ctx.moveTo(node.x,node.y);
+        else ctx.lineTo(node.x+rnd(-5,5),node.y+rnd(-5,5));
+        first=false;
+    }
+    ctx.stroke();
+}
+\add(node) {
+    nodes.push(node);
+}
+\contains(node) {
+    return nodes.indexOf(node)>=0;
+}
+\clone() {
+    return new Path{nodes:nodes.slice()};
+}
+\toString() {
+    return nodes.map(\(node) {return node+"";}).join("->");
+}
