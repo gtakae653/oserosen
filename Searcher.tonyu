@@ -1,6 +1,6 @@
 "field strict";
 var path:Path;
-var from:name2Node, to:Node;
+var from:Node, to:Node;
 
 var current=from;
 path.add(current);

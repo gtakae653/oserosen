@@ -1,7 +1,7 @@
 function allConnected(){
-    var list;
+    var list=[];
     for(n of all(Node)){
-        if(isConnected(n,stationName)){
+        if(isConnected(n)){
             list.push(n);
         }
     }
@@ -25,10 +25,10 @@ on("touch") \{
         all(Node).attr{fillStyle="white"};
         all(Path).die();
         all(Searcher).die();
-        $from=this;
+        $from=this;//ここをb.textにしたい?
         fillStyle="red";
     } else {
-        s=new Searcher{from:$from, to:this, path:new Path};
+        s=new Searcher{from:$from, to:this/*ここを東京にしたい*/, path:new Path};
         fillStyle="cyan";
         s.on("result") \(paths) {
             for (var path of paths) {
