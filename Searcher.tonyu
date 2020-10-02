@@ -1,18 +1,19 @@
 "field strict";
 var path:Path;
-var from:Node, to:Node;
+var from:Node, to:Node ,lineName:Node;
+//print(lineName);
 
 var current=from;
 path.add(current);
 while(true) {
-    if (current===to) {
+    if (current===to) {//ここの条件をownerで比較にする
         report([path]);
         break;
     }
     x=current.x;
     y=current.y;
     var neighbors=[];
-    for (var neighbor of current.allConnected()) {
+    for (var neighbor of current.allConnected(lineName)) {
         if (path.contains(neighbor)) continue;
         neighbors.push(neighbor);
     }
@@ -25,7 +26,10 @@ while(true) {
     } else {
         var count=neighbors.length;
         for (var neighbor of neighbors) {
-            var s=new Searcher{from:neighbor, to, path:path.clone()};
+            
+            
+            var s=new Searcher{from:neighbor, to, lineName, path:path.clone()};
+            
             var allPaths=[];
             s.on("result") \(paths) {
                 allPaths=allPaths.concat(paths);

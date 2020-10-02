@@ -1,7 +1,7 @@
-function allConnected(){
+function allConnected(lineName){
     var list=[];
     for(n of all(Node)){
-        if(isConnected(n)){
+        if(isConnected(n,lineName)){
             list.push(n);
         }
     }
@@ -11,8 +11,8 @@ function allConnected(){
     調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
 }
 
-function isConnected(n){
-    if($stations[name].nexts.indexOf(n.name) > -1/*この中にn.nameがあるか判定*/){
+function isConnected(n,lineName){
+    if($stations[name].nexts.indexOf(n.name) > -1 && n.isLineOf(lineName)){
         return true;
     }
     // n.nameが自分のnextsにいるかどうか
