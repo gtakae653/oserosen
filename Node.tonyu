@@ -11,30 +11,25 @@ function allConnected(){
     調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
 }
 
-function isConnected(n,stationName){
-    if($stations[stationName].nexts.indexOf(n.name) > -1/*この中にn.nameがあるか判定*/){
+function isConnected(n){
+    if($stations[name].nexts.indexOf(n.name) > -1/*この中にn.nameがあるか判定*/){
         return true;
     }
     // n.nameが自分のnextsにいるかどうか
 }
 
+function isLineOf(lineName){//駅名がlineNameかを判定する関数
+    var station=$stations[name];//駅名から駅情報を取り出す
+    var line = station.lines;//↑のstationの中のlinesの情報をlineに格納
+    if(line.indexOf(lineName) > -1){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 alpha=0;
 
-on("touch") \{
-    if (!$from) {
-        all(Node).attr{fillStyle="white"};
-        all(Path).die();
-        all(Searcher).die();
-        $from=this;//ここをb.textにしたい?
-        fillStyle="red";
-    } else {
-        s=new Searcher{from:$from, to:this/*ここを東京にしたい*/, path:new Path};
-        fillStyle="cyan";
-        s.on("result") \(paths) {
-            for (var path of paths) {
-                print(path.toString());
-            }
-        };
-        $from=null;
-    }
-};
+
+
+

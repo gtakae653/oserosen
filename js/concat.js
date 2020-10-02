@@ -44,7 +44,7 @@ Tonyu.klass.define({
       main :function _trc_Main_main() {
         "use strict";
         var _this=this;
-        var _it_77;
+        var _it_159;
         
         //$LASTPOS=2000029;//user.Main:29
         new Tonyu.classes.user.Lines;
@@ -80,17 +80,17 @@ Tonyu.klass.define({
         //$LASTPOS=2000596;//user.Main:596
         Tonyu.globals.$name2Node={};
         //$LASTPOS=2000611;//user.Main:611
-        _it_77=Tonyu.iterator(Tonyu.globals.$stationPlace,1);
-        while(_it_77.next()) {
-          _this.stationPlace=_it_77[0];
+        _it_159=Tonyu.iterator(Tonyu.globals.$stationPlace,1);
+        while(_it_159.next()) {
+          _this.stationPlace=_it_159[0];
           
           //$LASTPOS=2000653;//user.Main:653
           Tonyu.globals.$name2Node[_this.stationPlace.name]=new Tonyu.classes.user.Node({name: _this.stationPlace.name,x: _this.stationPlace.x,y: _this.stationPlace.y});
           
         }
-        //$LASTPOS=2002550;//user.Main:2550
+        //$LASTPOS=2002840;//user.Main:2840
         if (Tonyu.globals.$search&&Tonyu.globals.$search.clicked==1) {
-          //$LASTPOS=2002589;//user.Main:2589
+          //$LASTPOS=2002879;//user.Main:2879
           Tonyu.globals.$InputBox.open("路線名の入力");
           
         }
@@ -100,7 +100,7 @@ Tonyu.klass.define({
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
-        var _it_77;
+        var _it_159;
         
         //$LASTPOS=2000029;//user.Main:29
         new Tonyu.classes.user.Lines;
@@ -154,17 +154,17 @@ Tonyu.klass.define({
               //$LASTPOS=2000596;//user.Main:596
               Tonyu.globals.$name2Node={};
               //$LASTPOS=2000611;//user.Main:611
-              _it_77=Tonyu.iterator(Tonyu.globals.$stationPlace,1);
-              while(_it_77.next()) {
-                _this.stationPlace=_it_77[0];
+              _it_159=Tonyu.iterator(Tonyu.globals.$stationPlace,1);
+              while(_it_159.next()) {
+                _this.stationPlace=_it_159[0];
                 
                 //$LASTPOS=2000653;//user.Main:653
                 Tonyu.globals.$name2Node[_this.stationPlace.name]=new Tonyu.classes.user.Node({name: _this.stationPlace.name,x: _this.stationPlace.x,y: _this.stationPlace.y});
                 
               }
-              //$LASTPOS=2002550;//user.Main:2550
+              //$LASTPOS=2002840;//user.Main:2840
               if (Tonyu.globals.$search&&Tonyu.globals.$search.clicked==1) {
-                //$LASTPOS=2002589;//user.Main:2589
+                //$LASTPOS=2002879;//user.Main:2879
                 Tonyu.globals.$InputBox.open("路線名の入力");
                 
               }
@@ -176,93 +176,46 @@ Tonyu.klass.define({
       clicked :function _trc_Main_clicked(b) {
         "use strict";
         var _this=this;
-        var _it_79;
         
         //$LASTPOS=2000785;//user.Main:785
         if (! Tonyu.globals.$owner[b.text]) {
           //$LASTPOS=2000835;//user.Main:835
           Tonyu.globals.$owner[b.text]={name: b.text,owner: Tonyu.globals.$turn};
           //$LASTPOS=2000965;//user.Main:965
+          _this.s=new Tonyu.classes.user.Searcher({from: Tonyu.globals.$name2Node[b.text],to: Tonyu.globals.$name2Node["東京"],path: new Tonyu.classes.user.Path});
+          //$LASTPOS=2001050;//user.Main:1050
+          _this.fillStyle="cyan";
+          //$LASTPOS=2001076;//user.Main:1076
+          _this.s.on("result",(function anonymous_1091(paths) {
+            var path;
+            var _it_162;
+            
+            //$LASTPOS=2001114;//user.Main:1114
+            _it_162=Tonyu.iterator(paths,1);
+            while(_it_162.next()) {
+              path=_it_162[0];
+              
+              //$LASTPOS=2001156;//user.Main:1156
+              _this.print(path.toString());
+              
+            }
+          }));
+          //$LASTPOS=2001213;//user.Main:1213
+          Tonyu.globals.$from=null;
+          //$LASTPOS=2001251;//user.Main:1251
           if (Tonyu.globals.$turn==1) {
-            //$LASTPOS=2000991;//user.Main:991
+            //$LASTPOS=2001277;//user.Main:1277
             b.fillStyle=new Tonyu.classes.kernel.Color(255,0,0);
             
           } else {
-            //$LASTPOS=2001050;//user.Main:1050
+            //$LASTPOS=2001336;//user.Main:1336
             b.fillStyle=new Tonyu.classes.kernel.Color(0,0,255);
             
           }
-          //$LASTPOS=2001109;//user.Main:1109
+          //$LASTPOS=2001395;//user.Main:1395
           _this.lines=Tonyu.globals.$stations[b.text].lines;
-          //$LASTPOS=2001150;//user.Main:1150
+          //$LASTPOS=2001436;//user.Main:1436
           _this.count=_this.lines.length;
-          //$LASTPOS=2001180;//user.Main:1180
-          _it_79=Tonyu.iterator(_this.lines,1);
-          while(_it_79.next()) {
-            _this.line=_it_79[0];
-            
-            //$LASTPOS=2001213;//user.Main:1213
-            Tonyu.globals.$s=new Tonyu.classes.user.Search({lineName: _this.line,stationName: b.text});
-            //$LASTPOS=2001293;//user.Main:1293
-            Tonyu.globals.$s.on("complete",(function anonymous_1311() {
-              var b2;
-              var _it_81;
-              
-              //$LASTPOS=2001330;//user.Main:1330
-              _this.print("complete");
-              //$LASTPOS=2001408;//user.Main:1408
-              _it_81=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
-              while(_it_81.next()) {
-                b2=_it_81[0];
-                
-                //$LASTPOS=2001458;//user.Main:1458
-                if (Tonyu.globals.$owner[b2.text]) {
-                  //$LASTPOS=2001503;//user.Main:1503
-                  if (Tonyu.globals.$owner[b2.text].owner==1) {
-                    //$LASTPOS=2001561;//user.Main:1561
-                    b2.fillStyle=new Tonyu.classes.kernel.Color(255,0,0);
-                    
-                  } else {
-                    //$LASTPOS=2001624;//user.Main:1624
-                    if (Tonyu.globals.$owner[b2.text].owner==2) {
-                      //$LASTPOS=2001682;//user.Main:1682
-                      b2.fillStyle=new Tonyu.classes.kernel.Color(0,0,255);
-                      
-                    } else {
-                      //$LASTPOS=2001774;//user.Main:1774
-                      _this.print("????");
-                      
-                    }
-                  }
-                  
-                }
-                
-              }
-              //$LASTPOS=2001888;//user.Main:1888
-              _this.count--;
-              //$LASTPOS=2001913;//user.Main:1913
-              if (_this.count==0) {
-                //$LASTPOS=2002010;//user.Main:2010
-                if (Tonyu.globals.$turn==1) {
-                  //$LASTPOS=2002048;//user.Main:2048
-                  Tonyu.globals.$turn=2;
-                  
-                } else {
-                  //$LASTPOS=2002085;//user.Main:2085
-                  if (Tonyu.globals.$turn==2) {
-                    //$LASTPOS=2002123;//user.Main:2123
-                    Tonyu.globals.$turn=1;
-                    
-                  } else {
-                    
-                    
-                  }
-                }
-                
-              }
-            }));
-            
-          }
           
         }
       },
@@ -271,93 +224,46 @@ Tonyu.klass.define({
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
-        var _it_79;
         
         //$LASTPOS=2000785;//user.Main:785
         if (! Tonyu.globals.$owner[b.text]) {
           //$LASTPOS=2000835;//user.Main:835
           Tonyu.globals.$owner[b.text]={name: b.text,owner: Tonyu.globals.$turn};
           //$LASTPOS=2000965;//user.Main:965
+          _this.s=new Tonyu.classes.user.Searcher({from: Tonyu.globals.$name2Node[b.text],to: Tonyu.globals.$name2Node["東京"],path: new Tonyu.classes.user.Path});
+          //$LASTPOS=2001050;//user.Main:1050
+          _this.fillStyle="cyan";
+          //$LASTPOS=2001076;//user.Main:1076
+          _this.s.on("result",(function anonymous_1091(paths) {
+            var path;
+            var _it_162;
+            
+            //$LASTPOS=2001114;//user.Main:1114
+            _it_162=Tonyu.iterator(paths,1);
+            while(_it_162.next()) {
+              path=_it_162[0];
+              
+              //$LASTPOS=2001156;//user.Main:1156
+              _this.print(path.toString());
+              
+            }
+          }));
+          //$LASTPOS=2001213;//user.Main:1213
+          Tonyu.globals.$from=null;
+          //$LASTPOS=2001251;//user.Main:1251
           if (Tonyu.globals.$turn==1) {
-            //$LASTPOS=2000991;//user.Main:991
+            //$LASTPOS=2001277;//user.Main:1277
             b.fillStyle=new Tonyu.classes.kernel.Color(255,0,0);
             
           } else {
-            //$LASTPOS=2001050;//user.Main:1050
+            //$LASTPOS=2001336;//user.Main:1336
             b.fillStyle=new Tonyu.classes.kernel.Color(0,0,255);
             
           }
-          //$LASTPOS=2001109;//user.Main:1109
+          //$LASTPOS=2001395;//user.Main:1395
           _this.lines=Tonyu.globals.$stations[b.text].lines;
-          //$LASTPOS=2001150;//user.Main:1150
+          //$LASTPOS=2001436;//user.Main:1436
           _this.count=_this.lines.length;
-          //$LASTPOS=2001180;//user.Main:1180
-          _it_79=Tonyu.iterator(_this.lines,1);
-          while(_it_79.next()) {
-            _this.line=_it_79[0];
-            
-            //$LASTPOS=2001213;//user.Main:1213
-            Tonyu.globals.$s=new Tonyu.classes.user.Search({lineName: _this.line,stationName: b.text});
-            //$LASTPOS=2001293;//user.Main:1293
-            Tonyu.globals.$s.on("complete",(function anonymous_1311() {
-              var b2;
-              var _it_81;
-              
-              //$LASTPOS=2001330;//user.Main:1330
-              _this.print("complete");
-              //$LASTPOS=2001408;//user.Main:1408
-              _it_81=Tonyu.iterator(_this.all(Tonyu.classes.kernel.Button),1);
-              while(_it_81.next()) {
-                b2=_it_81[0];
-                
-                //$LASTPOS=2001458;//user.Main:1458
-                if (Tonyu.globals.$owner[b2.text]) {
-                  //$LASTPOS=2001503;//user.Main:1503
-                  if (Tonyu.globals.$owner[b2.text].owner==1) {
-                    //$LASTPOS=2001561;//user.Main:1561
-                    b2.fillStyle=new Tonyu.classes.kernel.Color(255,0,0);
-                    
-                  } else {
-                    //$LASTPOS=2001624;//user.Main:1624
-                    if (Tonyu.globals.$owner[b2.text].owner==2) {
-                      //$LASTPOS=2001682;//user.Main:1682
-                      b2.fillStyle=new Tonyu.classes.kernel.Color(0,0,255);
-                      
-                    } else {
-                      //$LASTPOS=2001774;//user.Main:1774
-                      _this.print("????");
-                      
-                    }
-                  }
-                  
-                }
-                
-              }
-              //$LASTPOS=2001888;//user.Main:1888
-              _this.count--;
-              //$LASTPOS=2001913;//user.Main:1913
-              if (_this.count==0) {
-                //$LASTPOS=2002010;//user.Main:2010
-                if (Tonyu.globals.$turn==1) {
-                  //$LASTPOS=2002048;//user.Main:2048
-                  Tonyu.globals.$turn=2;
-                  
-                } else {
-                  //$LASTPOS=2002085;//user.Main:2085
-                  if (Tonyu.globals.$turn==2) {
-                    //$LASTPOS=2002123;//user.Main:2123
-                    Tonyu.globals.$turn=1;
-                    
-                  } else {
-                    
-                    
-                  }
-                }
-                
-              }
-            }));
-            
-          }
           
         }
         
@@ -367,24 +273,24 @@ Tonyu.klass.define({
         "use strict";
         var _this=this;
         var s;
-        var _it_84;
+        var _it_165;
         
-        //$LASTPOS=2002396;//user.Main:2396
+        //$LASTPOS=2002686;//user.Main:2686
         Tonyu.globals.$red=0;
-        //$LASTPOS=2002408;//user.Main:2408
+        //$LASTPOS=2002698;//user.Main:2698
         Tonyu.globals.$blue=0;
-        //$LASTPOS=2002421;//user.Main:2421
-        _it_84=Tonyu.iterator(Tonyu.globals.$owner,1);
-        while(_it_84.next()) {
-          s=_it_84[0];
+        //$LASTPOS=2002711;//user.Main:2711
+        _it_165=Tonyu.iterator(Tonyu.globals.$owner,1);
+        while(_it_165.next()) {
+          s=_it_165[0];
           
-          //$LASTPOS=2002451;//user.Main:2451
+          //$LASTPOS=2002741;//user.Main:2741
           if (Tonyu.globals.$owner[s].owner==1) {
-            //$LASTPOS=2002487;//user.Main:2487
+            //$LASTPOS=2002777;//user.Main:2777
             Tonyu.globals.$red++;
             
           } else {
-            //$LASTPOS=2002522;//user.Main:2522
+            //$LASTPOS=2002812;//user.Main:2812
             Tonyu.globals.$blue++;
             
           }
@@ -397,24 +303,24 @@ Tonyu.klass.define({
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         var s;
-        var _it_84;
+        var _it_165;
         
-        //$LASTPOS=2002396;//user.Main:2396
+        //$LASTPOS=2002686;//user.Main:2686
         Tonyu.globals.$red=0;
-        //$LASTPOS=2002408;//user.Main:2408
+        //$LASTPOS=2002698;//user.Main:2698
         Tonyu.globals.$blue=0;
-        //$LASTPOS=2002421;//user.Main:2421
-        _it_84=Tonyu.iterator(Tonyu.globals.$owner,1);
-        while(_it_84.next()) {
-          s=_it_84[0];
+        //$LASTPOS=2002711;//user.Main:2711
+        _it_165=Tonyu.iterator(Tonyu.globals.$owner,1);
+        while(_it_165.next()) {
+          s=_it_165[0];
           
-          //$LASTPOS=2002451;//user.Main:2451
+          //$LASTPOS=2002741;//user.Main:2741
           if (Tonyu.globals.$owner[s].owner==1) {
-            //$LASTPOS=2002487;//user.Main:2487
+            //$LASTPOS=2002777;//user.Main:2777
             Tonyu.globals.$red++;
             
           } else {
-            //$LASTPOS=2002522;//user.Main:2522
+            //$LASTPOS=2002812;//user.Main:2812
             Tonyu.globals.$blue++;
             
           }
@@ -426,7 +332,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"clicked":{"nowait":false},"colorCount":{"nowait":false}},"fields":{"i":{},"sta":{},"stationPlace":{},"lines":{},"count":{},"line":{}}}
+  decls: {"methods":{"main":{"nowait":false},"clicked":{"nowait":false},"colorCount":{"nowait":false}},"fields":{"i":{},"sta":{},"stationPlace":{},"s":{},"lines":{},"count":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.MapScroll',
@@ -600,49 +506,8 @@ Tonyu.klass.define({
         "use strict";
         var _this=this;
         
-        //$LASTPOS=4000414;//user.Node:414
+        //$LASTPOS=4000390;//user.Node:390
         _this.alpha=0;
-        //$LASTPOS=4000424;//user.Node:424
-        _this.on("touch",(function anonymous_436() {
-          
-          //$LASTPOS=4000443;//user.Node:443
-          if (! Tonyu.globals.$from) {
-            //$LASTPOS=4000465;//user.Node:465
-            _this.all(Tonyu.classes.user.Node).attr({fillStyle: "white"});
-            //$LASTPOS=4000508;//user.Node:508
-            _this.all(Tonyu.classes.user.Path).die();
-            //$LASTPOS=4000533;//user.Node:533
-            _this.all(Tonyu.classes.user.Searcher).die();
-            //$LASTPOS=4000562;//user.Node:562
-            Tonyu.globals.$from=_this;
-            //$LASTPOS=4000598;//user.Node:598
-            _this.fillStyle="red";
-            
-          } else {
-            //$LASTPOS=4000636;//user.Node:636
-            _this.s=new Tonyu.classes.user.Searcher({from: Tonyu.globals.$from,to: _this,path: new Tonyu.classes.user.Path});
-            //$LASTPOS=4000709;//user.Node:709
-            _this.fillStyle="cyan";
-            //$LASTPOS=4000735;//user.Node:735
-            _this.s.on("result",(function anonymous_750(paths) {
-              var path;
-              var _it_102;
-              
-              //$LASTPOS=4000773;//user.Node:773
-              _it_102=Tonyu.iterator(paths,1);
-              while(_it_102.next()) {
-                path=_it_102[0];
-                
-                //$LASTPOS=4000815;//user.Node:815
-                _this.print(path.toString());
-                
-              }
-            }));
-            //$LASTPOS=4000872;//user.Node:872
-            Tonyu.globals.$from=null;
-            
-          }
-        }));
       },
       fiber$main :function _trc_Node_f_main(_thread) {
         "use strict";
@@ -650,49 +515,8 @@ Tonyu.klass.define({
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         
-        //$LASTPOS=4000414;//user.Node:414
+        //$LASTPOS=4000390;//user.Node:390
         _this.alpha=0;
-        //$LASTPOS=4000424;//user.Node:424
-        _this.on("touch",(function anonymous_436() {
-          
-          //$LASTPOS=4000443;//user.Node:443
-          if (! Tonyu.globals.$from) {
-            //$LASTPOS=4000465;//user.Node:465
-            _this.all(Tonyu.classes.user.Node).attr({fillStyle: "white"});
-            //$LASTPOS=4000508;//user.Node:508
-            _this.all(Tonyu.classes.user.Path).die();
-            //$LASTPOS=4000533;//user.Node:533
-            _this.all(Tonyu.classes.user.Searcher).die();
-            //$LASTPOS=4000562;//user.Node:562
-            Tonyu.globals.$from=_this;
-            //$LASTPOS=4000598;//user.Node:598
-            _this.fillStyle="red";
-            
-          } else {
-            //$LASTPOS=4000636;//user.Node:636
-            _this.s=new Tonyu.classes.user.Searcher({from: Tonyu.globals.$from,to: _this,path: new Tonyu.classes.user.Path});
-            //$LASTPOS=4000709;//user.Node:709
-            _this.fillStyle="cyan";
-            //$LASTPOS=4000735;//user.Node:735
-            _this.s.on("result",(function anonymous_750(paths) {
-              var path;
-              var _it_102;
-              
-              //$LASTPOS=4000773;//user.Node:773
-              _it_102=Tonyu.iterator(paths,1);
-              while(_it_102.next()) {
-                path=_it_102[0];
-                
-                //$LASTPOS=4000815;//user.Node:815
-                _this.print(path.toString());
-                
-              }
-            }));
-            //$LASTPOS=4000872;//user.Node:872
-            Tonyu.globals.$from=null;
-            
-          }
-        }));
         
         _thread.retVal=_this;return;
       },
@@ -700,19 +524,19 @@ Tonyu.klass.define({
         "use strict";
         var _this=this;
         var list;
-        var _it_105;
+        var _it_171;
         
         //$LASTPOS=4000029;//user.Node:29
         list = [];
         
         //$LASTPOS=4000046;//user.Node:46
-        _it_105=Tonyu.iterator(_this.all(_this.name2Node),1);
-        while(_it_105.next()) {
-          _this.n=_it_105[0];
+        _it_171=Tonyu.iterator(_this.all(Tonyu.classes.user.Node),1);
+        while(_it_171.next()) {
+          _this.n=_it_171[0];
           
-          //$LASTPOS=4000080;//user.Node:80
+          //$LASTPOS=4000075;//user.Node:75
           if (_this.isConnected(_this.n)) {
-            //$LASTPOS=4000112;//user.Node:112
+            //$LASTPOS=4000107;//user.Node:107
             list.push(_this.n);
             
           }
@@ -726,19 +550,19 @@ Tonyu.klass.define({
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         var list;
-        var _it_105;
+        var _it_171;
         
         //$LASTPOS=4000029;//user.Node:29
         list = [];
         
         //$LASTPOS=4000046;//user.Node:46
-        _it_105=Tonyu.iterator(_this.all(_this.name2Node),1);
-        while(_it_105.next()) {
-          _this.n=_it_105[0];
+        _it_171=Tonyu.iterator(_this.all(Tonyu.classes.user.Node),1);
+        while(_it_171.next()) {
+          _this.n=_it_171[0];
           
-          //$LASTPOS=4000080;//user.Node:80
+          //$LASTPOS=4000075;//user.Node:75
           if (_this.isConnected(_this.n)) {
-            //$LASTPOS=4000112;//user.Node:112
+            //$LASTPOS=4000107;//user.Node:107
             list.push(_this.n);
             
           }
@@ -749,24 +573,24 @@ Tonyu.klass.define({
         
         _thread.retVal=_this;return;
       },
-      isConnected :function _trc_Node_isConnected(n,stationName) {
+      isConnected :function _trc_Node_isConnected(n) {
         "use strict";
         var _this=this;
         
-        //$LASTPOS=4000279;//user.Node:279
-        if (Tonyu.globals.$stations[stationName].nexts.indexOf(n.name)>- 1) {
+        //$LASTPOS=4000262;//user.Node:262
+        if (Tonyu.globals.$stations[_this.name].nexts.indexOf(n.name)>- 1) {
           return true;
           
         }
       },
-      fiber$isConnected :function _trc_Node_f_isConnected(_thread,n,stationName) {
+      fiber$isConnected :function _trc_Node_f_isConnected(_thread,n) {
         "use strict";
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         
-        //$LASTPOS=4000279;//user.Node:279
-        if (Tonyu.globals.$stations[stationName].nexts.indexOf(n.name)>- 1) {
+        //$LASTPOS=4000262;//user.Node:262
+        if (Tonyu.globals.$stations[_this.name].nexts.indexOf(n.name)>- 1) {
           _thread.retVal=true;return;
           
           
@@ -777,7 +601,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"allConnected":{"nowait":false},"isConnected":{"nowait":false}},"fields":{"s":{},"n":{},"name2Node":{}}}
+  decls: {"methods":{"main":{"nowait":false},"allConnected":{"nowait":false},"isConnected":{"nowait":false}},"fields":{"n":{},"name":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.Path',
