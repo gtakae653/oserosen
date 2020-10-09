@@ -12,8 +12,8 @@ $turn = 1;
 $red=0;
 $blue=0;
 
-new Label{x:150,y:70,template:"赤:$red"};
-new Label{x:200,y:70,template:"青:$blue"};
+//new Label{x:150,y:70,template:"赤:$red"};
+//new Label{x:200,y:70,template:"青:$blue"};
 
 //何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
 //人数の上限を決めておく(８人とか)
@@ -25,16 +25,26 @@ for(i=0;i<$stationPlace.length;i++){//駅名を表示する
     update();
 }
 
-name2Node={};
+$name2Node={};
 for (stationPlace of $stationPlace) {
-    name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y};   
-} 
+    $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y};   
+}
 
 function clicked(b){
     if(! $owner[b.text]){//$ownerに押された駅が無かったら
         $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
         
         //colorCount($owner[b.text]);
+        
+        s=new Searcher{from:$name2Node[b.text], to:$name2Node["東京"], path:new Path};
+        fillStyle="cyan";
+        s.on("result") \(paths) {
+            for (var path of paths) {
+                print(path.toString());
+            }
+        };
+        $from=null;
+        
         
         if($turn==1){
             b.fillStyle=new Color(255,0,0);
@@ -44,7 +54,7 @@ function clicked(b){
         
         lines = $stations[b.text].lines;
         count = lines.length;
-        for (line of lines){
+        /*for (line of lines){
             $s = new Search{lineName = line,stationName = b.text};
             
             $s.on("complete") \{
@@ -76,7 +86,7 @@ function clicked(b){
                 }
             };//;は必要
         }
-        
+        */
         //$s = new Search{lineName = "総武本線",stationName = b.text};
         
         
@@ -106,7 +116,3 @@ if ($InputBox.getStatus()==1 && $searching) {
     //OKが押されたら、getした路線名をindexOfに反映する？
 }
 */
-
-
-
-

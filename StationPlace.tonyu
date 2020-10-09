@@ -1,6 +1,6 @@
 f=file("location.txt");
 $stationPlace=[];
-$pixelPerDegree =2000;//(緯度経度が)1度当たりのピクセル数
+$pixelPerDegree =3000;//(緯度経度が)1度当たりのピクセル数
 name;
 for(var line of f.lines()){
     field=line.split("\t");
