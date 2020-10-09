@@ -1,12 +1,14 @@
 "field strict";
 var path:Path;
-var from:Node, to:Node ,lineName:Node;
+var from:Node,lineName:Node,owner:Number;
 //print(lineName);
 
 var current=from;
+print($owner[current.name]);
+
 path.add(current);
 while(true) {
-    if (current===to) {//ここの条件をownerで比較にする
+    if ($owner[current.name]===owner) {
         report([path]);
         break;
     }
@@ -28,7 +30,7 @@ while(true) {
         for (var neighbor of neighbors) {
             
             
-            var s=new Searcher{from:neighbor, to, lineName, path:path.clone()};
+            var s=new Searcher{from:neighbor, lineName, owner, path:path.clone()};
             
             var allPaths=[];
             s.on("result") \(paths) {
