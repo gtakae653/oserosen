@@ -1,0 +1,40 @@
+function allConnected(){
+    var list;
+    for(n of all(Node)){
+        if(isConnected(n,stationName)){
+            list.push(n);
+        }
+    }
+    
+    return list;
+    /*全てのNodeを調査して、
+    調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
+}
+
+function isConnected(n,stationName){
+    if($stations[stationName].nexts.indexOf(n.name) > -1/*この中にn.nameがあるか判定*/){
+        return true;
+    }
+    // n.nameが自分のnextsにいるかどうか
+}
+
+alpha=0;
+
+on("touch") \{
+    if (!$from) {
+        all(Node).attr{fillStyle="white"};
+        all(Path).die();
+        all(Searcher).die();
+        $from=this;
+        fillStyle="red";
+    } else {
+        s=new Searcher{from:$from, to:this, path:new Path};
+        fillStyle="cyan";
+        s.on("result") \(paths) {
+            for (var path of paths) {
+                print(path.toString());
+            }
+        };
+        $from=null;
+    }
+};

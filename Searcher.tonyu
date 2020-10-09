@@ -1,0 +1,47 @@
+"field strict";
+var path:Path;
+var from:name2Node, to:Node;
+
+var current=from;
+path.add(current);
+while(true) {
+    if (current===to) {
+        report([path]);
+        break;
+    }
+    x=current.x;
+    y=current.y;
+    var neighbors=[];
+    for (var neighbor of current.allConnected()) {
+        if (path.contains(neighbor)) continue;
+        neighbors.push(neighbor);
+    }
+    if (neighbors.length==0) {
+        path.die();
+        report([]);
+    } else if (neighbors.length==1) {
+        current=neighbors[0];
+        path.add(current);
+    } else {
+        var count=neighbors.length;
+        for (var neighbor of neighbors) {
+            var s=new Searcher{from:neighbor, to, path:path.clone()};
+            var allPaths=[];
+            s.on("result") \(paths) {
+                allPaths=allPaths.concat(paths);
+                count--;
+                if (count==0) {
+                    report(allPaths);
+                }
+            };
+        }
+        path.die();
+        alpha=128;
+        break;
+    }
+    updateEx(5);
+}
+\report(paths) {
+    fireEvent("result",paths);
+    die();
+}
