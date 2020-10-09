@@ -28,7 +28,7 @@ $name2Node={};
 for (stationPlace of $stationPlace) {
     $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
-
+//print($name2Node["錦糸町"].allConnected("総武本線"));
 
 function clicked(b){
     if(! $owner[b.text]){//$ownerに押された駅が無かったら
@@ -38,10 +38,22 @@ function clicked(b){
         lines = $stations[b.text].lines;
         count = lines.length;
         for (line of lines){
-            s=new Searcher{from:$name2Node[b.text], to:$name2Node["東京"]/*ownerを渡す？*/,lineName:$stations[b.text].lines[count-1],owner:$owner[b.text].owner, path:new Path};
+            s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:$stations[b.text].lines[count-1],owner:$owner[b.text].owner, path:new Path};
             fillStyle="cyan";
             s.on("result") \(paths) {
                 for (var path of paths) {
+                    //pathの中身を全て色を変えて、pathを殺す
+                    /*for (var b2 of all(Button)) {
+                        if($owner[b2.text]){
+                            if($owner[b2.text].owner==1){
+                                b2.fillStyle=new Color(255,0,0);
+                            }else if($owner[b2.text].owner==2){
+                                b2.fillStyle=new Color(0,0,255);
+                            }else{
+                                print("????");
+                            }
+                        }
+                    }*/
                     print(path.toString());
                 }
             };
