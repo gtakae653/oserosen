@@ -1,7 +1,7 @@
 "field strict";
 var path:Path;
 var from:Node,lineName:Node,owner:Number;
-//fromは本当に最初の駅
+//fromは本当に最初の駅(ボタンを押した駅)
 var current;
 
 path.add(current);
@@ -17,17 +17,15 @@ while(true) {
         if (path.contains(neighbor)) continue;
         neighbors.push(neighbor);
     }
-    if (neighbors.length==0) {
+    if (neighbors.length==0) {//nextsが１つしかない場合
         path.die();
         report([]);
-    } else if (neighbors.length==1) {
+    } else if (neighbors.length==1) {//nextsが２つの場合
         current=neighbors[0];
         path.add(current);
-    } else {
+    } else {//nextsが３つ以上の場合
         var count=neighbors.length;
         for (var neighbor of neighbors) {
-            
-            
             var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone()};
             
             var allPaths=[];

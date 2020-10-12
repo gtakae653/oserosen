@@ -63,21 +63,10 @@ function clicked(b){
         
         if($turn==1){
             b.fillStyle=new Color(255,0,0);
+            $turn=2;
         }else{
             b.fillStyle=new Color(0,0,255);
-        }
-        
-        lines = $stations[b.text].lines;
-        count = lines.length;
-        if (count==0) {
-            //全てのSearchの処理が最後まで到達したことを確認後、$turnを変更する
-            if($turn==1){
-                $turn = 2;
-            }else if($turn==2){
-                $turn = 1;
-            }else{
-                
-            }
+            $turn=1;
         }
         /*for (line of lines){
             $s = new Search{lineName = line,stationName = b.text};
@@ -85,18 +74,6 @@ function clicked(b){
             $s.on("complete") \{
                 print("complete");
                 
-                //色を変える処理
-                for (var b2 of all(Button)) {
-                    if($owner[b2.text]){
-                        if($owner[b2.text].owner==1){
-                            b2.fillStyle=new Color(255,0,0);
-                        }else if($owner[b2.text].owner==2){
-                            b2.fillStyle=new Color(0,0,255);
-                        }else{
-                            print("????");
-                        }
-                    }
-                }
                 
                 count--;
                 if (count==0) {
