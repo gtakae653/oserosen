@@ -39,11 +39,19 @@ function clicked(b){
         count = lines.length;
         for (line of lines){
             s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:$stations[b.text].lines[count-1],owner:$owner[b.text].owner, path:new Path};
-            fillStyle="cyan";
             s.on("result") \(paths) {
                 for (var path of paths) {
                     //pathの中身を全て色を変えて、pathを殺す
-                    /*for (var b2 of all(Button)) {
+                    print(path.toString());
+                    
+                    for(node of path.nodes){
+                        if(!($owner[node.name]) || $owner[node.name].owner != $turn){
+                            $owner[node.name] = {owner:$turn};
+                            print(node.name,$owner[node.name].owner);
+                        }
+                    }
+                    
+                    for (var b2 of all(Button)) {
                         if($owner[b2.text]){
                             if($owner[b2.text].owner==1){
                                 b2.fillStyle=new Color(255,0,0);
@@ -53,9 +61,15 @@ function clicked(b){
                                 print("????");
                             }
                         }
-                    }*/
-                    print(path.toString());
+                    }
                 }
+                
+                if($turn == 1){
+                    $turn = 2;
+                }else{
+                    $turn = 1;
+                }
+                
             };
             $from=null;
             count--;
@@ -63,10 +77,8 @@ function clicked(b){
         
         if($turn==1){
             b.fillStyle=new Color(255,0,0);
-            $turn=2;
         }else{
             b.fillStyle=new Color(0,0,255);
-            $turn=1;
         }
         /*for (line of lines){
             $s = new Search{lineName = line,stationName = b.text};
