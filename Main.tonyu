@@ -39,9 +39,8 @@ function clicked(b){
         count = lines.length;
         for (line of lines){
             s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path};
-            s.on("result") \(paths) {//ターン変更が行われた後に動作しているため、$turnの値が変わっている
+            s.on("result") \(paths) {
                 count--;
-                
                 for (var path of paths) {
                     //pathの中身を全て色を変えて、pathを殺す
                     //print(path.toString());
@@ -65,7 +64,6 @@ function clicked(b){
                     }
                     
                 }
-                //重複区間でバグる
                 if(count == 0){
                     if($turn == 1){
                         $turn = 2;
