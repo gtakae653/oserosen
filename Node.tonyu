@@ -20,6 +20,9 @@ function isConnected(n,lineName){
 
 function isLineOf(lineName){//駅名がlineNameかを判定する関数
     var station=$stations[name];//駅名から駅情報を取り出す
+    if(!(station)){
+        throw new Error(name+"is not found");
+    }
     var line = station.lines;//↑のstationの中のlinesの情報をlineに格納
     if(line.indexOf(lineName) > -1){
         return true;
