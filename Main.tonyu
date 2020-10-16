@@ -38,16 +38,17 @@ function clicked(b){
         lines = $stations[b.text].lines;
         count = lines.length;
         for (line of lines){
-            s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:$stations[b.text].lines[count-1],owner:$owner[b.text].owner, path:new Path};
-            s.on("result") \(paths) {
+            s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path};
+            s.on("result") \(paths) {//ターン変更が行われた後に動作しているため、$turnの値が変わっている
+                count--;
+                
                 for (var path of paths) {
                     //pathの中身を全て色を変えて、pathを殺す
-                    print(path.toString());
+                    //print(path.toString());
                     
                     for(node of path.nodes){
                         if(!($owner[node.name]) || $owner[node.name].owner != $turn){
                             $owner[node.name] = {owner:$turn};
-                            print(node.name,$owner[node.name].owner);
                         }
                     }
                     
@@ -62,17 +63,18 @@ function clicked(b){
                             }
                         }
                     }
+                    
                 }
-                
-                if($turn == 1){
-                    $turn = 2;
-                }else{
-                    $turn = 1;
+                //重複区間でバグる
+                if(count == 0){
+                    if($turn == 1){
+                        $turn = 2;
+                    }else{
+                        $turn = 1;
+                    }
                 }
-                
             };
             $from=null;
-            count--;
         }
         
         if($turn==1){
@@ -80,31 +82,9 @@ function clicked(b){
         }else{
             b.fillStyle=new Color(0,0,255);
         }
-        /*for (line of lines){
-            $s = new Search{lineName = line,stationName = b.text};
-            
-            $s.on("complete") \{
-                print("complete");
-                
-                
-                count--;
-                if (count==0) {
-                    //全てのSearchの処理が最後まで到達したことを確認後、$turnを変更する
-                    if($turn==1){
-                        $turn = 2;
-                    }else if($turn==2){
-                        $turn = 1;
-                    }else{
-                        
-                    }
-                }
-            };//;は必要
-        }
-        */
-        //$s = new Search{lineName = "総武本線",stationName = b.text};
-        
-        
     }
+    
+    
 }
 
 function colorCount(s){//色別に数える
