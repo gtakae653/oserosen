@@ -1,4 +1,4 @@
-function allConnected(lineName){
+function allConnected(lineName,prevNode){
     var list=[];
     for(n of all(Node)){
         if(isConnected(n,lineName)){
