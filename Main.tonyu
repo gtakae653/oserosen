@@ -28,11 +28,9 @@ for (stationPlace of $stationPlace) {
     $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
 
-for(var stations of $stations){
+for(var stations,z in $stations){
     if(stations.indexOf("point") > -1){
         $name2Node[stations]=new Node{name:stations,x:0,y:0};
-        print($name2Node[stations].name);
-        
     }
 }
 
@@ -42,6 +40,7 @@ while(true) {
             continue;
         }
         var sx=0,sy=0;
+        
         print(n.allConnected().length);
         for (c of n.allConnected()) {
             sx+=c.x;
