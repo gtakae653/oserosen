@@ -23,18 +23,14 @@ while(true) {
         path.die();
         report([]);
     } else if (neighbors.length==1) {//nextsが２つの場合
+        prevNode = current.name;
         current=neighbors[0];
         path.add(current);
     } else {//nextsが３つ以上の場合
-        
-        /*
-        print(current.name);
-        print($stations[current.name].nexts,prevNode);
-        */
         if(prevNode){
             if($stations[current.name].nexts.indexOf(prevNode) == 1){
                 print(neighbors[0].name,neighbors[1].name);
-                
+                //消したい方向の駅が先頭に来るとは限らない？
                 keep = neighbors.shift();
                 print("aaa",keep.name);
             }
