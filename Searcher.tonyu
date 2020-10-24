@@ -4,6 +4,7 @@ var from:Node,lineName:Node,owner:Number;
 //fromは本当に最初の駅(ボタンを押した駅)
 var current;
 var prevNode;
+var keep;
 
 path.add(current);
 while(true) {
@@ -14,7 +15,7 @@ while(true) {
     x=current.x;
     y=current.y;
     var neighbors=[];
-    for (var neighbor of current.allConnected(lineName,prevNode)) {
+    for (var neighbor of current.allConnected(lineName)) {
         if (path.contains(neighbor)) continue;
         neighbors.push(neighbor);
     }
@@ -25,6 +26,24 @@ while(true) {
         current=neighbors[0];
         path.add(current);
     } else {//nextsが３つ以上の場合
+        
+        /*
+        print(current.name);
+        print($stations[current.name].nexts,prevNode);
+        */
+        if(prevNode){
+            if($stations[current.name].nexts.indexOf(prevNode) == 1){
+                print(neighbors[0].name,neighbors[1].name);
+                
+                keep = neighbors.shift();
+                print("aaa",keep.name);
+            }
+            if($stations[current.name].nexts.indexOf(prevNode) == 2){
+                print(neighbors[0].name,neighbors[1].name);
+                keep = neighbors.shift();       
+                print("bbb",keep.name);
+            }
+        }
         var count=neighbors.length;
         for (var neighbor of neighbors) {
             var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone(),prevNode:current.name};
@@ -37,6 +56,7 @@ while(true) {
                 }
             };
         }
+        
         path.die();
         alpha=128;
         break;

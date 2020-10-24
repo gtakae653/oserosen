@@ -1,36 +1,12 @@
-function allConnected(lineName,prevNode){
-    var del=0;
-    var keep;
+function allConnected(lineName){
     var list=[];
     for(n of all(Node)){
         if(isConnected(n,lineName)){
             list.push(n);
         }
-        if(n.name.indexOf("point") > -1 && $stations[n.name].nexts[1] == prevNode){
-            keep = $stations[n.name].nexts[2];
-            $stations[n.name].nexts.pop();
-            del=2;
-        }
-        if(n.name.indexOf("point") > -1 && $stations[n.name].nexts[2] == prevNode){
-            keep = $stations[n.name].nexts[1];
-            //print(keep);
-            $stations[n.name].nexts.splice(1,1);
-            //print(keep,$stations[n.name].nexts);
-            del=1;
-        }
     }
+    
     return list;
-    print("bbb");
-    if(del == 2){
-        $stations[n.name].nexts.push(keep);
-        //print(keep,del);
-    }else  if(del == 1){
-        $stations[n.name].nexts.splice(1,0,keep);
-        //print(keep,del);
-    }else{
-        
-    }
-    del = 0;
     
     /*全てのNodeを調査して、
     調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
