@@ -3,6 +3,7 @@ var path:Path;
 var from:Node,lineName:Node,owner:Number;
 //fromは本当に最初の駅(ボタンを押した駅)
 var current;
+var prevNode;
 
 path.add(current);
 while(true) {
@@ -13,7 +14,7 @@ while(true) {
     x=current.x;
     y=current.y;
     var neighbors=[];
-    for (var neighbor of current.allConnected(lineName)) {
+    for (var neighbor of current.allConnected(lineName,prevNode)) {
         if (path.contains(neighbor)) continue;
         neighbors.push(neighbor);
     }
@@ -26,8 +27,7 @@ while(true) {
     } else {//nextsが３つ以上の場合
         var count=neighbors.length;
         for (var neighbor of neighbors) {
-            var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone()};
-            
+            var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone(),prevNode:current.name};
             var allPaths=[];
             s.on("result") \(paths) {
                 allPaths=allPaths.concat(paths);
