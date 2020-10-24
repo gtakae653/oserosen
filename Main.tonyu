@@ -28,11 +28,9 @@ for (stationPlace of $stationPlace) {
     $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
 
-for(var stations of $stations){
+for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さなければいけない為
     if(stations.indexOf("point") > -1){
         $name2Node[stations]=new Node{name:stations,x:0,y:0};
-        print($name2Node[stations].name);
-        
     }
 }
 
@@ -41,13 +39,12 @@ while(true) {
         if (n.name.indexOf("point") < 0){
             continue;
         }
+        
         var sx=0,sy=0;
-        print(n.allConnected().length);
         for (c of n.allConnected()) {
             sx+=c.x;
             sy+=c.y;
         }
-        
         
         n.x=sx/n.allConnected().length;
         n.y=sy/n.allConnected().length;
@@ -66,17 +63,20 @@ function clicked(b){
         lines = $stations[b.text].lines;
         count = lines.length;
         for (line of lines){
-            s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path};
+            s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
             s.on("result") \(paths) {
                 count--;
                 for (var path of paths) {
                     //pathの中身を全て色を変えて、pathを殺す
                     //print(path.toString());
                     
+                    
                     for(node of path.nodes){
+                        //print(node.prev);
                         if(!($owner[node.name]) || $owner[node.name].owner != $turn){
                             $owner[node.name] = {owner:$turn};
                         }
+                        
                     }
                     
                     for (var b2 of all(Button)) {

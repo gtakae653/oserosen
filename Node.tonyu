@@ -1,4 +1,4 @@
-function allConnected(lineName,prevNode){
+function allConnected(lineName){
     var list=[];
     for(n of all(Node)){
         if(isConnected(n,lineName)){
@@ -7,6 +7,7 @@ function allConnected(lineName,prevNode){
     }
     
     return list;
+    
     /*全てのNodeを調査して、
     調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
 }
@@ -15,7 +16,9 @@ function isConnected(n,lineName){
     if($stations[name].nexts.indexOf(n.name) > -1 && n.isLineOf(lineName)){
         return true;
     }
-    // n.nameが自分のnextsにいるかどうか
+    if(!(lineName) && $stations[name].nexts.indexOf(n.name) > -1){
+        return true;
+    }
 }
 
 function isLineOf(lineName){//駅名がlineNameかを判定する関数
@@ -31,9 +34,8 @@ function isLineOf(lineName){//駅名がlineNameかを判定する関数
     }
 }
 
-
-
-alpha=0;
+scaleX=0.7;
+alpha=180;
 
 
 
