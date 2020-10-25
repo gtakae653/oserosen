@@ -1,8 +1,18 @@
 function allConnected(lineName,prevNode){
     var list=[];
     for(n of all(Node)){
-        if(n.name == "point錦糸町" && $stations[n.name].nexts.indexOf(prevNode) > -1){
-            print(prevNode);
+        if(n.name.indexOf("point") > -1 && $stations[n.name].nexts.indexOf(prevNode) > -1){
+            //print(prevNode);
+            if($stations[n.name].nexts.indexOf(prevNode) == 1){
+                //2を排除しなければならない
+            }else if($stations[n.name].nexts.indexOf(prevNode) == 2){
+                //１を排除しなければならない
+                //print("OK");
+            }else{
+                //何もしない
+                
+            }
+            
         }
         if(isConnected(n,lineName)){
             list.push(n);
