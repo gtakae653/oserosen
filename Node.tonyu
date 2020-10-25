@@ -14,11 +14,8 @@ function isConnected(n,lineName,prevNode){
     if(name.indexOf("point") > -1){
         num1 = $stations[name].nexts.indexOf(n.name);
         num2 = $stations[name].nexts.indexOf(prevNode);
-        if(num1 == 1 && num2 == 2){
+        if((num1 == 1 && num2 == 2) || (num1 == 2 && num2 == 1)){
             return false;
-        }else if(num1 == 2 && num2 == 1){
-            return false;
-        }else{
         }
     }
     

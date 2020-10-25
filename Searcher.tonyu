@@ -22,6 +22,7 @@ while(true) {
         path.die();
         report([]);
     } else if (neighbors.length==1) {//nextsが２つの場合
+        prevNode = current.name;
         current=neighbors[0];
         path.add(current);
     } else {//nextsが３つ以上の場合
