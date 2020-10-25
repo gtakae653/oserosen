@@ -1,31 +1,27 @@
 function allConnected(lineName,prevNode){
     var list=[];
     for(n of all(Node)){
-        if(n.name.indexOf("point") > -1 && $stations[n.name].nexts.indexOf(prevNode) > -1){
-            //print(prevNode);
-            if($stations[n.name].nexts.indexOf(prevNode) == 1){
-                //2を排除しなければならない
-            }else if($stations[n.name].nexts.indexOf(prevNode) == 2){
-                //１を排除しなければならない
-                //print("OK");
-            }else{
-                //何もしない
-                
-            }
-            
-        }
-        if(isConnected(n,lineName)){
+        if(isConnected(n,lineName,prevNode)){
             list.push(n);
         }
     }
-    
     return list;
-    
     /*全てのNodeを調査して、
     調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
 }
 
-function isConnected(n,lineName){
+function isConnected(n,lineName,prevNode){
+    if(name.indexOf("point") > -1){
+        num1 = $stations[name].nexts.indexOf(n.name);
+        num2 = $stations[name].nexts.indexOf(prevNode);
+        if(num1 == 1 && num2 == 2){
+            return false;
+        }else if(num1 == 2 && num2 == 1){
+            return false;
+        }else{
+        }
+    }
+    
     if($stations[name].nexts.indexOf(n.name) > -1 && n.isLineOf(lineName)){
         return true;
     }
