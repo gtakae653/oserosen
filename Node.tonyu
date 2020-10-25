@@ -1,6 +1,9 @@
-function allConnected(lineName){
+function allConnected(lineName,prevNode){
     var list=[];
     for(n of all(Node)){
+        if(n.name == "point錦糸町" && $stations[n.name].nexts.indexOf(prevNode) > -1){
+            print(prevNode);
+        }
         if(isConnected(n,lineName)){
             list.push(n);
         }
