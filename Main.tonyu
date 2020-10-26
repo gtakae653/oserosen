@@ -34,9 +34,12 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
     }
 }
 
+print("OK");//全ての駅のボタンとNodeの配置完了
+
 while(true) {
     for (n of all(Node)) {
         if (n.name.indexOf("point") < 0){
+            
             continue;
         }
         

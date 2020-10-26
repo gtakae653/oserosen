@@ -41,7 +41,7 @@ function isLineOf(lineName){//駅名がlineNameかを判定する関数
 }
 
 scaleX=0.7;
-alpha=180;
+alpha=0;
 
 
 
