@@ -10,7 +10,7 @@ for(var line of f.lines()){
     ay=-(a[1]-35.6812362)*$pixelPerDegree;
     
     name=field[0];
-    if((ax>=-800&&ay>-500)&&ax<700&&ay<500){
+    if((ax>=-800&&ay>-500)&&ax<1700&&ay<500){
         $stationPlace.push({name:name,x:ax,y:ay});
         update();
     }
