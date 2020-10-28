@@ -33,7 +33,16 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
         $name2Node[stations]=new Node{name:stations,x:0,y:0};
     }
 }
-
+/*接続関係のテスト
+//false
+print ($name2Node["point錦糸町"].isConnected($name2Node["馬喰町"], "総武本線" ,"両国") );
+print ($name2Node["point錦糸町"].isConnected($name2Node["両国"], "総武本線" ,"馬喰町") );
+//true
+print ($name2Node["point錦糸町"].isConnected($name2Node["馬喰町"], "総武本線" ,"錦糸町") );
+print ($name2Node["point錦糸町"].isConnected($name2Node["両国"], "総武本線" ,"錦糸町") );
+print ($name2Node["point錦糸町"].isConnected($name2Node["錦糸町"], "総武本線" ,"馬喰町") );
+print ($name2Node["point錦糸町"].isConnected($name2Node["錦糸町"], "総武本線" ,"両国") );
+*/
 while(true) {
     for (n of all(Node)) {
         if (n.name.indexOf("point") < 0){
