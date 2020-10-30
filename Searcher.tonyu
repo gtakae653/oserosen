@@ -1,7 +1,7 @@
 "field strict";
 var path:Path;
 var from:Node,lineName:Node,owner:Number;
-//fromは本当に最初の駅(ボタンを押した駅)
+//fromは最初の駅(ボタンを押した駅)
 var current;
 var prevNode;
 
