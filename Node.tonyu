@@ -12,6 +12,7 @@ function allConnected(lineName,prevNode){
 
 function isConnected(n,lineName,prevNode){
     if(name.indexOf("point") > -1){
+        //pointオブジェクトの探索時、意図しない方向への探索を防ぐ処理
         num1 = $stations[name].nexts.indexOf(n.name);
         num2 = $stations[name].nexts.indexOf(prevNode);
         if((num1 == 1 && num2 == 2) || (num1 == 2 && num2 == 1)){
