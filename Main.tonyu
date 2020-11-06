@@ -16,6 +16,7 @@ $turn = 1;
 $red=0;
 $blue=0;
 
+$t = new Label{x:80, y:10, template:"$turn番目の人のターンです"};
 //何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
 //人数の上限を決めておく(８人とか)
 
@@ -63,6 +64,7 @@ while(true) {
 }
 
 function clicked(b){
+    all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
         if(! $owner[b.text]){//$ownerに押された駅が無かったら
