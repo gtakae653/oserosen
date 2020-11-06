@@ -5,6 +5,7 @@ var from:Node,lineName:Node,owner:Number;
 var current;
 var prevNode;
 
+
 path.add(current);
 while(true) {
     if (from.name != current.name && $owner[current.name] && $owner[current.name].owner === owner) {
