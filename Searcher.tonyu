@@ -39,6 +39,7 @@ while(true) {
             };
         }
         
+        
         path.die();
         alpha=128;
         break;
