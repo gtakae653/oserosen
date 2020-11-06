@@ -8,6 +8,9 @@ new MapScroll;
 
 $search = new Button{top:10,left:300,width:150,height:30,text:"路線の検索"};
 
+
+boardPreparat = false;//全ての駅のボタンとノードの配置が完了したらtrue
+nextPlayPreparat = true;//探索中はfalse
 $owner={};
 $turn = 1;
 $red=0;
@@ -34,7 +37,8 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
     }
 }
 
-print("OK");//全ての駅のボタンとNodeの配置完了
+print("OK");
+boardPreparat = true;//全ての駅のボタンとNodeの配置完了
 
 /*接続関係のテスト
 //false
@@ -69,58 +73,59 @@ while(true) {
 }
 
 function clicked(b){
-    if(! $owner[b.text]){//$ownerに押された駅が無かったら
-        $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
-        //colorCount($owner[b.text]);
-        
-        lines = $stations[b.text].lines;
-        count = lines.length;
-        for (line of lines){
-            s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
-            s.on("result") \(paths) {
-                count--;
-                for (var path of paths) {
-                    //pathの中身を全て色を変えて、pathを殺す
-                    //print(path.toString());
-                    
-                    
-                    for(node of path.nodes){
-                        //print(node.prev);
-                        if(!($owner[node.name]) || $owner[node.name].owner != $turn){
-                            $owner[node.name] = {owner:$turn};
+    if(boardPreparat == true && nextPlayPreparat == true){
+        nextPlayPreparat = false;
+        if(! $owner[b.text]){//$ownerに押された駅が無かったら
+            $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
+            //colorCount($owner[b.text]);
+            
+            lines = $stations[b.text].lines;
+            count = lines.length;
+            for (line of lines){
+                s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
+                s.on("result") \(paths) {
+                    count--;
+                    for (var path of paths) {
+                        for(node of path.nodes){
+                            if(!($owner[node.name]) || $owner[node.name].owner != $turn){
+                                $owner[node.name] = {owner:$turn};
+                            }
+                            
+                        }
+                        
+                        for (var b2 of all(Button)) {
+                            if($owner[b2.text]){
+                                if($owner[b2.text].owner==1){
+                                    b2.fillStyle=new Color(255,0,0);
+                                }else if($owner[b2.text].owner==2){
+                                    b2.fillStyle=new Color(0,0,255);
+                                }else{
+                                    print("????");
+                                }
+                            }
+                        }
+                        
+                    }
+                    if(count == 0){
+                        if($turn == 1){
+                            $turn = 2;
+                        }else{
+                            $turn = 1;
                         }
                         
                     }
                     
-                    for (var b2 of all(Button)) {
-                        if($owner[b2.text]){
-                            if($owner[b2.text].owner==1){
-                                b2.fillStyle=new Color(255,0,0);
-                            }else if($owner[b2.text].owner==2){
-                                b2.fillStyle=new Color(0,0,255);
-                            }else{
-                                print("????");
-                            }
-                        }
-                    }
+                    nextPlayPreparat = true;
                     
-                }
-                if(count == 0){
-                    if($turn == 1){
-                        $turn = 2;
-                    }else{
-                        $turn = 1;
-                    }
-                    
-                }
-            };
-            $from=null;
-        }
-        
-        if($turn==1){
-            b.fillStyle=new Color(255,0,0);
-        }else{
-            b.fillStyle=new Color(0,0,255);
+                };
+                $from=null;
+            }
+            
+            if($turn==1){
+                b.fillStyle=new Color(255,0,0);
+            }else{
+                b.fillStyle=new Color(0,0,255);
+            }
         }
     }
     
