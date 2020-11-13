@@ -13,7 +13,10 @@ while(true) {
         break;
     }
     
-    isTransfer(current.name);
+    if(isTransferStation(current.name) && !($owner[current.name])){
+        report([]);
+        break;
+    }
     
     x=current.x;
     y=current.y;
@@ -55,16 +58,14 @@ while(true) {
     die();
 }
 
-\isTransfer(stationName){
-    if(!($owner[current.name])){
-        if(!($stations[current.name].midway==true) && $stations[current.name].lines.length > 1){
-            print(current.name);
-            report([]);
-        }else{
-            if(current.name.indexOf("point") > -1){
-                print($stations[current.name].nexts[0]);
-                report([]);
-            }
-        }
+\isTransferStation(stationName){
+    if(current.name.indexOf("point") > -1){//pointオブジェクトなら
+        return false;
+    }else if($stations[current.name].midway==false){//中間駅ではない
+        return true;
+    }else if(!($stations[current.name].midway==true) && $stations[current.name].lines.length > 1){
+        return true;//midwayがtureではない　かつ　linesが１つより多い場合
+    }else{
+        return false;
     }
 }
