@@ -13,17 +13,7 @@ while(true) {
         break;
     }
     
-    if(!($owner[current.name])){
-        if(!($stations[current.name].midway==true) && $stations[current.name].lines.length > 1){
-            print(current.name);
-            break;
-        }else{
-            if(current.name.indexOf("point") > -1){
-                print($stations[current.name].nexts[0]);
-                break;
-            }
-        }
-    }
+    isTransfer(current.name);
     
     x=current.x;
     y=current.y;
@@ -32,10 +22,6 @@ while(true) {
         if (path.contains(neighbor)) continue;
         neighbors.push(neighbor);
     }
-    
-    
-    
-    
     
     if (neighbors.length==0) {//nextsが１つしかない場合
         path.die();
@@ -67,4 +53,18 @@ while(true) {
 \report(paths) {
     fireEvent("result",paths);
     die();
+}
+
+\isTransfer(stationName){
+    if(!($owner[current.name])){
+        if(!($stations[current.name].midway==true) && $stations[current.name].lines.length > 1){
+            print(current.name);
+            report([]);
+        }else{
+            if(current.name.indexOf("point") > -1){
+                print($stations[current.name].nexts[0]);
+                report([]);
+            }
+        }
+    }
 }
