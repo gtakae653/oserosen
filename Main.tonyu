@@ -88,7 +88,6 @@ function clicked(b){
                 s.on("result") \(paths) {
                     if(lines.indexOf("山手線") > -1 || lines.indexOf("大阪環状線") > -1 ){
                         if(paths[1]){
-                            print("aaa");
                             if(paths[0].nodes.length == paths[1].nodes.length){
                             }else if(paths[0].nodes.length > paths[1].nodes.length){
                                 paths.splice(0,1);
