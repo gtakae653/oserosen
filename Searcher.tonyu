@@ -12,6 +12,7 @@ while(true) {
         report([path]);
         break;
     }
+    
     x=current.x;
     y=current.y;
     var neighbors=[];
@@ -19,6 +20,11 @@ while(true) {
         if (path.contains(neighbor)) continue;
         neighbors.push(neighbor);
     }
+    
+    if($stations[current.name].nexts.length > neighbors.length+1){
+        print($stations[current.name].nexts.length,neighbors.length,current.name);
+    }
+    
     if (neighbors.length==0) {//nextsが１つしかない場合
         path.die();
         report([]);
