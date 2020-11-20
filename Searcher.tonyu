@@ -53,12 +53,12 @@ while(true) {
     }
     updateEx(5);
 }
-\report(paths) {
+function report(paths) {
     fireEvent("result",paths);
     die();
 }
 
-\isTransferStation(stationName){
+function isTransferStation(stationName){
     if(current.name.indexOf("point") > -1){//pointオブジェクトなら
         return false;
     }else if($stations[current.name].midway==false){//中間駅ではない

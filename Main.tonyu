@@ -27,10 +27,14 @@ for(i=0;i<$stationPlace.length;i++){//駅名を表示する
     update();
 }
 
+$Boot.newLimit=10000;
+update();
 $name2Node={};
 for (stationPlace of $stationPlace) {
     $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
+$Boot.newLimit=1000;
+update();
 
 for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さなければいけない為
     if(stations.indexOf("point") > -1){
