@@ -1,5 +1,5 @@
 extends TObject;
-
+native console;
 function allConnected(lineName,prevNode){
     var list=[];
     for(name,n in $name2Node){
@@ -21,7 +21,7 @@ function isConnected(n,lineName,prevNode){
             return false;
         }
     }
-    
+    console.log("N",name);
     if($stations[name].nexts.indexOf(n.name) > -1 && n.isLineOf(lineName)){
         return true;
     }
