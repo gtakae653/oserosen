@@ -1,6 +1,8 @@
+extends TObject;
+
 function allConnected(lineName,prevNode){
     var list=[];
-    for(n of all(Node)){
+    for(name,n in $name2Node){
         if(isConnected(n,lineName,prevNode)){
             list.push(n);
         }
