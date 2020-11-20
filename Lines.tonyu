@@ -1818,7 +1818,7 @@ $stations={
     "平間":{lines:["南武線"],nexts:["向河原","鹿島田"]},
     "鹿島田":{lines:["南武線"],nexts:["平間","矢向"]},
     "矢向":{lines:["南武線"],nexts:["鹿島田","尻手"]},
-    "尻手":{lines:["南武線"],nexts:["矢向","point尻手"]},
+    "尻手":{lines:["南武線"],nexts:["矢向","point尻手"],midway:false},
     
     "point尻手":{lines:["南武線"],nexts:["尻手","川崎","八丁畷"]},
     
