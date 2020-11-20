@@ -46,7 +46,7 @@ print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
 
 while(true) {
-    for (n of all(Node)) {
+    for (name,n in $name2Node) {
         if (n.name.indexOf("point") < 0){
             
             continue;
