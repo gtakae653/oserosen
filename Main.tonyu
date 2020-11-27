@@ -31,7 +31,7 @@ $Boot.newLimit=10000;
 update();
 $name2Node={};
 for (stationPlace of $stationPlace) {
-    $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
 $Boot.newLimit=1000;
 update();
