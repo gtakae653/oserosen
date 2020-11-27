@@ -1,7 +1,16 @@
 while(true) {
     for (var name,node in $name2Node) {
-        new Button{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
-        layer=$mainLayer,onClick:clicked};
+        print(name);
+        if($owner[name].owner == 0 || !$owner[name]){
+            new Button{left:$stationPlace[name].x,top:$stationPlace[name].y,width:40,height:30,text:name,
+            layer=$mainLayer,onClick:clicked};
+        }else if($owner[name] == 1){
+            new Button{left:$stationPlace[name].x,top:$stationPlace[name].y,width:40,height:30,text:name,
+            layer=$mainLayer,onClick:clicked,fillStyle:new Color(255,0,0)};
+        }else{
+            new Button{left:$stationPlace[name].x,top:$stationPlace[name].y,width:40,height:30,text:name,
+            layer=$mainLayer,onClick:clicked,fillStyle:new Color(0,0,255)};
+        }
         update();
     }
     update();

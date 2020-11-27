@@ -21,7 +21,7 @@ $t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
 //何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
 //人数の上限を決めておく(８人とか)
 
-
+loading = new Label{x:50, y:450, template:"駅生成中..."};
 for(i=0;i<$stationPlace.length;i++){//駅名を表示する
     sta = new Button{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
     layer=$mainLayer,onClick:clicked};
@@ -43,8 +43,12 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
     }
 }
 
+loading.die();
 print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
+
+new ButtonKiller;
+new ButtonGenerator;
 
 while(true) {
     for (var name,n in $name2Node) {
