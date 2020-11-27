@@ -1,4 +1,5 @@
 //$Screen.resize(1000,1000);
+$main=this;
 new Lines;//路線と駅のデータ
 update();
 
@@ -50,8 +51,8 @@ while(true) {
         if (n.name.indexOf("point") < 0){
             continue;
         }
-        
         var sx=0,sy=0;
+        
         for (c of n.allConnected()) {
             sx+=c.x;
             sy+=c.y;
@@ -149,6 +150,14 @@ function colorCount(s){//色別に数える
 if($search && $search.clicked==1){
     $InputBox.open("路線名の入力");
 }
+
+function getNode(name) {
+    var node=$name2Node[name];
+    if (!node) throw new Error(name+" is not found");
+    return node;
+}
+
+
 /*
 while文にして......
 状態管理が必要(例：$searching = true/false)
