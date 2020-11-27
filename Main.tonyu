@@ -56,9 +56,8 @@ print ($name2Node["point錦糸町"].isConnected($name2Node["錦糸町"], "総武
 print ($name2Node["point錦糸町"].isConnected($name2Node["錦糸町"], "総武本線" ,"両国") );
 */
 while(true) {
-    for (name,n in $name2Node) {
+    for (var name,n in $name2Node) {
         if (n.name.indexOf("point") < 0){
-            
             continue;
         }
         
@@ -73,7 +72,6 @@ while(true) {
         
         
     }
-    
     update();
 }
 
