@@ -1,0 +1,8 @@
+while(true) {
+    for (var name,node in $name2Node) {
+        new Button{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
+        layer=$mainLayer,onClick:clicked};
+        update();
+    }
+    update();
+}
