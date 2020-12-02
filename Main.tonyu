@@ -17,7 +17,7 @@ $red=0;
 $blue=0;
 
 new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー"};
-$t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
+
 //何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
 //人数の上限を決めておく(８人とか)
 
@@ -46,9 +46,10 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 loading.die();
 print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
+$t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
 
-new ButtonKiller;
-new ButtonGenerator;
+//new ButtonKiller;
+//new ButtonGenerator;
 
 while(true) {
     for (var name,n in $name2Node) {
