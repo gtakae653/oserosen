@@ -1,4 +1,5 @@
 //$Screen.resize(1000,1000);
+$main=this;
 new Lines;//路線と駅のデータ
 update();
 
@@ -16,11 +17,11 @@ $red=0;
 $blue=0;
 
 new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー"};
-$t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
+
 //何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
 //人数の上限を決めておく(８人とか)
 
-
+loading = new Label{x:50, y:450, template:"駅生成中..."};
 for(i=0;i<$stationPlace.length;i++){//駅名を表示する
     sta = new Button{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
     layer=$mainLayer,onClick:clicked};
@@ -31,7 +32,7 @@ $Boot.newLimit=10000;
 update();
 $name2Node={};
 for (stationPlace of $stationPlace) {
-    $name2Node[stationPlace.name]=new Node{name: stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
 $Boot.newLimit=1000;
 update();
@@ -42,8 +43,13 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
     }
 }
 
+loading.die();
 print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
+$t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
+
+//new ButtonKiller;
+//new ButtonGenerator;
 
 /*接続関係のテスト
 //false
@@ -60,8 +66,8 @@ while(true) {
         if (n.name.indexOf("point") < 0){
             continue;
         }
-        
         var sx=0,sy=0;
+        
         for (c of n.allConnected()) {
             sx+=c.x;
             sy+=c.y;
@@ -159,6 +165,14 @@ function colorCount(s){//色別に数える
 if($search && $search.clicked==1){
     $InputBox.open("路線名の入力");
 }
+
+function getNode(name) {
+    var node=$name2Node[name];
+    if (!node) throw new Error(name+" is not found");
+    return node;
+}
+
+
 /*
 while文にして......
 状態管理が必要(例：$searching = true/false)

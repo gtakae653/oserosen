@@ -1,17 +1,23 @@
 extends TObject;
+//native console;
+
 function allConnected(lineName,prevNode){
     var list=[];
-    for(var n of $stations[name].nexts){
+    //console.log("N",name);
+    for(var n of $stations[name].nexts){//nameで受け取った駅のnextsをlistに格納する
+        if (!$name2Node[n]) throw new Error(n+" is not found");
         list.push($name2Node[n]);
     }
-    if(prevNode){
-        for(var name,n in list){
-            if(isConnected(n,lineName,prevNode)){
-                list.push(n);
-            }
+    if(!prevNode){
+        return list;    
+    }
+    var list2=[];
+    for(var n of list){
+        if(isConnected(n,lineName,prevNode)){
+            list2.push(n);
         }
     }
-    return list;
+    return list2;
     /*全てのNodeを調査して、
     調査した中にisConnectedに渡した駅のnextsに含まれるものがあればそれを返す*/
 }

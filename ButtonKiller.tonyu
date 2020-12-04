@@ -1,0 +1,7 @@
+while(true){
+    for (b of all(Button)) {
+        if(b.screenOut()) die();
+        update(); 
+    }
+    update();
+}   
