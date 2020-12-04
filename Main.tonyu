@@ -75,6 +75,10 @@ function clicked(b){
     all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
+        
+        log = new CreateFile{logStationName:b.text,logOwner:$turn};
+        
+        
         if(! $owner[b.text]){//$ownerに押された駅が無かったら
             $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
             //colorCount($owner[b.text]);
@@ -163,12 +167,18 @@ function click(a){
     panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
     
-    clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
+    //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
+    $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
+    
+    
+    
+    
+    
 }
 
 function clear(c){
     panel.clearRect(0,0,300,300);
-    clear.die();
+    $clear.die();
 }
 /*
 while文にして......
