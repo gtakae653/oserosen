@@ -7,7 +7,7 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll;
 
-$search = new Button{top:10,left:300,width:150,height:30,text:"路線の検索"};
+$search = new Button{top:10,left:300,width:150,height:30,text:"路線の検索",onClick:click};
 
 boardPreparat = false;//全ての駅のボタンとノードの配置が完了したらtrue
 nextPlayPreparat = true;//探索中はfalse
@@ -152,17 +152,18 @@ function colorCount(s){//色別に数える
     }
 }
 
-if($search && $search.clicked==1){
-    $InputBox.open("路線名の入力");
-}
-
 function getNode(name) {
     var node=$name2Node[name];
     if (!node) throw new Error(name+" is not found");
     return node;
 }
 
-
+function click(a){
+    panel=new Panel{fillStyle:"white", x:100, y:100, width:400, height:400, layer:$frontLayer};
+    panel.fillStyle="white";
+    panel.fillRect(0,0,100,100);
+    panel.fillText("text",50,50,30,"center");
+}
 /*
 while文にして......
 状態管理が必要(例：$searching = true/false)
