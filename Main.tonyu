@@ -159,10 +159,16 @@ function getNode(name) {
 }
 
 function click(a){
-    panel=new Panel{fillStyle:"white", x:100, y:100, width:400, height:400, layer:$frontLayer};
-    panel.fillStyle="white";
-    panel.fillRect(0,0,100,100);
+    panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
+    panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
+    
+    clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
+}
+
+function clear(c){
+    panel.clearRect(0,0,300,300);
+    clear.die();
 }
 /*
 while文にして......
