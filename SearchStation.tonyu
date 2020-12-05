@@ -1,0 +1,7 @@
+f=file("location.txt");
+name=[];
+
+for(var line of f.lines()){
+    field=line.split("\t");
+    name.push(field[0]);
+}
