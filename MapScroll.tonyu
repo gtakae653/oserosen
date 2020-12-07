@@ -46,5 +46,8 @@ while(true){
             }
         }
     }
+    if(getkey("c")==1){
+        scale = 1;
+    }
     update();
 }
