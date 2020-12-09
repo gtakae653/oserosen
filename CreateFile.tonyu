@@ -1,0 +1,7 @@
+f=file("log.txt");
+c="";
+if (f.exists()){
+    c=f.text();
+}
+f.text(c+logStationName+" "+logOwner+"\n");
+print(f.text());

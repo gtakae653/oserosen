@@ -16,7 +16,7 @@ $turn = 1;
 $red=0;
 $blue=0;
 
-new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー"};
+new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー　標準:cキー"};
 
 //何人で対戦するか入力させ、その人数に合わせて色の種類を用意しなければならない
 //人数の上限を決めておく(８人とか)
@@ -85,6 +85,10 @@ function clicked(b){
     all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
+        
+        log = new CreateFile{logStationName:b.text,logOwner:$turn};
+        
+        
         if(! $owner[b.text]){//$ownerに押された駅が無かったら
             $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
             //colorCount($owner[b.text]);
@@ -169,10 +173,22 @@ function getNode(name) {
 }
 
 function click(a){
-    panel=new Panel{fillStyle:"white", x:100, y:100, width:400, height:400, layer:$frontLayer};
-    panel.fillStyle="white";
-    panel.fillRect(0,0,100,100);
+    panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
+    panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
+    
+    //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
+    $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
+    
+    
+    
+    
+    
+}
+
+function clear(c){
+    panel.clearRect(0,0,300,300);
+    $clear.die();
 }
 /*
 while文にして......
