@@ -47,7 +47,8 @@ loading.die();
 print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
 $t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
-
+new Label{x:460, y:430,align:"right",template:"$turn番目のプレイヤーは"};
+new Label{x:460, y:450,align:"right",template:"$selected駅を取りました"};
 //new ButtonKiller;
 //new ButtonGenerator;
 
@@ -72,12 +73,13 @@ while(true) {
 }
 
 function clicked(b){
+    $selected = b.text;
     all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
         
         log = new CreateFile{logStationName:b.text,logOwner:$turn};
-        
+        searching = new Label{x:50, y:450, template:"探索中..."};
         
         if(! $owner[b.text]){//$ownerに押された駅が無かったら
             $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
@@ -116,6 +118,7 @@ function clicked(b){
                                 }else{
                                     print("????");
                                 }
+                                
                             }
                         }
                         
@@ -128,6 +131,7 @@ function clicked(b){
                             $turn = 1;
                         }
                         nextPlayPreparat = true;
+                        searching.die();
                     }
                     
                 };
