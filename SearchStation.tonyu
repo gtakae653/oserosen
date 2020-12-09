@@ -1,7 +1,26 @@
 f=file("location.txt");
-name=[];
+name1=[];
+name2=[];
+name3=[];
 
 for(var line of f.lines()){
     field=line.split("\t");
-    name.push(field[0]);
+    name1.push(field[0]);
 }
+
+for(var stations of $stations){
+    if(!(stations.indexOf("point") > -1)){
+        name2.push(stations);
+    }
+}
+
+print(name1.length,name2.length);
+
+for(var i=0;i<name1.length;i++){
+    if(!(name2.indexOf(name1[i]) > -1)){
+        print(name1[i]);
+        name3.push(name1[i]);
+    }
+}
+
+print(name3.length);
