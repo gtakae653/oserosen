@@ -23,9 +23,9 @@ new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー　標�
 
 loading = new Label{x:50, y:450, template:"駅生成中..."};
 for(i=0;i<$stationPlace.length;i++){//駅名を表示する
-    sta = new Button{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
+    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
     layer=$mainLayer,onClick:clicked};
-    update();
+    if (i % 10==0) update();
 }
 
 $Boot.newLimit=10000;
