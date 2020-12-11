@@ -15,3 +15,10 @@ extends Button;
     }
     ctx.restore();
 }
+
+\screenOut(a) {//2D
+    if (!a) a=0;
+    var cp=$Screen.convert({x:left,y:top,layer},$Screen);
+    return abs(clamped(cp.x,-a,$screenWidth+a))+
+    abs(clamped(cp.y,-a,$screenHeight+a));
+}
