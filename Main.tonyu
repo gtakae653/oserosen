@@ -46,7 +46,11 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 loading.die();
 print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
-$t = new Label{x:80, y:30, template:"$turn番目の人のターンです"};
+
+$diceNum = dice();
+$t = new Label{x:0, y:30,align:"left",template:"$turn番目の人のターンです"};
+new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
+$selected = null;
 new Label{x:460, y:430,align:"right",template:"$turn番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",template:"$selected駅を取りました"};
 //new ButtonKiller;
@@ -78,71 +82,76 @@ function clicked(b){
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
         
-        log = new CreateFile{logStationName:b.text,logOwner:$turn};
-        searching = new Label{x:50, y:450, template:"探索中..."};
-        
-        if(! $owner[b.text]){//$ownerに押された駅が無かったら
-            $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
-            //colorCount($owner[b.text]);
+        if(namelengthComparison(b.text.length,$diceNum)){
+            searching = new Label{x:50, y:450, template:"探索中..."};
             
-            lines = $stations[b.text].lines;
-            count = lines.length;
-            for (line of lines){
-                s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
-                s.on("result") \(paths) {
-                    if(lines.indexOf("山手線") > -1 || lines.indexOf("大阪環状線") > -1 ){
-                        if(paths[1]){
-                            if(paths[0].nodes.length == paths[1].nodes.length){
-                            }else if(paths[0].nodes.length > paths[1].nodes.length){
-                                paths.splice(0,1);
-                            }else{
-                                paths.splice(1,1);
+            if(! $owner[b.text]){//$ownerに押された駅が無かったら
+                $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
+                //colorCount($owner[b.text]);
+                
+                lines = $stations[b.text].lines;
+                count = lines.length;
+                for (line of lines){
+                    s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
+                    s.on("result") \(paths) {
+                        if(lines.indexOf("山手線") > -1 || lines.indexOf("大阪環状線") > -1 ){
+                            if(paths[1]){
+                                if(paths[0].nodes.length == paths[1].nodes.length){
+                                }else if(paths[0].nodes.length > paths[1].nodes.length){
+                                    paths.splice(0,1);
+                                }else{
+                                    paths.splice(1,1);
+                                }
                             }
                         }
-                    }
-                    count--;
-                    for (var path of paths) {
-                        for(node of path.nodes){
-                            if(!($owner[node.name]) || $owner[node.name].owner != $turn){
-                                $owner[node.name] = {owner:$turn};
+                        count--;
+                        for (var path of paths) {
+                            for(node of path.nodes){
+                                if(!($owner[node.name]) || $owner[node.name].owner != $turn){
+                                    $owner[node.name] = {owner:$turn};
+                                }
+                                
+                            }
+                            
+                            for (var b2 of all(Button)) {
+                                if($owner[b2.text]){
+                                    if($owner[b2.text].owner==1){
+                                        b2.fillStyle=new Color(255,0,0);
+                                    }else if($owner[b2.text].owner==2){
+                                        b2.fillStyle=new Color(0,0,255);
+                                    }else{
+                                        print("????");
+                                    }
+                                    
+                                }
                             }
                             
                         }
                         
-                        for (var b2 of all(Button)) {
-                            if($owner[b2.text]){
-                                if($owner[b2.text].owner==1){
-                                    b2.fillStyle=new Color(255,0,0);
-                                }else if($owner[b2.text].owner==2){
-                                    b2.fillStyle=new Color(0,0,255);
-                                }else{
-                                    print("????");
-                                }
-                                
+                        if(count == 0){
+                            if($turn == 1){
+                                $turn = 2;
+                            }else{
+                                $turn = 1;
                             }
+                            log = new CreateFile{logStationName:b.text,logOwner:$turn};
+                            $diceNum = dice();
+                            nextPlayPreparat = true;
+                            searching.die();
                         }
                         
-                    }
-                    
-                    if(count == 0){
-                        if($turn == 1){
-                            $turn = 2;
-                        }else{
-                            $turn = 1;
-                        }
-                        nextPlayPreparat = true;
-                        searching.die();
-                    }
-                    
-                };
-                $from=null;
+                    };
+                    $from=null;
+                }
+                
+                if($turn==1){
+                    b.fillStyle=new Color(255,0,0);
+                }else{
+                    b.fillStyle=new Color(0,0,255);
+                }
             }
-            
-            if($turn==1){
-                b.fillStyle=new Color(255,0,0);
-            }else{
-                b.fillStyle=new Color(0,0,255);
-            }
+        }else{
+            nextPlayPreparat = true;
         }
     }
     
@@ -183,6 +192,26 @@ function click(a){
 function clear(c){
     panel.clearRect(0,0,300,300);
     $clear.die();
+}
+
+function dice(){
+    return rnd(4)+2;
+}
+
+function namelengthComparison(sn,d){
+    if(d == 5){//ダイス目が５のとき
+        if(sn == 1 || sn >= 5){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        if(sn == d){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 /*
 while文にして......
