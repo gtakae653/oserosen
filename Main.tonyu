@@ -23,9 +23,11 @@ new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー　標�
 
 loading = new Label{x:50, y:450, template:"駅生成中..."};
 for(i=0;i<$stationPlace.length;i++){//駅名を表示する
-    sta = new Button{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
-    layer=$mainLayer,onClick:clicked};
-    update();
+    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
+    /*fillStyle:"white",*/layer=$mainLayer,onClick:clicked};
+    if(i%10==0){
+        update();
+    }
 }
 
 $Boot.newLimit=10000;
@@ -51,7 +53,7 @@ $diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",template:"$turn番目の人のターンです"};
 new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
 $selected = null;
-new Label{x:460, y:430,align:"right",template:"$turn番目のプレイヤーは"};
+new Label{x:460, y:430,align:"right",template:"prevPlayer番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",template:"$selected駅を取りました"};
 //new ButtonKiller;
 //new ButtonGenerator;
@@ -129,12 +131,13 @@ function clicked(b){
                         }
                         
                         if(count == 0){
+                            log = new CreateFile{logStationName:b.text,logOwner:$turn};
+                            prevPlayer = $turn;
                             if($turn == 1){
                                 $turn = 2;
                             }else{
                                 $turn = 1;
                             }
-                            log = new CreateFile{logStationName:b.text,logOwner:$turn};
                             $diceNum = dice();
                             nextPlayPreparat = true;
                             searching.die();

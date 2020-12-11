@@ -1,0 +1,17 @@
+extends Button;
+\draw(ctx) {
+    
+    if (screenOut()) return;
+    super.draw(ctx);
+    ctx.save();
+    //performTransform(ctx);
+    
+    if($stations[text].lines.length == 1){
+        ctx.fillStyle=$lines[$stations[text].lines[0]].lineColor;
+        ctx.fillRect(left+0,top-0,40,5);
+    }else{
+        ctx.fillStyle="black";
+        ctx.fillRect(left+0,top-0,40,5);
+    }
+    ctx.restore();
+}
