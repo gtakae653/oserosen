@@ -23,8 +23,8 @@ new Label{x:105, y:10, template:"画面の縮小:bキー　拡大:aキー　標�
 
 loading = new Label{x:50, y:450, template:"駅生成中..."};
 for(i=0;i<$stationPlace.length;i++){//駅名を表示する
-    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name,
-    /*fillStyle:"white",*/layer=$mainLayer,onClick:clicked};
+    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
+    fillStyle:"white",layer=$mainLayer,onClick:clicked};
     if(i%10==0){
         update();
     }
@@ -46,14 +46,18 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 }
 
 loading.die();
-print("OK");
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
+
+start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
+wait(120);
+start.die();
 
 $diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",template:"$turn番目の人のターンです"};
 new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
 $selected = null;
-new Label{x:460, y:430,align:"right",template:"prevPlayer番目のプレイヤーは"};
+$prevPlayer = null;
+new Label{x:460, y:430,align:"right",template:"$prevPlayer番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",template:"$selected駅を取りました"};
 //new ButtonKiller;
 //new ButtonGenerator;
@@ -79,7 +83,6 @@ while(true) {
 }
 
 function clicked(b){
-    $selected = b.text;
     all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
@@ -131,8 +134,9 @@ function clicked(b){
                         }
                         
                         if(count == 0){
+                            $selected = b.text;
                             log = new CreateFile{logStationName:b.text,logOwner:$turn};
-                            prevPlayer = $turn;
+                            $prevPlayer = $turn;
                             if($turn == 1){
                                 $turn = 2;
                             }else{

@@ -6,8 +6,8 @@ extends Button;
     ctx.save();
     //performTransform(ctx);
     
-    if($stations[text].lines.length == 1){
-        ctx.fillStyle=$lines[$stations[text].lines[0]].lineColor;
+    if($stations[stext].lines.length == 1){
+        ctx.fillStyle=$lines[$stations[stext].lines[0]].lineColor;
         ctx.fillRect(left+0,top-0,40,5);
     }else{
         ctx.fillStyle="black";
@@ -22,3 +22,5 @@ extends Button;
     return abs(clamped(cp.x,-a,$screenWidth+a))+
     abs(clamped(cp.y,-a,$screenHeight+a));
 }
+
+super.main();
