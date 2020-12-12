@@ -11,6 +11,8 @@ $search = new Button{top:10,left:300,width:150,height:30,text:"路線の検索",
 
 boardPreparat = false;//全ての駅のボタンとノードの配置が完了したらtrue
 nextPlayPreparat = true;//探索中はfalse
+hotSpring = false;//温泉駅が選択されたらtrue
+
 $owner={};
 $turn = 1;
 $red=0;
@@ -87,78 +89,102 @@ function clicked(b){
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
         
-        if(namelengthComparison(b.text.length,$diceNum)){
-            searching = new Label{x:50, y:450, template:"探索中..."};
+        if(hotSpring == true && $owner[b.text]){
+            if($turn == 1){
+                b.fillStyle = new Color(255,0,0);
+            }else{
+                b.fillStyle = new Color(0,0,255);
+            }
             
-            if(! $owner[b.text]){//$ownerに押された駅が無かったら
-                $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
-                //colorCount($owner[b.text]);
+            attack.die();
+            hotSpring = false;
+            die();
+            update();
+        }
+        if(hotSpring == false){
+            if(namelengthComparison(b.text.length,$diceNum)){
+                searching = new Label{x:50, y:450, template:"探索中..."};
                 
-                lines = $stations[b.text].lines;
-                count = lines.length;
-                for (line of lines){
-                    s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
-                    s.on("result") \(paths) {
-                        if(lines.indexOf("山手線") > -1 || lines.indexOf("大阪環状線") > -1 ){
-                            if(paths[1]){
-                                if(paths[0].nodes.length == paths[1].nodes.length){
-                                }else if(paths[0].nodes.length > paths[1].nodes.length){
-                                    paths.splice(0,1);
-                                }else{
-                                    paths.splice(1,1);
+                if(! $owner[b.text]){//$ownerに押された駅が無かったら
+                    $owner[b.text]={name:b.text,owner:$turn};//その駅を$ownerに数値turnで追加する
+                    //colorCount($owner[b.text]);
+                    
+                    lines = $stations[b.text].lines;
+                    count = lines.length;
+                    for (line of lines){
+                        s=new Searcher{from:$name2Node[b.text],current:$name2Node[b.text],lineName:line,owner:$owner[b.text].owner, path:new Path,prev:current};
+                        s.on("result") \(paths) {
+                            if(lines.indexOf("山手線") > -1 || lines.indexOf("大阪環状線") > -1 ){
+                                if(paths[1]){
+                                    if(paths[0].nodes.length == paths[1].nodes.length){
+                                    }else if(paths[0].nodes.length > paths[1].nodes.length){
+                                        paths.splice(0,1);
+                                    }else{
+                                        paths.splice(1,1);
+                                    }
                                 }
                             }
-                        }
-                        count--;
-                        for (var path of paths) {
-                            for(node of path.nodes){
-                                if(!($owner[node.name]) || $owner[node.name].owner != $turn){
-                                    $owner[node.name] = {owner:$turn};
+                            count--;
+                            for (var path of paths) {
+                                for(node of path.nodes){
+                                    if(!($owner[node.name]) || $owner[node.name].owner != $turn){
+                                        $owner[node.name] = {owner:$turn};
+                                    }
+                                    
+                                }
+                                
+                                for (var b1 of all(Button)) {
+                                    if($owner[b1.text]){
+                                        if($owner[b1.text].owner==1){
+                                            b1.fillStyle=new Color(255,0,0);
+                                        }else if($owner[b1.text].owner==2){
+                                            b1.fillStyle=new Color(0,0,255);
+                                        }else{
+                                            print("????");
+                                        }
+                                        
+                                    }
                                 }
                                 
                             }
                             
-                            for (var b2 of all(Button)) {
-                                if($owner[b2.text]){
-                                    if($owner[b2.text].owner==1){
-                                        b2.fillStyle=new Color(255,0,0);
-                                    }else if($owner[b2.text].owner==2){
-                                        b2.fillStyle=new Color(0,0,255);
-                                    }else{
-                                        print("????");
+                            if(count == 0){
+                                
+                                if(b.text.indexOf("温泉") > -1){
+                                    if(hotSpring == false){
+                                        hotSpring = true;
+                                        attack = new Label{x:0,y:70,align:"left",text:"塗り替える駅を選んでください"};
                                     }
-                                    
+                                    print("aaa");
+                                    stopFlow();
                                 }
+                                
+                                $selected = b.text;
+                                log = new CreateFile{logStationName:b.text,logOwner:$turn};
+                                $prevPlayer = $turn;
+                                if($turn == 1){
+                                    $turn = 2;
+                                }else{
+                                    $turn = 1;
+                                }
+                                $diceNum = dice();
+                                nextPlayPreparat = true;
+                                searching.die();
                             }
                             
-                        }
-                        
-                        if(count == 0){
-                            $selected = b.text;
-                            log = new CreateFile{logStationName:b.text,logOwner:$turn};
-                            $prevPlayer = $turn;
-                            if($turn == 1){
-                                $turn = 2;
-                            }else{
-                                $turn = 1;
-                            }
-                            $diceNum = dice();
-                            nextPlayPreparat = true;
-                            searching.die();
-                        }
-                        
-                    };
-                    $from=null;
+                        };
+                        $from=null;
+                    }
+                    
+                    if($turn==1){
+                        b.fillStyle=new Color(255,0,0);
+                    }else{
+                        b.fillStyle=new Color(0,0,255);
+                    }
                 }
-                
-                if($turn==1){
-                    b.fillStyle=new Color(255,0,0);
-                }else{
-                    b.fillStyle=new Color(0,0,255);
-                }
+            }else{
+                nextPlayPreparat = true;
             }
-        }else{
-            nextPlayPreparat = true;
         }
     }
     
@@ -182,23 +208,23 @@ function getNode(name) {
     return node;
 }
 
-function click(a){
+function click(a){//路線の検索ボタンが押された後、閉じるが押されたとき
     panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
     panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
     
     //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
     $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
-    
-    
-    
-    
-    
 }
 
-function clear(c){
+function clear(c){//閉じるが押されたとき
     panel.clearRect(0,0,300,300);
     $clear.die();
+}
+
+function stopFlow(){
+    die();
+    update();
 }
 
 function dice(){
