@@ -56,7 +56,7 @@ start.die();
 
 $diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",template:"$turn番目の人のターンです"};
-new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
+choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
 $selected = null;
 $prevPlayer = null;
 new Label{x:460, y:430,align:"right",template:"$prevPlayer番目のプレイヤーは"};
@@ -89,18 +89,22 @@ function clicked(b){
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
         
-        if(hotSpring == true && $owner[b.text]){
+        if(hotSpring == true && $owner[b.text] && $owner[b.text].owner != $turn){
             if($turn == 1){
                 b.fillStyle = new Color(255,0,0);
+                $turn = 2;
             }else{
                 b.fillStyle = new Color(0,0,255);
+                $turn = 1;
             }
+            update();
             
             attack.die();
+            choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
             hotSpring = false;
-            die();
-            update();
+            return;
         }
+        
         if(hotSpring == false){
             if(namelengthComparison(b.text.length,$diceNum)){
                 searching = new Label{x:50, y:450, template:"探索中..."};
@@ -153,10 +157,12 @@ function clicked(b){
                                 if(b.text.indexOf("温泉") > -1){
                                     if(hotSpring == false){
                                         hotSpring = true;
-                                        attack = new Label{x:0,y:70,align:"left",text:"塗り替える駅を選んでください"};
+                                        choice.die();
+                                        searching.die();
+                                        update();
+                                        attack = new Label{x:0,y:50,align:"left",text:"塗り替える駅を選んでください"};
                                     }
-                                    print("aaa");
-                                    stopFlow();
+                                    return;
                                 }
                                 
                                 $selected = b.text;
@@ -220,11 +226,6 @@ function click(a){//路線の検索ボタンが押された後、閉じるが押
 function clear(c){//閉じるが押されたとき
     panel.clearRect(0,0,300,300);
     $clear.die();
-}
-
-function stopFlow(){
-    die();
-    update();
 }
 
 function dice(){
