@@ -85,11 +85,19 @@ while(true) {
 }
 
 function clicked(b){
+    if(lost){
+        lost.die();
+    }
     all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true){
         nextPlayPreparat = false;
         
         if(hotSpring == true && $owner[b.text] && $owner[b.text].owner != $turn){
+            if(miss){//missのメッセージが大量にあると消えずに残る
+                miss.die();
+            }
+            $owner[b.text].owner = $turn;
+            attackLog = new CreateFile{attackedStation:b.text,attackedPlayer:$turn};
             if($turn == 1){
                 b.fillStyle = new Color(255,0,0);
                 $turn = 2;
@@ -102,11 +110,21 @@ function clicked(b){
             attack.die();
             choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
             hotSpring = false;
+            nextPlayPreparat = true;
             return;
+        }else if(hotSpring == true){
+            if(attack){
+                attack.die();
+            }
+            miss = new Label{x:0,y:50,align:"left",text:"その駅は塗り替えられません！"};
+            nextPlayPreparat = true;
+            return;
+        }else{
+            
         }
         
         if(hotSpring == false){
-            if(namelengthComparison(b.text.length,$diceNum)){
+            //if(namelengthComparison(b.text.length,$diceNum)){
                 searching = new Label{x:50, y:450, template:"探索中..."};
                 
                 if(! $owner[b.text]){//$ownerに押された駅が無かったら
@@ -155,14 +173,20 @@ function clicked(b){
                             if(count == 0){
                                 
                                 if(b.text.indexOf("温泉") > -1){
-                                    if(hotSpring == false){
-                                        hotSpring = true;
-                                        choice.die();
-                                        searching.die();
-                                        update();
-                                        attack = new Label{x:0,y:50,align:"left",text:"塗り替える駅を選んでください"};
+                                    log = new CreateFile{logStationName:b.text,logOwner:$turn};
+                                    if(attackChance()){
+                                        if(hotSpring == false){
+                                            hotSpring = true;
+                                            choice.die();
+                                            searching.die();
+                                            update();
+                                            attack = new Label{x:0,y:50,align:"left",text:"塗り替える駅を選んでください"};
+                                            nextPlayPreparat = true;
+                                        }
+                                        return;
+                                    }else{
+                                        lost = new Label{x:0,y:70,align:"left",text:"塗り替えられる駅が存在しませんでした"};
                                     }
-                                    return;
                                 }
                                 
                                 $selected = b.text;
@@ -188,9 +212,9 @@ function clicked(b){
                         b.fillStyle=new Color(0,0,255);
                     }
                 }
-            }else{
-                nextPlayPreparat = true;
-            }
+            //}else{
+                //    nextPlayPreparat = true;
+            //}
         }
     }
     
@@ -246,6 +270,18 @@ function namelengthComparison(sn,d){
             return false;
         }
     }
+}
+
+function attackChance(){
+    enemyStation = false;
+    for(var b2 of all(Button)){
+        if($owner[b2.text] && $owner[b2.text].owner != $turn){
+            enemyStation = true;
+            break;
+        }
+    }
+    
+    return enemyStation;
 }
 /*
 while文にして......
