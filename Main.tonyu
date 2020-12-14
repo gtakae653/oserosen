@@ -98,11 +98,17 @@ function clicked(b){
             }
             $owner[b.stext].owner = $turn;
             attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn};
-            if($turn == 1){
-                b.fillStyle = new Color(255,0,0);
-                $turn = 2;
+            if($turn != $Player){
+                if($turn == 1){
+                    b.fillStyle = new Color("red");
+                }else if($turn == 2){
+                    b.fillStyle = new Color("yellow");
+                }else{
+                    b.fillStyle = new Color("green");
+                }
+                $turn = $turn+1;
             }else{
-                b.fillStyle = new Color(0,0,255);
+                b.fillStyle = new Color("blue");
                 $turn = 1;
             }
             update();
@@ -157,10 +163,14 @@ function clicked(b){
                                 
                                 for (var b1 of all(Button)) {
                                     if($owner[b1.stext]){
-                                        if($owner[b1.stext].owner==1){
-                                            b1.fillStyle=new Color(255,0,0);
+                                        if($owner[b1.stext].owner==$Player){
+                                            b1.fillStyle=new Color("blue");
+                                        }else if($owner[b1.stext].owner==1){
+                                            b1.fillStyle=new Color("red");
                                         }else if($owner[b1.stext].owner==2){
-                                            b1.fillStyle=new Color(0,0,255);
+                                            b1.fillStyle=new Color("yellow");
+                                        }else if($owner[b1.stext].owner==3){
+                                            b1.fillStyle=new Color("green");
                                         }else{
                                             print("????");
                                         }
@@ -192,9 +202,17 @@ function clicked(b){
                                 $selected = b.text;//stextにはしなくて良い
                                 log = new CreateFile{logStationName:b.stext,logOwner:$turn};
                                 $prevPlayer = $turn;
-                                if($turn == 1){
-                                    $turn = 2;
+                                if($turn != $Player){
+                                    if($turn == 1){
+                                        b.fillStyle = new Color("red");
+                                    }else if($turn == 2){
+                                        b.fillStyle = new Color("yellow");
+                                    }else{
+                                        b.fillStyle = new Color("green");
+                                    }
+                                    $turn = $turn+1;
                                 }else{
+                                    b.fillStyle = new Color("blue");
                                     $turn = 1;
                                 }
                                 $diceNum = dice();
@@ -206,10 +224,14 @@ function clicked(b){
                         $from=null;
                     }
                     
-                    if($turn==1){
-                        b.fillStyle=new Color(255,0,0);
-                    }else{
-                        b.fillStyle=new Color(0,0,255);
+                    if($turn==$Player){
+                        b.fillStyle=new Color("blue");
+                    }else if($turn == 1){
+                        b.fillStyle=new Color("red");
+                    }else if($turn == 2){
+                        b.fillStyle=new Color("yellow");
+                    }else if($turn == 3){
+                        b.fillStyle=new Color("green");
                     }
                 }
             //}else{

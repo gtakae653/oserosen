@@ -8,4 +8,3 @@ f.text(c+logStationName+" "+logOwner+"\n");
 if(attackedStation){
     f.text(c+"\n"+attackedStation+" "+attackedPlayer+"\n"+"\n");
 }
-print(f.text());
