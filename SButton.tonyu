@@ -1,11 +1,26 @@
 extends Button;
-
 \draw(ctx) {
+    
     if (screenOut()) return;
     super.draw(ctx);
     ctx.save();
-    performTransform(ctx);
-    ctx.fillStyle="orange";
-    ctx.fillRect(0,-100,20,20);
+    //performTransform(ctx);
+    
+    if($stations[stext].lines.length == 1){
+        ctx.fillStyle=$lines[$stations[stext].lines[0]].lineColor;
+        ctx.fillRect(left+0,top-0,40,5);
+    }else{
+        ctx.fillStyle="black";
+        ctx.fillRect(left+0,top-0,40,5);
+    }
     ctx.restore();
 }
+
+\screenOut(a) {//2D
+    if (!a) a=0;
+    var cp=$Screen.convert({x:left,y:top,layer},$Screen);
+    return abs(clamped(cp.x,-a,$screenWidth+a))+
+    abs(clamped(cp.y,-a,$screenHeight+a));
+}
+
+super.main();

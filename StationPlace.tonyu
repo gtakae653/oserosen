@@ -12,7 +12,6 @@ for(var line of f.lines()){
     name=field[0];
     //if((ax>=-800&&ay>-500)&&ax<1700&&ay<500){
         $stationPlace.push({name:name,x:ax,y:ay});
-        update();
     //}
 }
 

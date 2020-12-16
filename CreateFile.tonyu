@@ -3,5 +3,8 @@ c="";
 if (f.exists()){
     c=f.text();
 }
+
 f.text(c+logStationName+" "+logOwner+"\n");
-//print(f.text());
+if(attackedStation){
+    f.text(c+"\n"+attackedStation+" "+attackedPlayer+"\n"+"\n");
+}
