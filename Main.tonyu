@@ -298,7 +298,12 @@ function clear(c){//閉じるが押されたとき
 }
 
 function searchClicked(sc){
-    $Screen.scrollTo($stationPlace[sc.text].x,$stationPlace[sc.text].y);
+    for(var stp of $stationPlace){
+        if(stp.name == sc.text){
+            $Screen.scrollTo(stp.x,stp.y);
+            update();
+        }
+    }
 }
 
 function dice(){
@@ -332,6 +337,15 @@ function attackChance(){
     
     return enemyStation;
 }
+
+
+/*
+function getStationPlace(n) {
+    if (!$stationPlace[n]) throw new Error(n+" not found");
+    return $stationPlace[n];
+}
+*/
+
 /*
 while文にして......
 状態管理が必要(例：$searching = true/false)
