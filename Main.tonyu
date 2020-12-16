@@ -7,10 +7,11 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll;
 
-$search = new Button{top:10,left:300,width:150,height:30,text:"路線の検索",onClick:click};
+$search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
 boardPreparat = false;//全ての駅のボタンとノードの配置が完了したらtrue
 nextPlayPreparat = true;//探索中はfalse
+searchPreparat = true;//検索ボタンが押されたらfalse
 hotSpring = false;//温泉駅が選択されたらtrue
 
 $owner={};
@@ -56,13 +57,16 @@ start.die();
 
 $diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",template:"$turn番目の人のターンです"};
-choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
+
+if($diceNum < 5){
+    choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
+}else{
+    choice = new Label{x:0, y:50,align:"left",template:"1文字か$diceNum文字以上の駅を選んでください"};
+}
 $selected = null;
 $prevPlayer = null;
 new Label{x:460, y:430,align:"right",template:"$prevPlayer番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",template:"$selected駅を取りました"};
-//new ButtonKiller;
-//new ButtonGenerator;
 
 while(true) {
     for (var name,n in $name2Node) {
@@ -89,7 +93,7 @@ function clicked(b){
         lost.die();
     }
     all(Path).die();
-    if(boardPreparat == true && nextPlayPreparat == true){
+    if(boardPreparat == true && nextPlayPreparat == true && searchPreparat == true){
         nextPlayPreparat = false;
         
         if(hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
@@ -114,7 +118,11 @@ function clicked(b){
             update();
             
             attack.die();
-            choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
+            if($diceNum < 5){
+                choice = new Label{x:0, y:50,align:"left",template:"$diceNum文字の駅を選んでください"};
+            }else{
+                choice = new Label{x:0, y:50,align:"left",template:"1文字か$diceNum文字以上の駅を選んでください"};
+            }
             hotSpring = false;
             nextPlayPreparat = true;
             return;
@@ -235,7 +243,7 @@ function clicked(b){
                     }
                 }
             //}else{
-                //    nextPlayPreparat = true;
+                //nextPlayPreparat = true;
             //}
         }
     }
@@ -261,9 +269,21 @@ function getNode(name) {
 }
 
 function click(a){//路線の検索ボタンが押された後、閉じるが押されたとき
+    searchPreparat = false;
     panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
     panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
+    
+    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$selected,onClick:searchClicked};
+    
+    citySta=["札幌","函館","仙台","新潟","東京","名古屋","大阪","高松","広島","博多"];
+    for(var i=0;i<citySta.length;i+=2){
+        for(var j=0;j<2;j++){
+            $city = new Button{top:i*15+160,left:j*130+100,width:130,height:30,text:citySta[i+j],onClick:searchClicked};
+        }
+    }
+    
+    
     
     //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
     $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
@@ -271,7 +291,14 @@ function click(a){//路線の検索ボタンが押された後、閉じるが押
 
 function clear(c){//閉じるが押されたとき
     panel.clearRect(0,0,300,300);
-    $clear.die();
+    $frontLayer.all(Button).die();//駅のボタン以外の全てのボタンが消える
+    update();
+    $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
+    searchPreparat = true;
+}
+
+function searchClicked(sc){
+    $Screen.scrollTo($stationPlace[sc.text].x,$stationPlace[sc.text].y);
 }
 
 function dice(){
