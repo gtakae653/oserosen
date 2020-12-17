@@ -10,9 +10,7 @@ for(var line of f.lines()){
     ay=-(a[1]-35.6812362)*$pixelPerDegree;
     
     name=field[0];
-    //if((ax>=-800&&ay>-500)&&ax<1700&&ay<500){
-        $stationPlace.push({name:name,x:ax,y:ay});
-    //}
+    $stationPlace.push({name:name,x:ax,y:ay});
 }
 
 /*北　稚内、東　東根室、南　西大山、西　佐世保

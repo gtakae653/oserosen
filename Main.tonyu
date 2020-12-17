@@ -301,6 +301,7 @@ function searchClicked(sc){
     for(var stp of $stationPlace){
         if(stp.name == sc.text){
             new MapScroll{x:stp.x,y:stp.y};
+            break;
         }
     }
 }
