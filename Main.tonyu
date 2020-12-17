@@ -5,7 +5,7 @@ update();
 
 new StationPlace;//各駅の座標のデータ
 update();
-new MapScroll;
+new MapScroll{x:0,y:0};
 
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
@@ -298,7 +298,11 @@ function clear(c){//閉じるが押されたとき
 }
 
 function searchClicked(sc){
-    $Screen.scrollTo($stationPlace[sc.text].x,$stationPlace[sc.text].y);
+    for(var stp of $stationPlace){
+        if(stp.name == sc.text){
+            new MapScroll{x:stp.x,y:stp.y};
+        }
+    }
 }
 
 function dice(){
@@ -332,6 +336,15 @@ function attackChance(){
     
     return enemyStation;
 }
+
+
+/*
+function getStationPlace(n) {
+    if (!$stationPlace[n]) throw new Error(n+" not found");
+    return $stationPlace[n];
+}
+*/
+
 /*
 while文にして......
 状態管理が必要(例：$searching = true/false)
