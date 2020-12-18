@@ -4,7 +4,7 @@ if (f.exists()){
     c=f.text();
 }
 
-f.text(c+logStationName+" "+logOwner+"\n");
+f.text(c+logStationName+"\t"+logOwner+"\n");
 if(attackedStation){
-    f.text(c+"\n"+attackedStation+" "+attackedPlayer+"\n"+"\n");
+    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attack+"\n");
 }
