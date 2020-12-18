@@ -1,0 +1,16 @@
+f=file("log.txt");//途中からの場合は事前にここのファイル名を書き換える
+for(var line of f.lines()){
+    log=line.split("\t");
+    logStationName = log[0];
+    $turn = log[1];
+    
+    findButton(logStationName);
+}
+
+function findButton(logStationName){
+    if (!$stationPlace[logStationName]) throw new Error(logStationName+" not found");
+    return $stationPlace[logStationName];
+    
+    b=$name2Button[logStationName];
+    $main.clicked(b);
+}
