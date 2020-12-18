@@ -295,6 +295,7 @@ function clear(c){//閉じるが押されたとき
     update();
     $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
     searchPreparat = true;
+    
 }
 
 function searchClicked(sc){
