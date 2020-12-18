@@ -1,16 +1,30 @@
 f=file("log.txt");//途中からの場合は事前にここのファイル名を書き換える
+maxplayer = 2;
+$nowReplay = true;
+nowloading = new Label{x:0, y:50,align:"left",template:"盤面を再現しています。しばらくお待ちください"};
+
 for(var line of f.lines()){
     log=line.split("\t");
-    logStationName = log[0];
-    $turn = log[1];
+    if(log[0]){
+        logStationName = log[0];
+        $turn = log[1]-0;
+        if(maxplayer < log[1]){
+            $Player = log[1];
+        }
+        b = findButton(logStationName);
+        $main.clicked(b);
+        wait(180);
+    }
     
-    findButton(logStationName);
 }
 
+nowloading.die();
+update();
+$replay = false;
+$nowReplay = false;
+fireEvent("replayEnd");
+
 function findButton(logStationName){
-    if (!$stationPlace[logStationName]) throw new Error(logStationName+" not found");
-    return $stationPlace[logStationName];
-    
-    b=$name2Button[logStationName];
-    $main.clicked(b);
+    if (!$name2Button[logStationName]) throw new Error(logStationName+" not found");
+    return $name2Button[logStationName];
 }
