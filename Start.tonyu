@@ -11,6 +11,7 @@ new Button{top:400,left:$screenHeight/2-50,text:"リプレイ",width:100,height:
 
 function clicked(b){
     $Player = b.player;
+    $replay = false;
     loadPage(Main);
 }
 

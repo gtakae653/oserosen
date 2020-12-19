@@ -1,4 +1,4 @@
-f=file("log.txt");//途中からの場合は事前にここのファイル名を書き換える
+f=file("log1.txt");//途中からの場合は事前にここのファイル名を書き換える
 maxplayer = 2;
 $nowReplay = true;
 nowloading = new Label{x:0, y:50,align:"left",template:"盤面を再現しています。しばらくお待ちください"};
@@ -17,6 +17,8 @@ for(var line of f.lines()){
     }
     
 }
+
+
 
 nowloading.die();
 update();
