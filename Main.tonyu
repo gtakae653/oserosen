@@ -164,7 +164,7 @@ function clicked(b){
         }
         
         if(hotSpring == false){
-            if($replay == true || namelengthComparison(b.stext.length,$diceNum)){
+            if($debug == true || $replay == true || namelengthComparison(b.stext.length,$diceNum)){
                 searching = new Label{x:50, y:450, template:"探索中..."};
                 
                 if(! $owner[b.stext]){//$ownerに押された駅が無かったら
