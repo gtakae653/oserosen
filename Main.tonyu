@@ -7,6 +7,7 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
+$prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
 boardPreparat = false;//全ての駅のボタンとノードの配置が完了したらtrue
@@ -16,7 +17,6 @@ hotSpring = false;//温泉駅が選択されたらtrue
 
 $owner={};
 $turn = 1;
-lim = [];
 
 new Label{x:105, y:10,fillStyle:"Black", template:"画面の縮小:bキー　拡大:aキー　標準:cキー"};
 
@@ -51,7 +51,7 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 
 loading.die();
 boardPreparat = true;//全ての駅のボタンとNodeの配置完了
-$prevMyStation = [];
+
 
 $red=0;
 $blue=0;
@@ -337,7 +337,7 @@ function getNode(name) {
     return node;
 }
 
-function click(a){//路線の検索ボタンが押された後、閉じるが押されたとき
+function click(a){
     searchPreparat = false;
     panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
     panel.fillRect(0,0,300,300);
