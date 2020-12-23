@@ -112,7 +112,9 @@ while(true) {
 }
 
 function clicked(b){
-    print("ddd");
+    if($replay==true){
+        new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
+    }
     if(lost){
         lost.die();
     }
@@ -269,15 +271,9 @@ function clicked(b){
                                 }
                                 
                                 
-                                
-                                print("aaa",$turn);
                                 if($replay==true){
-                                    print("bbb",$turn);
                                     fireEvent("replaynext");
                                 }
-                                print("ccc",$turn);
-                                
-                                
                                 
                                 $diceNum = dice();
                                 nextPlayPreparat = true;
