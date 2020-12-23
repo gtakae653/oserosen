@@ -20,6 +20,7 @@ $Player = player;
 $nowReplay = true;
 $replayPreparat = true;//探索中はfalse
 nowloading = new Label{x:0, y:70,align:"left",fillStyle:"Black",template:"盤面を再現しています。しばらくお待ちください"};
+$replaySet = new Label{x:0, y:90,align:"left",fillStyle:"Black",template:"$logsを取りました"};
 
 for(var line of f.lines()){
     log=line.split("\t");
@@ -29,8 +30,9 @@ for(var line of f.lines()){
         $turn = log[1]-0;
         b = findButton(logStationName);
         $main.clicked(b);
-        $replaySet = new Label{x:0, y:90,align:"left",fillStyle:"Black",template:"$logsを取りました"};
+        
         waitEvent($main,"replaynext");
+        wait(5);
     }
 }
 
