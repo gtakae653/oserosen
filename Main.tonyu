@@ -112,6 +112,7 @@ while(true) {
 }
 
 function clicked(b){
+    print("ddd");
     if(lost){
         lost.die();
     }
@@ -251,13 +252,6 @@ function clicked(b){
                                     log = new CreateFile{logStationName:b.stext,logOwner:$turn};
                                 }
                                 
-                                print("aaa",$turn);
-                                if($replay==true){
-                                    print("bbb",$turn);
-                                    fireEvent("replaynext");
-                                }
-                                print("ccc",$turn);
-                                
                                 colorCount();
                                 $prevPlayer = $turn;
                                 if($turn != $Player){
@@ -273,6 +267,18 @@ function clicked(b){
                                     b.fillStyle = new Color("cyan");
                                     $turn = 1;
                                 }
+                                
+                                
+                                
+                                print("aaa",$turn);
+                                if($replay==true){
+                                    print("bbb",$turn);
+                                    fireEvent("replaynext");
+                                }
+                                print("ccc",$turn);
+                                
+                                
+                                
                                 $diceNum = dice();
                                 nextPlayPreparat = true;
                                 searching.die();
