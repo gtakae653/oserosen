@@ -1,7 +1,9 @@
-f=file("log1.txt");//途中からの場合は事前にここのファイル名を書き換える
+f=file("log3.txt");//途中からの場合は事前にここのファイル名を書き換える
 maxplayer = 2;
+$Player = 2;
 $nowReplay = true;
-nowloading = new Label{x:0, y:50,align:"left",template:"盤面を再現しています。しばらくお待ちください"};
+$replayPreparat = true;//探索中はfalse
+nowloading = new Label{x:0, y:70,align:"left",template:"盤面を再現しています。しばらくお待ちください"};
 
 for(var line of f.lines()){
     log=line.split("\t");
@@ -13,9 +15,8 @@ for(var line of f.lines()){
         }
         b = findButton(logStationName);
         $main.clicked(b);
-        wait(180);
+        wait(300);
     }
-    
 }
 
 

@@ -23,6 +23,9 @@ while(count < 10000000){
 
 function debug(){
     $debug=true;
+    print("デバッグモード");
+    die();
+    update();
 }
 
 function clicked(b){
