@@ -388,6 +388,7 @@ function iBox(a){
         for(var s of $stationPlace){
             if(s.name == staText){
                 new MapScroll{x:s.x,y:s.y,scale:$scale};
+                clear();
                 break;
             }
         }
