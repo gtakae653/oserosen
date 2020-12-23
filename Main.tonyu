@@ -66,6 +66,8 @@ new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 if($replay){
     $replayStart = new Replay;
     waitEvent($replayStart,"replayEnd");
+    $replaySet.die();
+    update();
 }
 
 if(choice){
@@ -112,6 +114,9 @@ while(true) {
 function clicked(b){
     if(lost){
         lost.die();
+    }
+    if(miss){
+        miss.die();
     }
     all(Path).die();
     if(boardPreparat == true && nextPlayPreparat == true && searchPreparat == true){
@@ -206,7 +211,7 @@ function clicked(b){
                                         }else if($owner[b1.stext].owner==3){
                                             b1.fillStyle=new Color("green");
                                         }else{
-                                            print("????");
+                                            print(b1.text);
                                         }
                                         
                                     }
@@ -405,7 +410,12 @@ function searchClicked(sc){
 }
 
 function dice(){
-    return rnd(4)+2;
+    var d = rnd(10)+1;
+    if(d < 8){
+        return rnd(2)+2;
+    }else{
+        return rnd(2)+4;
+    }
 }
 
 function revengeDice(){

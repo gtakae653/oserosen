@@ -1,4 +1,4 @@
-f=file("location.txt");
+f=file("../static/location.txt");
 $stationPlace=[];
 $pixelPerDegree =5000;//(緯度経度が)1度当たりのピクセル数
 name;
