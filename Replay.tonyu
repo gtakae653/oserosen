@@ -31,8 +31,9 @@ for(var line of f.lines()){
         b = findButton(logStationName);
         $main.clicked(b);
         
-        waitEvent($main,"replaynext");
-        wait(5);
+        while(!$main.nextPlayPrepared){
+            update();
+        }
     }
 }
 

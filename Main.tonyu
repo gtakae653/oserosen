@@ -10,9 +10,9 @@ new MapScroll{x:0,y:0,scale:1};
 $prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
-boardPreparat = false;//全ての駅のボタンとノードの配置が完了したらtrue
-nextPlayPreparat = true;//探索中はfalse
-searchPreparat = true;//検索ボタンが押されたらfalse
+boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
+nextPlayPrepared = true;//探索中はfalse
+searchPrepared = true;//検索ボタンが押されたらfalse
 hotSpring = false;//温泉駅が選択されたらtrue
 
 $owner={};
@@ -50,7 +50,7 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 }
 
 loading.die();
-boardPreparat = true;//全ての駅のボタンとNodeの配置完了
+boardPrepared = true;//全ての駅のボタンとNodeの配置完了
 
 
 $red=0;
@@ -113,7 +113,7 @@ while(true) {
 
 function clicked(b){
     print(b.stext);
-    print(hotSpring,nextPlayPreparat,searchPreparat);
+    print(hotSpring,nextPlayPrepared,searchPrepared);
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -124,11 +124,10 @@ function clicked(b){
         miss.die();
     }
     all(Path).die();
-    if(boardPreparat == true && nextPlayPreparat == true && searchPreparat == true){
-        nextPlayPreparat = false;
+    if(boardPrepared == true && nextPlayPrepared == true && searchPrepared == true){
+        nextPlayPrepared = false;
         
         if(hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
-            print("aaa");
             if(miss){//missのメッセージが大量にあると消えずに残る
                 miss.die();
             }
@@ -163,18 +162,15 @@ function clicked(b){
                 }
             }
             hotSpring = false;
-            nextPlayPreparat = true;
+            nextPlayPrepared = true;
             
-            if($replay==true){
-                fireEvent("replaynext");
-            }
             return;
         }else if(hotSpring == true){
             if(attack){
                 attack.die();
             }
             miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-            nextPlayPreparat = true;
+            nextPlayPrepared = true;
             return;
         }else{
             
@@ -246,10 +242,7 @@ function clicked(b){
                                             if($replay == false){
                                                 attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                             }
-                                            nextPlayPreparat = true;
-                                        }
-                                        if($replay==true){
-                                            fireEvent("replaynext");
+                                            nextPlayPrepared = true;
                                         }
                                         return;
                                     }else{
@@ -281,12 +274,8 @@ function clicked(b){
                                 }
                                 
                                 
-                                if($replay==true){
-                                    fireEvent("replaynext");
-                                }
-                                
                                 $diceNum = dice();
-                                nextPlayPreparat = true;
+                                nextPlayPrepared = true;
                                 searching.die();
                                 
                                 if(choice){
@@ -316,13 +305,13 @@ function clicked(b){
                     if(searching){
                         searching.die();
                     }
-                    nextPlayPreparat = true;
+                    nextPlayPrepared = true;
                 }
             }else{
                 if(searching){
                     searching.die();
                 }
-                nextPlayPreparat = true;
+                nextPlayPrepared = true;
             }
             
             
@@ -361,7 +350,7 @@ function getNode(name) {
 }
 
 function click(a){
-    searchPreparat = false;
+    searchPrepared = false;
     panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
     panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
@@ -396,7 +385,7 @@ function clear(c){//閉じるが押されたとき
     //revenge.die();
     update();
     $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
-    searchPreparat = true;
+    searchPrepared = true;
 }
 
 
