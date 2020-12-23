@@ -1,4 +1,4 @@
-f=file("location.txt");
+/*f=file("location.txt");
 name1=[];
 name2=[];
 name3=[];
@@ -24,3 +24,37 @@ for(var i=0;i<name1.length;i++){
 }
 
 print(name3.length);
+*/
+/*
+new StationPlace;
+new Lines;
+update();
+
+for(i=0;i<$stationPlace.length;i++){
+    f=file("TransferStation.txt");
+    c="";
+    if (f.exists()){
+        c=f.text();
+    }
+    if($stations[$stationPlace[i].name].lines.length > 1){
+        print($stationPlace[i].name);
+        f.text(c+$stationPlace[i].name+"\n");
+        wait(1);
+    }
+}
+print("OK");
+
+*/
+
+    
+
+
+
+
+
+
+
+
+
+
+

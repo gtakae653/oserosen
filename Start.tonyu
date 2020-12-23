@@ -1,5 +1,9 @@
 $Player;
 
+
+//押されるまでまたれてない
+
+
 new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:30,template:"プレイ人数を選択してください"};
 
 for(var i=0;i<3;i++){
@@ -9,8 +13,24 @@ for(var i=0;i<3;i++){
 //リプレイモードのボタン作る
 new Button{top:400,left:$screenHeight/2-50,text:"リプレイ",width:100,height:30,onClick:rc};
 
+count=0;
+while(count < 10000000){
+    if(getkey("d") && getkey("ctrl")){
+        debug();
+    }
+    count++;
+}
+
+function debug(){
+    $debug=true;
+    print("デバッグモード");
+    die();
+    update();
+}
+
 function clicked(b){
     $Player = b.player;
+    $replay = false;
     loadPage(Main);
 }
 
