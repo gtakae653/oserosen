@@ -112,6 +112,7 @@ while(true) {
 }
 
 function clicked(b){
+    print("ddd");
     if(lost){
         lost.die();
     }
@@ -266,6 +267,18 @@ function clicked(b){
                                     b.fillStyle = new Color("cyan");
                                     $turn = 1;
                                 }
+                                
+                                
+                                
+                                print("aaa",$turn);
+                                if($replay==true){
+                                    print("bbb",$turn);
+                                    fireEvent("replaynext");
+                                }
+                                print("ccc",$turn);
+                                
+                                
+                                
                                 $diceNum = dice();
                                 nextPlayPreparat = true;
                                 searching.die();
@@ -305,9 +318,8 @@ function clicked(b){
                 }
                 nextPlayPreparat = true;
             }
-            if($replay==true){
-                fireEvent("replaynext");
-            }
+            
+            
         }
     }
     

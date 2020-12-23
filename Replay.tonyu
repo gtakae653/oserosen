@@ -30,7 +30,7 @@ for(var line of f.lines()){
         b = findButton(logStationName);
         $main.clicked(b);
         $replaySet = new Label{x:0, y:90,align:"left",fillStyle:"Black",template:"$logsを取りました"};
-        wait(300);
+        waitEvent($main,"replaynext");
     }
 }
 
