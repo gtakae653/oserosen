@@ -112,6 +112,8 @@ while(true) {
 }
 
 function clicked(b){
+    print(b.stext);
+    print(hotSpring,nextPlayPreparat,searchPreparat);
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -126,6 +128,7 @@ function clicked(b){
         nextPlayPreparat = false;
         
         if(hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
+            print("aaa");
             if(miss){//missのメッセージが大量にあると消えずに残る
                 miss.die();
             }
@@ -146,7 +149,7 @@ function clicked(b){
                 b.fillStyle = new Color("cyan");
                 $turn = 1;
             }
-            update();
+            
             colorCount();
             
             if(attack){
@@ -161,6 +164,10 @@ function clicked(b){
             }
             hotSpring = false;
             nextPlayPreparat = true;
+            
+            if($replay==true){
+                fireEvent("replaynext");
+            }
             return;
         }else if(hotSpring == true){
             if(attack){
@@ -240,6 +247,9 @@ function clicked(b){
                                                 attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                             }
                                             nextPlayPreparat = true;
+                                        }
+                                        if($replay==true){
+                                            fireEvent("replaynext");
                                         }
                                         return;
                                     }else{
