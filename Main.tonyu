@@ -112,6 +112,9 @@ while(true) {
 }
 
 function clicked(b){
+    if($replay==true){
+        new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
+    }
     if(lost){
         lost.die();
     }
