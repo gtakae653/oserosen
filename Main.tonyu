@@ -359,7 +359,7 @@ function click(a){//路線の検索ボタンが押された後、閉じるが押
         }
     }
     
-    $staBox = new Button{top:360,left:190,width:100,height:30,text:"駅名検索",onClick:iBox};
+    $staBox = new Button{top:360,left:190,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
     //revenge = new Button{top:360,left:190,width:100,height:30,text:"振り直し",onClick:revengeDice};
     
     //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
@@ -378,17 +378,19 @@ function clear(c){//閉じるが押されたとき
 
 
 function iBox(a){
-    var ix=$screenWidth/2;
-    var iy=$screenHeight/2;
     $InputBox.open("検索する駅名","","");
-    //$stationNameSearching = true;
     while($InputBox.getStatus()==0){
-        text=""+$InputBox.getText();
+        staText=$InputBox.getText();
         update();
     }
     
     if($InputBox.getStatus()==1){
-        print(text);
+        for(var s of $stationPlace){
+            if(s.name == staText){
+                new MapScroll{x:s.x,y:s.y,scale:$scale};
+                break;
+            }
+        }
     }
 }
 
