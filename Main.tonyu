@@ -7,6 +7,14 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
+/*
+new Prefectural;
+update();
+for(var p of $pre){
+    new Label{x:$pre[p].x*$pixelPerDegree,y:$pre[p].y*$pixelPerDegree,text:$pre[p].name,size:500,fillStyle:"black"};
+}
+*/
+
 $prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
@@ -77,6 +85,7 @@ start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game S
 wait(120);
 start.die();
 
+diceArray=[2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 $diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",fillStyle:"Black",template:"$turn番目の人のターンです"};
 
@@ -112,8 +121,6 @@ while(true) {
 }
 
 function clicked(b){
-    print(b.stext);
-    print(hotSpring,nextPlayPrepared,searchPrepared);
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -372,7 +379,6 @@ function click(a){
     }
     
     $staBox = new Button{top:360,left:190,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
-    //revenge = new Button{top:360,left:190,width:100,height:30,text:"振り直し",onClick:revengeDice};
     
     //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
     $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
@@ -382,7 +388,6 @@ function clear(c){//閉じるが押されたとき
     panel.clearRect(0,0,300,300);
     $frontLayer.all(Button).die();//駅のボタン以外の全てのボタンが消える
     $staBox.die();
-    //revenge.die();
     update();
     $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
     searchPrepared = true;
@@ -417,16 +422,12 @@ function searchClicked(sc){
 }
 
 function dice(){
-    var d = rnd(10)+1;
-    if(d < 8){
-        return rnd(2)+2;
+    var d = rnd(11);
+    if(limit(diceArray[d])==false){
+        return diceArray[d];
     }else{
-        return rnd(2)+4;
+        dice();
     }
-}
-
-function revengeDice(){
-    $diceNum = rnd(4)+2;
 }
 
 function namelengthComparison(sn,d){
@@ -457,19 +458,25 @@ function attackChance(){
     return enemyStation;
 }
 
+function limit(dice){
+    var stalim=[];
+    for(var station of $name2Button){
+        if(namelengthComparison(station.length,dice) && !($owner[station.stext])){
+            stalim.push(station);
+        }
+    }
+    print(dice,stalim.length);
+    if(stalim.length==0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 
 /*
 function getStationPlace(n) {
     if (!$stationPlace[n]) throw new Error(n+" not found");
     return $stationPlace[n];
-}
-*/
-
-/*
-while文にして......
-状態管理が必要(例：$searching = true/false)
-Name = $InputBox.getText();
-if ($InputBox.getStatus()==1 && $searching) {
-    //OKが押されたら、getした路線名をindexOfに反映する？
 }
 */
