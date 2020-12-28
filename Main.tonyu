@@ -70,6 +70,9 @@ new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"黄=$yellow駅"}
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 
+
+diceArray=[2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+
 //リプレイモードだったら
 if($replay){
     $replayStart = new Replay;
@@ -85,7 +88,7 @@ start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game S
 wait(120);
 start.die();
 
-diceArray=[2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+
 $diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",fillStyle:"Black",template:"$turn番目の人のターンです"};
 
@@ -358,7 +361,7 @@ function getNode(name) {
 
 function click(a){
     searchPrepared = false;
-    panel=new Panel{fillStyle:"white", x:230, y:250, width:300, height:300, layer:$frontLayer};
+    panel=new Panel{fillStyle:"black", x:230, y:250, width:300, height:300, layer:$frontLayer};
     panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
     
@@ -378,9 +381,10 @@ function click(a){
         }
     }
     
-    $staBox = new Button{top:360,left:190,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
+    $staBox = new Button{top:360,left:170,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
+    lineArea = new Button{top:360,left:270,width:100,height:30,text:"路線範囲",onClick:lineAreaTable};
     
-    //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押すとエラーになる
+    //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押したときエラーになる
     $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
 }
 
@@ -419,6 +423,10 @@ function searchClicked(sc){
             break;
         }
     }
+}
+
+function lineAreaTable(){
+    $WebPage.openNewWindow("http://cho.is.meisei-u.ac.jp/sotu/17j5058/路線範囲.pdf");
 }
 
 function dice(){
@@ -461,11 +469,12 @@ function attackChance(){
 function limit(dice){
     var stalim=[];
     for(var station of $name2Button){
-        if(namelengthComparison(station.length,dice) && !($owner[station.stext])){
+        if(namelengthComparison(station.replace(/\(.*/,"").length,dice) && !($owner[station])){
             stalim.push(station);
         }
     }
-    print(dice,stalim.length);
+     
+    //print(dice,stalim.length);
     if(stalim.length==0){
         return true;
     }else{
