@@ -194,10 +194,10 @@ function clicked(b){
                     $owner[b.stext]={name:b.stext,owner:$turn};//その駅を$ownerに数値turnで追加する
                     lines = $stations[b.stext].lines;
                     count = lines.length;
-                    for (line of lines){
+                    for (line of lines) \(line){
                         s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path,prev:current};
                         s.on("result") \(paths) {
-                            if(lines.indexOf("山手線") > -1 || lines.indexOf("大阪環状線") > -1 ){
+                            if(line==="山手線" || line==="大阪環状線"){
                                 if(paths[1]){
                                     if(paths[0].nodes.length == paths[1].nodes.length){
                                     }else if(paths[0].nodes.length > paths[1].nodes.length){
@@ -300,7 +300,7 @@ function clicked(b){
                             
                         };
                         $from=null;
-                    }
+                    }(line);
                     
                     if($turn==$Player){
                         b.fillStyle=new Color("cyan");
