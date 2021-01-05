@@ -71,7 +71,7 @@ new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 
 
-diceArray=[2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+diceArray=[2,2,2,2,2,3,3,3,4,5];//ダイスの出目用の配列
 
 //リプレイモードだったら
 if($replay){
@@ -361,7 +361,9 @@ function getNode(name) {
 
 function click(a){
     searchPrepared = false;
-    panel=new Panel{fillStyle:"black", x:230, y:250, width:300, height:300, layer:$frontLayer};
+    if(!(panel)){
+        panel=new Panel{fillStyle:"black", x:230, y:250, width:300, height:300, layer:$frontLayer};
+    }
     panel.fillRect(0,0,300,300);
     panel.fillText("text",50,50,30,"center");
     
@@ -430,7 +432,7 @@ function lineAreaTable(){
 }
 
 function dice(){
-    var d = rnd(11);
+    var d = rnd(10);
     if(limit(diceArray[d])==false){
         return diceArray[d];
     }else{

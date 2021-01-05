@@ -1,4 +1,4 @@
-f=file("log5_3(Kanto).txt");//指定した名前の付いたテキストを先に用意しておく
+f=file("freelog.txt");//指定した名前の付いたテキストを先に用意しておく
 c="";
 if (f.exists()){
     c=f.text();
