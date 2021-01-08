@@ -2,14 +2,20 @@ extends TObject;
 //native console;
 
 function allConnected(lineName,prevNode){
+    //console.log(prevNode);
     var list=[];
-    //console.log("N",name);
+    var list3=[];
     for(var n of $stations[name].nexts){//nameで受け取った駅のnextsをlistに格納する
         if (!$name2Node[n]) throw new Error(n+" is not found");
         list.push($name2Node[n]);
     }
     if(!prevNode){
-        return list;    
+        for(var n of list){
+            if(n.isLineOf(lineName)){
+                list3.push(n);
+            }
+        }
+        return list3;    
     }
     var list2=[];
     for(var n of list){
