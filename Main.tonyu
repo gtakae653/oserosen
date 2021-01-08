@@ -339,16 +339,20 @@ function colorCount(){//色別に数える
     $green=0;
     
     for(var o of $name2Node){
-        if($owner[o] && $owner[o].owner==$Player){
-            $blue++;
-        }else if($owner[o] && $owner[o].owner==1){
-            $red++;
-        }else if($owner[o] && $owner[o].owner==2){
-            $yellow++;
-        }else if($owner[o] && $owner[o].owner==3){
-            $green++;
+        if(o.indexOf("point") > -1){
+            //pointオブジェクトはカウントしない
         }else{
+            if($owner[o] && $owner[o].owner==$Player){
+                $blue++;
+            }else if($owner[o] && $owner[o].owner==1){
+                $red++;
+            }else if($owner[o] && $owner[o].owner==2){
+                $yellow++;
+            }else if($owner[o] && $owner[o].owner==3){
+                $green++;
+            }else{
             
+            }
         }
     }
 }
