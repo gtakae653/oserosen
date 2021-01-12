@@ -5,6 +5,7 @@ $Player;
 
 
 new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:30,template:"プレイ人数を選択してください"};
+new Label{x:450,y:450,template:"$limTurn"};
 
 for(var i=0;i<3;i++){
     playerButton = new Button{top:300,left:i*100+80,width:100,height:30,text:i+2+"人",player:i+2,onClick:clicked};
@@ -12,6 +13,9 @@ for(var i=0;i<3;i++){
 
 //リプレイモードのボタン作る
 new Button{top:400,left:$screenHeight/2-50,text:"リプレイ",width:100,height:30,onClick:rc};
+
+//ターン数指定
+new Button{top:370,left:$screenHeight/2-50,width:100,height:30,text:"ターン数",onClick:\{parallel("turnC");} };
 
 count=0;
 while(count < 10000000){
@@ -37,4 +41,16 @@ function clicked(b){
 function rc(){
     $replay = true;
     loadPage(Main);
+}
+
+function turnC(t){
+    $InputBox.open("設定するターン数","","");
+    while($InputBox.getStatus()==0){
+        turnText=$InputBox.getText();
+        update();
+    }
+    
+    if($InputBox.getStatus()==1){
+        $limTurn = turnText;
+    }
 }

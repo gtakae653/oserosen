@@ -25,8 +25,9 @@ hotSpring = false;//温泉駅が選択されたらtrue
 
 $owner={};
 $turn = 1;
+$turnCount = 1;
 
-new Label{x:105, y:10,fillStyle:"Black", template:"画面の縮小:bキー　拡大:aキー　標準:cキー"};
+new Label{x:0, y:10,align:"left",fillStyle:"Black", template:"画面の縮小:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
 
 loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
@@ -65,13 +66,14 @@ $red=0;
 $blue=0;
 $yellow=0;
 $green=0;
+
+new Label{x:460,y:330,fillStyle:"Black",align:"right",template:"ターン数=$turnCount"};
 new Label{x:460,y:350,fillStyle:"Black",align:"right",template:"赤=$red駅"};
-new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
-new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"緑=$green駅"};
-new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"青=$blue駅"};
+new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
+new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
+new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
-
-diceArray=[2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 
 //リプレイモードだったら
 if($replay){
@@ -145,20 +147,26 @@ function clicked(b){
             if($replay == false){
                 attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn,attack:"attacked"};
             }
-            if($turn != $Player){
-                if($turn == 1){
-                    b.fillStyle = new Color("red");
-                }else if($turn == 2){
-                    b.fillStyle = new Color("yellow");
-                }else{
-                    b.fillStyle = new Color("green");
-                }
-                $turn += 1;
-            }else{
+            
+            //色の変更
+            if($turn == 1){
+                b.fillStyle = new Color("red");
+            }else if($turn == 2){
                 b.fillStyle = new Color("cyan");
-                $turn = 1;
+            }else if($turn == 3){
+                b.fillStyle = new Color("yellow");
+            }else{
+                b.fillStyle = new Color("green");
             }
             
+            //ターン変更
+            if($turn == $Player){
+                $turn = 1;
+                $turnCount+=1;
+            }else{
+                $turn += 1;
+            }
+                
             colorCount();
             
             if(attack){
@@ -211,20 +219,24 @@ function clicked(b){
                             for (var path of paths) {
                                 for(node of path.nodes){
                                     if(!($owner[node.name]) || $owner[node.name].owner != $turn){
-                                        $owner[node.name] = {owner:$turn};
+                                        if(node.name.indexOf("point") > -1){
+                                            //pointオブジェクトは弾く
+                                        }else{
+                                            $owner[node.name] = {owner:$turn};
+                                        }
                                     }
                                     
                                 }
                                 
                                 for (var b1 of all(Button)) {
                                     if($owner[b1.stext]){
-                                        if($owner[b1.stext].owner==$Player){
-                                            b1.fillStyle=new Color("cyan");
-                                        }else if($owner[b1.stext].owner==1){
+                                        if($owner[b1.stext].owner==1){
                                             b1.fillStyle=new Color("red");
                                         }else if($owner[b1.stext].owner==2){
-                                            b1.fillStyle=new Color("yellow");
+                                            b1.fillStyle=new Color("cyan");
                                         }else if($owner[b1.stext].owner==3){
+                                            b1.fillStyle=new Color("yellow");
+                                        }else if($owner[b1.stext].owner==4){
                                             b1.fillStyle=new Color("green");
                                         }else{
                                             print(b1.text);
@@ -262,27 +274,35 @@ function clicked(b){
                                 
                                 $selected = b.stext;
                                 $prevMyStation[$turn-1] = b.stext;
-
+                                colorCount();
+                                
                                 if($replay == false){
                                     log = new CreateFile{logStationName:b.stext,logOwner:$turn};
-                                }
-                                
-                                colorCount();
-                                $prevPlayer = $turn;
-                                if($turn != $Player){
-                                    if($turn == 1){
-                                        b.fillStyle = new Color("red");
-                                    }else if($turn == 2){
-                                        b.fillStyle = new Color("yellow");
-                                    }else{
-                                        b.fillStyle = new Color("green");
-                                    }
-                                    $turn += 1;
                                 }else{
-                                    b.fillStyle = new Color("cyan");
-                                    $turn = 1;
+                                    tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                                 }
                                 
+                                
+                                $prevPlayer = $turn;
+                                
+                                //色の変更
+                                if($turn == 1){
+                                    b.fillStyle = new Color("red");
+                                }else if($turn == 2){
+                                    b.fillStyle = new Color("cyan");
+                                }else if($turn == 3){
+                                    b.fillStyle = new Color("yellow");
+                                }else{
+                                    b.fillStyle = new Color("green");
+                                }
+                                
+                                //ターン変更
+                                if($turn == $Player){
+                                    $turn = 1;
+                                    $turnCount+=1;
+                                }else{
+                                    $turn += 1;
+                                }
                                 
                                 $diceNum = dice();
                                 nextPlayPrepared = true;
@@ -298,19 +318,29 @@ function clicked(b){
                                 }
                             }
                             
+                            //ゲーム終了処理
+                            if($limTurn && ($limTurn)-0 === $turnCount){
+                                print("gameset");
+                                print("thank you for playing");
+                                boardPrepared = false;
+                                //loadPage(GameSet);
+                            }
+                            
                         };
                         $from=null;
                     }(line);
                     
-                    if($turn==$Player){
-                        b.fillStyle=new Color("cyan");
-                    }else if($turn == 1){
+                    if($turn == 1){
                         b.fillStyle=new Color("red");
                     }else if($turn == 2){
-                        b.fillStyle=new Color("yellow");
+                        b.fillStyle=new Color("cyan");
                     }else if($turn == 3){
+                        b.fillStyle=new Color("yellow");
+                    }else if($turn == 4){
                         b.fillStyle=new Color("green");
                     }
+                    
+                    
                 }else{
                     if(searching){
                         searching.die();
@@ -328,6 +358,7 @@ function clicked(b){
         }
     }
     
+    
 }
 
 
@@ -339,20 +370,14 @@ function colorCount(){//色別に数える
     $green=0;
     
     for(var o of $name2Node){
-        if(o.indexOf("point") > -1){
-            //pointオブジェクトはカウントしない
-        }else{
-            if($owner[o] && $owner[o].owner==$Player){
-                $blue++;
-            }else if($owner[o] && $owner[o].owner==1){
-                $red++;
-            }else if($owner[o] && $owner[o].owner==2){
-                $yellow++;
-            }else if($owner[o] && $owner[o].owner==3){
-                $green++;
-            }else{
-            
-            }
+        if($owner[o] && $owner[o].owner==1){
+            $red++;
+        }else if($owner[o] && $owner[o].owner==2){
+            $blue++;
+        }else if($owner[o] && $owner[o].owner==3){
+            $yellow++;
+        }else if($owner[o] && $owner[o].owner==4){
+            $green++;
         }
     }
 }
@@ -436,7 +461,7 @@ function lineAreaTable(){
 }
 
 function dice(){
-    var d = rnd(11);
+    var d = rnd(12);
     if(limit(diceArray[d])==false){
         return diceArray[d];
     }else{
