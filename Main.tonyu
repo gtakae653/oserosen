@@ -80,7 +80,7 @@ new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"}
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
 if($kintetsu==true){
-    diceArray=[2,2,2,3,3,4,4,4,5,5,5];
+    diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
 }else{
     diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 }
@@ -478,16 +478,20 @@ function searchClicked(sc){
 }
 
 function lineAreaTable(){
-    $WebPage.openNewWindow("http://cho.is.meisei-u.ac.jp/sotu/17j5058/路線範囲.pdf");
+    if($kintetsu==true){
+        $WebPage.openNewWindow("http://cho.is.meisei-u.ac.jp/sotu/17j5058/kintetsu_map.pdf");
+    }else{
+        $WebPage.openNewWindow("http://cho.is.meisei-u.ac.jp/sotu/17j5058/路線範囲.pdf");
+    }
 }
 
 function dice(){
     var d = rnd(12);
-    if(limit(diceArray[d])==false){
-        return diceArray[d];
-    }else{
-        dice();
-    }
+    //if(limit(diceArray[d])==false){
+    return diceArray[d];
+    //}else{
+      //  dice();
+    //}
 }
 
 function revengeDice(){
