@@ -27,10 +27,10 @@ for(var p of $pre){
 $prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
-var boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
-var nextPlayPrepared = true;//探索中はfalse
-var searchPrepared = true;//検索ボタンが押されたらfalse
-var hotSpring = false;//温泉駅が選択されたらtrue
+$boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
+$nextPlayPrepared = true;//探索中はfalse
+$searchPrepared = true;//検索ボタンが押されたらfalse
+$hotSpring = false;//温泉駅が選択されたらtrue
 
 $owner={};
 $turn = 1;
@@ -72,7 +72,7 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 
 
 loading.die();
-boardPrepared = true;//全ての駅のボタンとNodeの配置完了
+$boardPrepared = true;//全ての駅のボタンとNodeの配置完了
 
 
 $red=0;
@@ -174,7 +174,7 @@ function getNode(name) {
 }
 
 function click(a){
-    searchPrepared = false;
+    $searchPrepared = false;
     if(!(panel)){
         panel=new Panel{fillStyle:"black", x:230, y:250, width:300, height:300, layer:$frontLayer};
     }
@@ -217,7 +217,7 @@ function clear(c){//閉じるが押されたとき
     //$resta.die();
     update();
     $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
-    searchPrepared = true;
+    $searchPrepared = true;
 }
 
 

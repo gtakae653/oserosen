@@ -4,23 +4,23 @@ function clicked(b){
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
-    if(lost){
+    /*if(lost){
         lost.die();
-    }
+    }*/
     if(miss){
         miss.die();
     }
     all(Path).die();
-    if(boardPrepared == true && nextPlayPrepared == true && searchPrepared == true){
-        nextPlayPrepared = false;
+    if($boardPrepared == true && $nextPlayPrepared == true && $searchPrepared == true){
+        $nextPlayPrepared = false;
         
-        if(hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
+        if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
             if(miss){//missのメッセージが大量にあると消えずに残る
                 miss.die();
             }
             $owner[b.stext].owner = $turn;
             if($replay == false){
-                attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn,attack:"attacked"};
+                var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn,attack:"attacked"};
             }
             
             //色の変更
@@ -44,44 +44,44 @@ function clicked(b){
                 
             colorCount();
             if($Replay==true){
-                tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+                var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
             }
             
-            if(attack){
+            /*if(attack){
                 attack.die();
-            }
+            }*/
             if($replay==false){
                 if($diceNum < 5){
-                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
+                    var choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
                 }else{
-                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
+                    var choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
                 }
             }
-            hotSpring = false;
-            nextPlayPrepared = true;
+            $hotSpring = false;
+            $nextPlayPrepared = true;
             
             return;
-        }else if(hotSpring == true){
-            if(attack){
+        }else if($hotSpring == true){
+            /*if(attack){
                 attack.die();
-            }
-            miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-            nextPlayPrepared = true;
+            }*/
+            var miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
+            $nextPlayPrepared = true;
             return;
         }else{
             
         }
         
-        if(hotSpring == false){
+        if($hotSpring == false){
             if($debug == true || $replay == true || namelengthComparison(b.text.length,$diceNum)){
-                searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
+                var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
                 
                 if(! $owner[b.stext]){//$ownerに押された駅が無かったら
                     $owner[b.stext]={name:b.stext,owner:$turn};//その駅を$ownerに数値turnで追加する
-                    lines = $stations[b.stext].lines;
-                    count = lines.length;
-                    for (line of lines) \(line){
-                        s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path,prev:current};
+                    var lines = $stations[b.stext].lines;
+                    var count = lines.length;
+                    for (var line of lines) \(line){
+                        var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path,prev:current};
                         s.on("result") \(paths) {
                             if(line==="山手線" || line==="大阪環状線"){
                                 if(paths[1]){
@@ -238,4 +238,39 @@ function clicked(b){
         }
     }
     //$rsta = residualStation();
+}
+
+function colorCount(){//色別に数える
+    $red=0;
+    $blue=0;
+    $yellow=0;
+    $green=0;
+    
+    for(var o of $name2Node){
+        if($owner[o] && $owner[o].owner==1){
+            $red++;
+        }else if($owner[o] && $owner[o].owner==2){
+            $blue++;
+        }else if($owner[o] && $owner[o].owner==3){
+            $yellow++;
+        }else if($owner[o] && $owner[o].owner==4){
+            $green++;
+        }
+    }
+}
+
+function namelengthComparison(sn,d){
+    if(d == 5){//ダイス目が５のとき
+        if(sn == 1 || sn >= 5){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        if(sn == d){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
