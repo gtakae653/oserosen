@@ -11,8 +11,8 @@ function clicked(b){
         miss.die();
     }
     all(Path).die();
-    if($boardPrepared == true && $nextPlayPrepared == true && $searchPrepared == true){
-        $nextPlayPrepared = false;
+    if($boardPrepared == true && nextPlayPrepared == true && $searchPrepared == true){
+        var nextPlayPrepared = false;
         
         if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
             if(miss){//missのメッセージが大量にあると消えずに残る
@@ -58,7 +58,7 @@ function clicked(b){
                 }
             }
             $hotSpring = false;
-            $nextPlayPrepared = true;
+            nextPlayPrepared = true;
             
             return;
         }else if($hotSpring == true){
@@ -66,7 +66,7 @@ function clicked(b){
                 attack.die();
             }*/
             var miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-            $nextPlayPrepared = true;
+            nextPlayPrepared = true;
             return;
         }else{
             
@@ -186,7 +186,7 @@ function clicked(b){
                                 }
                                 
                                 $diceNum = $main.dice();
-                                $nextPlayPrepared = true;
+                                nextPlayPrepared = true;
                                 searching.die();
                                 
                                 if(choice){
@@ -226,13 +226,13 @@ function clicked(b){
                     if(searching){
                         searching.die();
                     }
-                    $nextPlayPrepared = true;
+                    nextPlayPrepared = true;
                 }
             }else{
                 if(searching){
                     searching.die();
                 }
-                $nextPlayPrepared = true;
+                nextPlayPrepared = true;
             }
             
             
