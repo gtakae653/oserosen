@@ -1,5 +1,7 @@
 "field strict";
 var turn;
+var nextPlayPrepared = true;
+
 
 function clicked(b){
     if(turn == $Player){
@@ -19,7 +21,7 @@ function clicked(b){
     }
     all(Path).die();
     if($boardPrepared == true && nextPlayPrepared == true && $searchPrepared == true){
-        var nextPlayPrepared = false;
+        nextPlayPrepared = false;
         
         if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != turn){
             if(miss){//missのメッセージが大量にあると消えずに残る
