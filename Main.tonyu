@@ -1,3 +1,4 @@
+"field strict";
 $Screen.setBGColor("white");
 $main=this;
 
@@ -13,8 +14,7 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
-$randomBot1 = new RandomBot;
-$randomBot2 = new RandomBot;
+$board = new Board;
 
 /*
 new Prefectural;
@@ -27,10 +27,10 @@ for(var p of $pre){
 $prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
-boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
-nextPlayPrepared = true;//探索中はfalse
-searchPrepared = true;//検索ボタンが押されたらfalse
-hotSpring = false;//温泉駅が選択されたらtrue
+$boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
+$nextPlayPrepared = true;//探索中はfalse
+$searchPrepared = true;//検索ボタンが押されたらfalse
+$hotSpring = false;//温泉駅が選択されたらtrue
 
 $owner={};
 $turn = 1;
@@ -39,12 +39,14 @@ $turnCount = 1;
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
 
-loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
+var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
 
 $name2Button={};
-for(i=0;i<$stationPlace.length;i++){//駅名を表示する
+
+var sta;
+for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
     sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
-    fillStyle:"white",layer=$mainLayer,onClick:clicked};
+    fillStyle:"white",layer=$mainLayer,onClick:$board.clicked};
     
     $name2Button[$stationPlace[i].name]=sta;
     if(i%10==0){
@@ -55,6 +57,7 @@ for(i=0;i<$stationPlace.length;i++){//駅名を表示する
 $Boot.newLimit=10000;
 update();
 $name2Node={};
+var stationPlace;
 for (stationPlace of $stationPlace) {
     $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
 }
@@ -69,7 +72,7 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 
 
 loading.die();
-boardPrepared = true;//全ての駅のボタンとNodeの配置完了
+$boardPrepared = true;//全ての駅のボタンとNodeの配置完了
 
 
 $red=0;
@@ -83,6 +86,7 @@ new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
+var diceArray=[];
 if($kintetsu==true){
     diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
 }else{
@@ -97,10 +101,12 @@ if($replay){
     update();
 }
 
+var choice;
 if(choice){
     choice.die();
 }
-start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
+
+var start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
 wait(120);
 start.die();
 
@@ -119,6 +125,8 @@ $prevPlayer = null;
 new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$prevPlayer番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$selected駅を取りました"};
 
+var panel;
+
 
 while(true) {
     for (var name,n in $name2Node) {
@@ -127,7 +135,7 @@ while(true) {
         }
         var sx=0,sy=0;
         
-        for (c of n.allConnected()) {
+        for (var c of n.allConnected()) {
             sx+=c.x;
             sy+=c.y;
         }
@@ -139,248 +147,6 @@ while(true) {
     }
     update();
 }
-
-function clicked(b){
-    if($replay==true){
-        new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
-    }
-    if(lost){
-        lost.die();
-    }
-    if(miss){
-        miss.die();
-    }
-    all(Path).die();
-    if(boardPrepared == true && nextPlayPrepared == true && searchPrepared == true){
-        nextPlayPrepared = false;
-        
-        if(hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
-            if(miss){//missのメッセージが大量にあると消えずに残る
-                miss.die();
-            }
-            $owner[b.stext].owner = $turn;
-            if($replay == false){
-                attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn,attack:"attacked"};
-            }
-            
-            //色の変更
-            if($turn == 1){
-                b.fillStyle = new Color("red");
-            }else if($turn == 2){
-                b.fillStyle = new Color("cyan");
-            }else if($turn == 3){
-                b.fillStyle = new Color("yellow");
-            }else{
-                b.fillStyle = new Color("green");
-            }
-            
-            //ターン変更
-            if($turn == $Player){
-                $turn = 1;
-                $turnCount+=1;
-            }else{
-                $turn += 1;
-            }
-                
-            colorCount();
-            if($Replay==true){
-                tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
-            }
-            
-            if(attack){
-                attack.die();
-            }
-            if($replay==false){
-                if($diceNum < 5){
-                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
-                }else{
-                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
-                }
-            }
-            hotSpring = false;
-            nextPlayPrepared = true;
-            
-            return;
-        }else if(hotSpring == true){
-            if(attack){
-                attack.die();
-            }
-            miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-            nextPlayPrepared = true;
-            return;
-        }else{
-            
-        }
-        
-        if(hotSpring == false){
-            if($debug == true || $replay == true || namelengthComparison(b.text.length,$diceNum)){
-                searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
-                
-                if(! $owner[b.stext]){//$ownerに押された駅が無かったら
-                    $owner[b.stext]={name:b.stext,owner:$turn};//その駅を$ownerに数値turnで追加する
-                    lines = $stations[b.stext].lines;
-                    count = lines.length;
-                    for (line of lines) \(line){
-                        s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path,prev:current};
-                        s.on("result") \(paths) {
-                            if(line==="山手線" || line==="大阪環状線"){
-                                if(paths[1]){
-                                    if(paths[0].nodes.length == paths[1].nodes.length){
-                                    }else if(paths[0].nodes.length > paths[1].nodes.length){
-                                        paths.splice(0,1);
-                                    }else{
-                                        paths.splice(1,1);
-                                    }
-                                }
-                            }
-                            count--;
-                            for (var path of paths) {
-                                for(node of path.nodes){
-                                    if(!($owner[node.name]) || $owner[node.name].owner != $turn){
-                                        if(node.name.indexOf("point") > -1){
-                                            //pointオブジェクトは弾く
-                                        }else{
-                                            $owner[node.name] = {owner:$turn};
-                                        }
-                                    }
-                                    
-                                }
-                                
-                                for (var b1 of all(Button)) {
-                                    if($owner[b1.stext]){
-                                        if($owner[b1.stext].owner==1){
-                                            b1.fillStyle=new Color("red");
-                                        }else if($owner[b1.stext].owner==2){
-                                            b1.fillStyle=new Color("cyan");
-                                        }else if($owner[b1.stext].owner==3){
-                                            b1.fillStyle=new Color("yellow");
-                                        }else if($owner[b1.stext].owner==4){
-                                            b1.fillStyle=new Color("green");
-                                        }else{
-                                            print(b1.text);
-                                        }
-                                        
-                                    }
-                                }
-                                
-                            }
-                            
-                            if(count == 0){
-                                
-                                if(b.stext.indexOf("温泉") > -1){
-                                    if($replay == false){
-                                        log = new CreateFile{logStationName:b.stext,logOwner:$turn};
-                                    }else{
-                                        tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
-                                    }
-                                    if(attackChance()){
-                                        if(hotSpring == false){
-                                            hotSpring = true;
-                                            if(choice){
-                                                choice.die();
-                                            }
-                                            searching.die();
-                                            update();
-                                            if($replay == false){
-                                                attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
-                                            }
-                                            nextPlayPrepared = true;
-                                        }
-                                        return;
-                                    }else{
-                                        lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
-                                    }
-                                }
-                                
-                                $selected = b.stext;
-                                $prevMyStation[$turn-1] = b.stext;
-                                colorCount();
-                                
-                                if($replay == false){
-                                    log = new CreateFile{logStationName:b.stext,logOwner:$turn};
-                                }else{
-                                    tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
-                                }
-                                
-                                
-                                $prevPlayer = $turn;
-                                
-                                //色の変更
-                                if($turn == 1){
-                                    b.fillStyle = new Color("red");
-                                }else if($turn == 2){
-                                    b.fillStyle = new Color("cyan");
-                                }else if($turn == 3){
-                                    b.fillStyle = new Color("yellow");
-                                }else{
-                                    b.fillStyle = new Color("green");
-                                }
-                                
-                                //ターン変更
-                                if($turn == $Player){
-                                    $turn = 1;
-                                    $turnCount+=1;
-                                }else{
-                                    $turn += 1;
-                                }
-                                
-                                $diceNum = dice();
-                                nextPlayPrepared = true;
-                                searching.die();
-                                
-                                if(choice){
-                                    choice.die();
-                                }
-                                if($diceNum < 5){
-                                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
-                                }else{
-                                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
-                                }
-                            }
-                            
-                            //ゲーム終了処理
-                            if($limTurn && ($limTurn)-0 === $turnCount){
-                                print("gameset");
-                                print("thank you for playing");
-                                boardPrepared = false;
-                                //loadPage(GameSet);
-                            }
-                            
-                        };
-                        $from=null;
-                    }(line);
-                    
-                    if($turn == 1){
-                        b.fillStyle=new Color("red");
-                    }else if($turn == 2){
-                        b.fillStyle=new Color("cyan");
-                    }else if($turn == 3){
-                        b.fillStyle=new Color("yellow");
-                    }else if($turn == 4){
-                        b.fillStyle=new Color("green");
-                    }
-                    
-                    
-                }else{
-                    if(searching){
-                        searching.die();
-                    }
-                    nextPlayPrepared = true;
-                }
-            }else{
-                if(searching){
-                    searching.die();
-                }
-                nextPlayPrepared = true;
-            }
-            
-            
-        }
-    }
-    //$rsta = residualStation();
-}
-
-
 
 function colorCount(){//色別に数える
     $red=0;
@@ -408,7 +174,7 @@ function getNode(name) {
 }
 
 function click(a){
-    searchPrepared = false;
+    $searchPrepared = false;
     if(!(panel)){
         panel=new Panel{fillStyle:"black", x:230, y:250, width:300, height:300, layer:$frontLayer};
     }
@@ -416,6 +182,7 @@ function click(a){
     
     $prevStation = new Button{top:110,left:140,width:180,height:30,text:$prevMyStation[$turn-1],onClick:searchClicked};
     
+    var citySta;
     if($kintetsu==true){
         citySta=[$selected,"近鉄名古屋","大和西大寺","京都","大阪難波","大和八木","古市","吉野","王寺","伊勢中川","賢島","近鉄四日市","尺土","大阪阿部野橋"];
     }else{
@@ -434,10 +201,10 @@ function click(a){
         }
     }
     
-    RDice = new Button{top:110,left:330,width:30,height:30,text:"D",onClick:revengeDice};
+    var RDice = new Button{top:110,left:330,width:30,height:30,text:"D",onClick:revengeDice};
     
     $staBox = new Button{top:360,left:170,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
-    lineArea = new Button{top:360,left:270,width:100,height:30,text:"路線範囲",onClick:lineAreaTable};
+    var lineArea = new Button{top:360,left:270,width:100,height:30,text:"路線範囲",onClick:lineAreaTable};
     //$resta = new Label{x:250,y:400,fillStyle:"white",template:"残り=$rsta駅"};
     //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押したときエラーになる
     $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
@@ -450,14 +217,14 @@ function clear(c){//閉じるが押されたとき
     //$resta.die();
     update();
     $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
-    searchPrepared = true;
+    $searchPrepared = true;
 }
 
 
 function iBox(a){
     $InputBox.open("検索する駅名","","");
     while($InputBox.getStatus()==0){
-        staText=$InputBox.getText();
+        var staText=$InputBox.getText();
         update();
     }
     
@@ -520,7 +287,7 @@ function namelengthComparison(sn,d){
 }
 
 function attackChance(){
-    enemyStation = false;
+    var enemyStation = false;
     for(var b2 of all(Button)){
         if($owner[b2.stext] && $owner[b2.stext].owner != $turn){
             enemyStation = true;
