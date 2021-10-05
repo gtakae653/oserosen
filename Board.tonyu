@@ -2,6 +2,11 @@
 var turn;
 
 function clicked(b){
+    if(turn == $Player){
+        new Board{turn: 1};
+    }else{
+        new Board{turn: turn++};
+    }
     
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
