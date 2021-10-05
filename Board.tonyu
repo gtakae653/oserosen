@@ -1,0 +1,239 @@
+function clicked(b){
+    if($replay==true){
+        new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
+    }
+    if(lost){
+        lost.die();
+    }
+    if(miss){
+        miss.die();
+    }
+    all(Path).die();
+    if(boardPrepared == true && nextPlayPrepared == true && searchPrepared == true){
+        nextPlayPrepared = false;
+        
+        if(hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
+            if(miss){//missのメッセージが大量にあると消えずに残る
+                miss.die();
+            }
+            $owner[b.stext].owner = $turn;
+            if($replay == false){
+                attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn,attack:"attacked"};
+            }
+            
+            //色の変更
+            if($turn == 1){
+                b.fillStyle = new Color("red");
+            }else if($turn == 2){
+                b.fillStyle = new Color("cyan");
+            }else if($turn == 3){
+                b.fillStyle = new Color("yellow");
+            }else{
+                b.fillStyle = new Color("green");
+            }
+            
+            //ターン変更
+            if($turn == $Player){
+                $turn = 1;
+                $turnCount+=1;
+            }else{
+                $turn += 1;
+            }
+                
+            colorCount();
+            if($Replay==true){
+                tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+            }
+            
+            if(attack){
+                attack.die();
+            }
+            if($replay==false){
+                if($diceNum < 5){
+                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
+                }else{
+                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
+                }
+            }
+            hotSpring = false;
+            nextPlayPrepared = true;
+            
+            return;
+        }else if(hotSpring == true){
+            if(attack){
+                attack.die();
+            }
+            miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
+            nextPlayPrepared = true;
+            return;
+        }else{
+            
+        }
+        
+        if(hotSpring == false){
+            if($debug == true || $replay == true || namelengthComparison(b.text.length,$diceNum)){
+                searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
+                
+                if(! $owner[b.stext]){//$ownerに押された駅が無かったら
+                    $owner[b.stext]={name:b.stext,owner:$turn};//その駅を$ownerに数値turnで追加する
+                    lines = $stations[b.stext].lines;
+                    count = lines.length;
+                    for (line of lines) \(line){
+                        s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path,prev:current};
+                        s.on("result") \(paths) {
+                            if(line==="山手線" || line==="大阪環状線"){
+                                if(paths[1]){
+                                    if(paths[0].nodes.length == paths[1].nodes.length){
+                                    }else if(paths[0].nodes.length > paths[1].nodes.length){
+                                        paths.splice(0,1);
+                                    }else{
+                                        paths.splice(1,1);
+                                    }
+                                }
+                            }
+                            count--;
+                            for (var path of paths) {
+                                for(node of path.nodes){
+                                    if(!($owner[node.name]) || $owner[node.name].owner != $turn){
+                                        if(node.name.indexOf("point") > -1){
+                                            //pointオブジェクトは弾く
+                                        }else{
+                                            $owner[node.name] = {owner:$turn};
+                                        }
+                                    }
+                                    
+                                }
+                                
+                                for (var b1 of all(Button)) {
+                                    if($owner[b1.stext]){
+                                        if($owner[b1.stext].owner==1){
+                                            b1.fillStyle=new Color("red");
+                                        }else if($owner[b1.stext].owner==2){
+                                            b1.fillStyle=new Color("cyan");
+                                        }else if($owner[b1.stext].owner==3){
+                                            b1.fillStyle=new Color("yellow");
+                                        }else if($owner[b1.stext].owner==4){
+                                            b1.fillStyle=new Color("green");
+                                        }else{
+                                            print(b1.text);
+                                        }
+                                        
+                                    }
+                                }
+                                
+                            }
+                            
+                            if(count == 0){
+                                
+                                /*if(b.stext.indexOf("温泉") > -1){
+                                    if($replay == false){
+                                        log = new CreateFile{logStationName:b.stext,logOwner:$turn};
+                                    }else{
+                                        tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+                                    }
+                                    if(attackChance()){
+                                        if(hotSpring == false){
+                                            hotSpring = true;
+                                            if(choice){
+                                                choice.die();
+                                            }
+                                            searching.die();
+                                            update();
+                                            if($replay == false){
+                                                attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
+                                            }
+                                            nextPlayPrepared = true;
+                                        }
+                                        return;
+                                    }else{
+                                        lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
+                                    }
+                                }*/
+                                
+                                $selected = b.stext;
+                                $prevMyStation[$turn-1] = b.stext;
+                                colorCount();
+                                
+                                if($replay == false){
+                                    log = new CreateFile{logStationName:b.stext,logOwner:$turn};
+                                }else{
+                                    tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+                                }
+                                
+                                
+                                $prevPlayer = $turn;
+                                
+                                //色の変更
+                                if($turn == 1){
+                                    b.fillStyle = new Color("red");
+                                }else if($turn == 2){
+                                    b.fillStyle = new Color("cyan");
+                                }else if($turn == 3){
+                                    b.fillStyle = new Color("yellow");
+                                }else{
+                                    b.fillStyle = new Color("green");
+                                }
+                                
+                                //ターン変更
+                                if($turn == $Player){
+                                    $turn = 1;
+                                    $turnCount+=1;
+                                }else{
+                                    $turn += 1;
+                                }
+                                
+                                $diceNum = dice();
+                                nextPlayPrepared = true;
+                                searching.die();
+                                
+                                if(choice){
+                                    choice.die();
+                                }
+                                if($diceNum < 5){
+                                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
+                                }else{
+                                    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
+                                }
+                            }
+                            
+                            //ゲーム終了処理
+                            if($limTurn && ($limTurn)-0 === $turnCount){
+                                print("gameset");
+                                print("thank you for playing");
+                                boardPrepared = false;
+                                //loadPage(GameSet);
+                            }
+                            
+                        };
+                        $from=null;
+                    }(line);
+                    
+                    if($turn == 1){
+                        b.fillStyle=new Color("red");
+                    }else if($turn == 2){
+                        b.fillStyle=new Color("cyan");
+                    }else if($turn == 3){
+                        b.fillStyle=new Color("yellow");
+                    }else if($turn == 4){
+                        b.fillStyle=new Color("green");
+                    }
+                    
+                    
+                }else{
+                    if(searching){
+                        searching.die();
+                    }
+                    nextPlayPrepared = true;
+                }
+            }else{
+                if(searching){
+                    searching.die();
+                }
+                nextPlayPrepared = true;
+            }
+            
+            
+        }
+    }
+    //$rsta = residualStation();
+}
