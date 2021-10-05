@@ -1,5 +1,6 @@
 alpha=0;
 $Screen.setPivot($screenWidth/2,$screenHeight/2);
+
 while(true){
     $Screen.scrollTo(x,y,scale);
     if(getkey("right")>0){

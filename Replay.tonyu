@@ -1,4 +1,4 @@
-f=file("kinlog.txt");//途中からの場合は事前にここのファイル名を書き換える
+f=file("freelog.txt");//途中からの場合は事前にここのファイル名を書き換える
 player=2;
 co = 0;
 
@@ -22,11 +22,11 @@ nowloading = new Label{x:0, y:70,align:"left",fillStyle:"Black",template:"盤面
 $replaySet = new Label{x:0, y:90,align:"left",fillStyle:"Black",template:"$logsを取りました"};
 
 for(var line of f.lines()){
-    /*while(true){
+    while(true){
         if(getkey("enter") == 1){
             break;
         }
-    }*/
+    }
     log=line.split("\t");
     if(log[0]){
         logStationName = log[0];

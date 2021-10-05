@@ -13,6 +13,9 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
+$randomBot1 = new RandomBot;
+$randomBot2 = new RandomBot;
+
 /*
 new Prefectural;
 update();
@@ -33,7 +36,7 @@ $owner={};
 $turn = 1;
 $turnCount = 1;
 
-new Label{x:0, y:10,align:"left",fillStyle:"Black", template:"画面の縮小:bキー 拡大:aキー 標準:cキー 広域:dキー"};
+new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
 
 loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
@@ -63,6 +66,7 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
         $name2Node[stations]=new Node{name:stations,x:0,y:0};
     }
 }
+
 
 loading.die();
 boardPrepared = true;//全ての駅のボタンとNodeの配置完了
@@ -114,6 +118,7 @@ $selected = null;
 $prevPlayer = null;
 new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$prevPlayer番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$selected駅を取りました"};
+
 
 while(true) {
     for (var name,n in $name2Node) {
@@ -372,8 +377,7 @@ function clicked(b){
             
         }
     }
-    
-    
+    //$rsta = residualStation();
 }
 
 
@@ -409,7 +413,6 @@ function click(a){
         panel=new Panel{fillStyle:"black", x:230, y:250, width:300, height:300, layer:$frontLayer};
     }
     panel.fillRect(0,0,300,300);
-    panel.fillText("text",50,50,30,"center");
     
     $prevStation = new Button{top:110,left:140,width:180,height:30,text:$prevMyStation[$turn-1],onClick:searchClicked};
     
@@ -435,7 +438,7 @@ function click(a){
     
     $staBox = new Button{top:360,left:170,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
     lineArea = new Button{top:360,left:270,width:100,height:30,text:"路線範囲",onClick:lineAreaTable};
-    
+    //$resta = new Label{x:250,y:400,fillStyle:"white",template:"残り=$rsta駅"};
     //$が無いとclear関数が上書きされるため２回目に閉じるボタンを押したときエラーになる
     $clear = new Button{top:360,left:90,width:80,height:30,text:"閉じる",onClick:clear};
 }
@@ -444,6 +447,7 @@ function clear(c){//閉じるが押されたとき
     panel.clearRect(0,0,300,300);
     $frontLayer.all(Button).die();//駅のボタン以外の全てのボタンが消える
     $staBox.die();
+    //$resta.die();
     update();
     $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
     searchPrepared = true;
@@ -478,6 +482,7 @@ function searchClicked(sc){
 }
 
 function lineAreaTable(){
+    print($kintetsu);
     if($kintetsu==true){
         $WebPage.openNewWindow("http://cho.is.meisei-u.ac.jp/sotu/17j5058/kintetsu_map.pdf");
     }else{
@@ -526,15 +531,29 @@ function attackChance(){
     return enemyStation;
 }
 
+function residualStation(){
+    var rs = [];
+    for(var station of $name2Node){
+        if(!($owner[station])){
+            rs.push(station);
+        }
+    }
+    print(rs.length);
+}
+
 function limit(dice){
     var stalim=[];
-    for(var station of $name2Button){
+    for(var station of $name2Node){
         if(namelengthComparison(station.replace(/\(.*/,"").length,dice) && !($owner[station])){
             stalim.push(station);
         }
     }
-     
-    //print(dice,stalim.length);
+    
+    print(dice,stalim.length);
+    /*for(i=0;i<stalim.length;i++){
+        print(stalim[i]);
+    }*/
+
     if(stalim.length==0){
         return true;
     }else{

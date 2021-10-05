@@ -2,7 +2,7 @@ $Player;
 
 
 //押されるまでまたれてない
-
+new Button{top:20,left:20,width:50,height:30,text:"戻る",onClick:back};
 
 new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:30,template:"プレイ人数を選択してください"};
 new Label{x:450,y:450,template:"$limTurn"};
@@ -61,4 +61,8 @@ function kintetsu(){
     k.die();
     $kintetsu = true;
     new Label{x:460,y:20,align:"right",template:"近鉄モード"};
+}
+
+function back(){
+    loadPage(Desc);
 }
