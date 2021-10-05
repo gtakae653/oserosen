@@ -1,6 +1,8 @@
 "field strict";
+var turn;
 
 function clicked(b){
+    
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -14,32 +16,32 @@ function clicked(b){
     if($boardPrepared == true && nextPlayPrepared == true && $searchPrepared == true){
         var nextPlayPrepared = false;
         
-        if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != $turn){
+        if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != turn){
             if(miss){//missのメッセージが大量にあると消えずに残る
                 miss.die();
             }
-            $owner[b.stext].owner = $turn;
+            $owner[b.stext].owner = turn;
             if($replay == false){
-                var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:$turn,attack:"attacked"};
+                var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
             }
             
             //色の変更
-            if($turn == 1){
+            if(turn == 1){
                 b.fillStyle = new Color("red");
-            }else if($turn == 2){
+            }else if(turn == 2){
                 b.fillStyle = new Color("cyan");
-            }else if($turn == 3){
+            }else if(turn == 3){
                 b.fillStyle = new Color("yellow");
             }else{
                 b.fillStyle = new Color("green");
             }
             
             //ターン変更
-            if($turn == $Player){
-                $turn = 1;
+            if(turn == $Player){
+                turn = 1;
                 $turnCount+=1;
             }else{
-                $turn += 1;
+                turn += 1;
             }
                 
             $main.colorCount();
@@ -77,7 +79,7 @@ function clicked(b){
                 var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
                 
                 if(! $owner[b.stext]){//$ownerに押された駅が無かったら
-                    $owner[b.stext]={name:b.stext,owner:$turn};//その駅を$ownerに数値turnで追加する
+                    $owner[b.stext]={name:b.stext,owner:turn};//その駅を$ownerに数値turnで追加する
                     var lines = $stations[b.stext].lines;
                     var count = lines.length;
                     for (var line of lines) \(line){
@@ -97,11 +99,11 @@ function clicked(b){
                             count--;
                             for (var path of paths) {
                                 for(var node of path.nodes){
-                                    if(!($owner[node.name]) || $owner[node.name].owner != $turn){
+                                    if(!($owner[node.name]) || $owner[node.name].owner != turn){
                                         if(node.name.indexOf("point") > -1){
                                             //pointオブジェクトは弾く
                                         }else{
-                                            $owner[node.name] = {owner:$turn};
+                                            $owner[node.name] = {owner:turn};
                                         }
                                     }
                                     
@@ -130,7 +132,7 @@ function clicked(b){
                                 
                                 /*if(b.stext.indexOf("温泉") > -1){
                                     if($replay == false){
-                                        log = new CreateFile{logStationName:b.stext,logOwner:$turn};
+                                        log = new CreateFile{logStationName:b.stext,logOwner:turn};
                                     }else{
                                         tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                                     }
@@ -154,35 +156,35 @@ function clicked(b){
                                 }*/
                                 
                                 $selected = b.stext;
-                                $prevMyStation[$turn-1] = b.stext;
+                                $prevMyStation[turn-1] = b.stext;
                                 $main.colorCount();
                                 
                                 if($replay == false){
-                                    var log = new CreateFile{logStationName:b.stext,logOwner:$turn};
+                                    var log = new CreateFile{logStationName:b.stext,logOwner:turn};
                                 }else{
                                     tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                                 }
                                 
                                 
-                                $prevPlayer = $turn;
+                                $prevPlayer = turn;
                                 
                                 //色の変更
-                                if($turn == 1){
+                                if(turn == 1){
                                     b.fillStyle = new Color("red");
-                                }else if($turn == 2){
+                                }else if(turn == 2){
                                     b.fillStyle = new Color("cyan");
-                                }else if($turn == 3){
+                                }else if(turn == 3){
                                     b.fillStyle = new Color("yellow");
                                 }else{
                                     b.fillStyle = new Color("green");
                                 }
                                 
                                 //ターン変更
-                                if($turn == $Player){
-                                    $turn = 1;
+                                if(turn == $Player){
+                                    turn = 1;
                                     $turnCount+=1;
                                 }else{
-                                    $turn += 1;
+                                    turn += 1;
                                 }
                                 
                                 $diceNum = $main.dice();
@@ -211,13 +213,13 @@ function clicked(b){
                         $from=null;
                     }(line);
                     
-                    if($turn == 1){
+                    if(turn == 1){
                         b.fillStyle=new Color("red");
-                    }else if($turn == 2){
+                    }else if(turn == 2){
                         b.fillStyle=new Color("cyan");
-                    }else if($turn == 3){
+                    }else if(turn == 3){
                         b.fillStyle=new Color("yellow");
-                    }else if($turn == 4){
+                    }else if(turn == 4){
                         b.fillStyle=new Color("green");
                     }
                     

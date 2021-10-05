@@ -14,8 +14,6 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
-$board = new Board;
-
 /*
 new Prefectural;
 update();
@@ -36,6 +34,8 @@ $owner={};
 $turn = 1;
 $turnCount = 1;
 
+$board = new Board{turn: $turn};
+
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
 
@@ -46,7 +46,7 @@ $name2Button={};
 var sta;
 for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
     sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
-    fillStyle:"white",layer=$mainLayer,onClick:$board.clicked};
+    fillStyle:"white",layer=$mainLayer,onClick: sButtonClicked};
     
     $name2Button[$stationPlace[i].name]=sta;
     if(i%10==0){
@@ -147,6 +147,13 @@ while(true) {
     }
     update();
 }
+
+
+function sButtonClicked(b) {
+    if (!$board.ready) return;
+    $board=$board.clicked(b);
+}
+
 
 function colorCount(){//色別に数える
     $red=0;
