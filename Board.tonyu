@@ -42,7 +42,7 @@ function clicked(b){
                 $turn += 1;
             }
                 
-            colorCount();
+            $main.colorCount();
             if($Replay==true){
                 var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
             }
@@ -73,7 +73,7 @@ function clicked(b){
         }
         
         if($hotSpring == false){
-            if($debug == true || $replay == true || namelengthComparison(b.text.length,$diceNum)){
+            if($debug == true || $replay == true || $main.namelengthComparison(b.text.length,$diceNum)){
                 var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
                 
                 if(! $owner[b.stext]){//$ownerに押された駅が無かったら
@@ -81,7 +81,8 @@ function clicked(b){
                     var lines = $stations[b.stext].lines;
                     var count = lines.length;
                     for (var line of lines) \(line){
-                        var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path,prev:current};
+                        //var current;
+                        var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path/*,prev:null*/};
                         s.on("result") \(paths) {
                             if(line==="山手線" || line==="大阪環状線"){
                                 if(paths[1]){
@@ -95,7 +96,7 @@ function clicked(b){
                             }
                             count--;
                             for (var path of paths) {
-                                for(node of path.nodes){
+                                for(var node of path.nodes){
                                     if(!($owner[node.name]) || $owner[node.name].owner != $turn){
                                         if(node.name.indexOf("point") > -1){
                                             //pointオブジェクトは弾く
@@ -154,10 +155,10 @@ function clicked(b){
                                 
                                 $selected = b.stext;
                                 $prevMyStation[$turn-1] = b.stext;
-                                colorCount();
+                                $main.colorCount();
                                 
                                 if($replay == false){
-                                    log = new CreateFile{logStationName:b.stext,logOwner:$turn};
+                                    var log = new CreateFile{logStationName:b.stext,logOwner:$turn};
                                 }else{
                                     tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                                 }
@@ -184,8 +185,8 @@ function clicked(b){
                                     $turn += 1;
                                 }
                                 
-                                $diceNum = dice();
-                                nextPlayPrepared = true;
+                                $diceNum = $main.dice();
+                                $nextPlayPrepared = true;
                                 searching.die();
                                 
                                 if(choice){
@@ -202,7 +203,7 @@ function clicked(b){
                             if($limTurn && ($limTurn)-0 === $turnCount){
                                 print("gameset");
                                 print("thank you for playing");
-                                boardPrepared = false;
+                                $boardPrepared = false;
                                 //loadPage(GameSet);
                             }
                             
@@ -225,13 +226,13 @@ function clicked(b){
                     if(searching){
                         searching.die();
                     }
-                    nextPlayPrepared = true;
+                    $nextPlayPrepared = true;
                 }
             }else{
                 if(searching){
                     searching.die();
                 }
-                nextPlayPrepared = true;
+                $nextPlayPrepared = true;
             }
             
             
@@ -240,37 +241,3 @@ function clicked(b){
     //$rsta = residualStation();
 }
 
-function colorCount(){//色別に数える
-    $red=0;
-    $blue=0;
-    $yellow=0;
-    $green=0;
-    
-    for(var o of $name2Node){
-        if($owner[o] && $owner[o].owner==1){
-            $red++;
-        }else if($owner[o] && $owner[o].owner==2){
-            $blue++;
-        }else if($owner[o] && $owner[o].owner==3){
-            $yellow++;
-        }else if($owner[o] && $owner[o].owner==4){
-            $green++;
-        }
-    }
-}
-
-function namelengthComparison(sn,d){
-    if(d == 5){//ダイス目が５のとき
-        if(sn == 1 || sn >= 5){
-            return true;
-        }else{
-            return false;
-        }
-    }else{
-        if(sn == d){
-            return true;
-        }else{
-            return false;
-        }
-    }
-}
