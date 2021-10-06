@@ -1,13 +1,14 @@
 "field strict";
 var turn;
-var nextPlayPrepared = true;
+var ready = true;
 
 
 function clicked(b){
+    var nb;
     if(turn == $Player){
-        new Board{turn: 1};
+        nb = new Board{turn: 1};
     }else{
-        new Board{turn: turn++};
+        nb = new Board{turn: turn++};
     }
     
     if($replay==true){
@@ -20,8 +21,8 @@ function clicked(b){
         miss.die();
     }
     all(Path).die();
-    if($boardPrepared == true && nextPlayPrepared == true && $searchPrepared == true){
-        nextPlayPrepared = false;
+    if($boardPrepared == true && ready == true && $searchPrepared == true){
+        ready = false;
         
         if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != turn){
             if(miss){//missのメッセージが大量にあると消えずに残る
@@ -67,15 +68,16 @@ function clicked(b){
                 }
             }
             $hotSpring = false;
-            nextPlayPrepared = true;
-            
+            //ready = true;
+            nb.ready=true;
             return;
         }else if($hotSpring == true){
             /*if(attack){
                 attack.die();
             }*/
             var miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-            nextPlayPrepared = true;
+            //ready = true;
+            nb.ready=true;
             return;
         }else{
             
@@ -195,7 +197,8 @@ function clicked(b){
                                 }
                                 
                                 $diceNum = $main.dice();
-                                nextPlayPrepared = true;
+                                //ready = true;
+                                nb.ready=true;
                                 searching.die();
                                 
                                 if(choice){
@@ -235,18 +238,21 @@ function clicked(b){
                     if(searching){
                         searching.die();
                     }
-                    nextPlayPrepared = true;
+                    //ready = true;
+                    nb.ready=true;
                 }
             }else{
                 if(searching){
                     searching.die();
                 }
-                nextPlayPrepared = true;
+                //ready = true;
+                nb.ready=true;
             }
             
             
         }
     }
+    return nb;
     //$rsta = residualStation();
 }
 
