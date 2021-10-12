@@ -1,20 +1,8 @@
 "field strict";
 var turn;
-var ready = true;
-
-//print(turn);
-
+var ready;
 function clicked(b){
     var nb;
-    //この処理でターンが変わるため2番目のプレイヤーが最初に動いている
-    if(turn == $Player){
-        nb = new Board{turn: 1};
-        nb.turn = 1;
-        turn = 1;//これがないとターンが変わらない？
-    }else{
-        nb = new Board{turn: turn++};
-        nb.turn++;
-    }
     
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
@@ -50,12 +38,22 @@ function clicked(b){
             }
             
             //ターン変更
-            if(turn == $Player){
+            /*if(turn == $Player){
                 turn = 1;
                 $turnCount+=1;
             }else{
                 turn += 1;
+            }*/
+            if(turn == $Player){
+                nb = new Board{turn: 1};
+                nb.turn = 1;
+                turn = 1;
+                $turnCount+=1;
+            }else{
+                nb = new Board{turn: turn++};
+                nb.turn++;
             }
+            
                 
             $main.colorCount();
             if($Replay==true){
@@ -194,12 +192,24 @@ function clicked(b){
                                 }
                                 
                                 //ターン変更
-                                if(turn == $Player){
+                                /*if(turn == $Player){
                                     turn = 1;
                                     $turnCount+=1;
                                 }else{
                                     turn += 1;
+                                }*/
+                                if(turn == $Player){
+                                    nb = new Board{turn: 1};
+                                    nb.turn = 1;
+                                    turn = 1;
+                                    $turnCount+=1;
+                                }else{
+                                    nb = new Board{turn: turn++};
+                                    nb.turn++;
                                 }
+                                
+                                
+                                
                                 
                                 $diceNum = $main.dice();
                                 //ready = true;
