@@ -2,13 +2,18 @@
 var turn;
 var ready = true;
 
+//print(turn);
 
 function clicked(b){
     var nb;
+    //この処理でターンが変わるため2番目のプレイヤーが最初に動いている
     if(turn == $Player){
         nb = new Board{turn: 1};
+        nb.turn = 1;
+        turn = 1;//これがないとターンが変わらない？
     }else{
         nb = new Board{turn: turn++};
+        nb.turn++;
     }
     
     if($replay==true){
