@@ -26,7 +26,7 @@ $prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
-$nextPlayPrepared = true;//探索中はfalse
+var ready = true;//探索中はfalse
 $searchPrepared = true;//検索ボタンが押されたらfalse
 $hotSpring = false;//温泉駅が選択されたらtrue
 
@@ -34,7 +34,7 @@ $owner={};
 $turn = 1;
 $turnCount = 1;
 
-$board = new Board{turn: $turn};
+$board = new Board{turn: $turn,ready: true};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
@@ -150,7 +150,9 @@ while(true) {
 
 
 function sButtonClicked(b) {
-    if (!$board.ready) return;
+    if (!$board.ready) {
+        return;
+    }
     $board=$board.clicked(b);
 }
 
