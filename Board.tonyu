@@ -192,11 +192,9 @@ function clicked(b){
                                 
                                 //ターン変更
                             if(turn == $Player){
-                                print("bbb");
                                 turn = 1;
                                 $turnCount+=1;
                             }else{
-                                print("aaa");
                                 turn++;
                             }
                             nb.turn = turn;
@@ -240,13 +238,12 @@ function clicked(b){
                 }
             }else{
                 error = true;
-                print("既に取られています！");
                 //すでに取られている駅を押した場合
                 if(searching){
                     searching.die();
                 }
                 nb.ready=true;
-                
+                return this;
             }
         }else{
             error = true;

@@ -153,9 +153,6 @@ function sButtonClicked(b) {
     if (!$board.ready) {
         return;
     }
-    if ($owner[b.text]) {//いずれ消す
-        return;
-    }
     if(!$boardPrepared){
         return;
     }
