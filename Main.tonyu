@@ -153,10 +153,22 @@ function sButtonClicked(b) {
     if (!$board.ready) {
         return;
     }
-    if ($owner[b.text]) {
+    if ($owner[b.text]) {//いずれ消す
         return;
     }
-    $board=$board.clicked(b);
+    if(!$boardPrepared){
+        return;
+    }
+    if(!$searchPrepared){
+        return;
+    }
+    var nb=$board.clicked(b);
+    if (nb.error) {
+        print("ERROR");
+        //エラーメッセージが表示される
+    } else {
+        $board=nb;
+    }
 }
 
 
