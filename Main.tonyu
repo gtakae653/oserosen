@@ -153,6 +153,9 @@ function sButtonClicked(b) {
     if (!$board.ready) {
         return;
     }
+    if ($owner[b.text]) {
+        return;
+    }
     $board=$board.clicked(b);
 }
 
