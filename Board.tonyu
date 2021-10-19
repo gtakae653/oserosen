@@ -2,6 +2,9 @@
 var turn;
 var ready;
 var error;
+
+var choice;
+
 function clicked(b){
     var nb;
     nb = new Board{};
@@ -63,14 +66,16 @@ function clicked(b){
                 attack.die();
             }*/
         if($replay==false){
+            if(choice){
+                choice.die();
+            }
             if($diceNum < 5){
-                var choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
+                choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
             }else{
-                var choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
+                choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
             }
         }
         $hotSpring = false;
-            //ready = true;
         nb.ready=true;
         return;
     }else if($hotSpring == true){
@@ -204,10 +209,11 @@ function clicked(b){
                                 //ready = true;
                             nb.ready=true;
                             searching.die();
-                                
-                            if(choice){
+                            
+                            while(choice){
                                 choice.die();
                             }
+                            
                             if($diceNum < 5){
                                 choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
                             }else{

@@ -150,6 +150,10 @@ while(true) {
 
 
 function sButtonClicked(b) {
+    if(choice){
+        choice.die();
+    }
+    
     if (!$board.ready) {
         return;
     }
