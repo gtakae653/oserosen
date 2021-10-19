@@ -2,7 +2,7 @@
 var turn;
 var ready;
 var error;
-
+var diceNum;
 var choice;
 
 function clicked(b){
@@ -65,16 +65,6 @@ function clicked(b){
             /*if(attack){
                 attack.die();
             }*/
-        if($replay==false){
-            if(choice){
-                choice.die();
-            }
-            if($diceNum < 5){
-                choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
-            }else{
-                choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
-            }
-        }
         $hotSpring = false;
         nb.ready=true;
         return;
@@ -91,7 +81,7 @@ function clicked(b){
     }
         
     if($hotSpring == false){
-        if($debug == true || $replay == true || $main.namelengthComparison(b.text.length,$diceNum)){
+        if($debug == true || $replay == true || $main.namelengthComparison(b.text.length,diceNum)){
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
             
             if(! $owner[b.stext]){//$ownerに押された駅が無かったら
@@ -205,20 +195,9 @@ function clicked(b){
                             nb.turn = turn;
                             
    
-                            $diceNum = $main.dice();
-                                //ready = true;
+                            nb.diceNum = $main.dice();
                             nb.ready=true;
                             searching.die();
-                            
-                            while(choice){
-                                choice.die();
-                            }
-                            
-                            if($diceNum < 5){
-                                choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
-                            }else{
-                                choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
-                            }
                         }
                             
                             //ゲーム終了処理
