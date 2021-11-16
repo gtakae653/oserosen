@@ -34,7 +34,15 @@ $owner={};
 $turn = 1;
 $turnCount = 1;
 
-$board = new Board{turn: $turn,ready: true};
+
+var diceArray=[];
+if($kintetsu==true){
+    diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
+}else{
+    diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+}
+
+$board = new Board{turn: $turn,ready: true,diceNum:dice()};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
@@ -86,12 +94,7 @@ new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
-var diceArray=[];
-if($kintetsu==true){
-    diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
-}else{
-    diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
-}
+
 
 //リプレイモードだったら
 if($replay){
@@ -102,29 +105,17 @@ if($replay){
 }
 
 var choice;
-if(choice){
-    choice.die();
-}
 
 var start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
 wait(120);
 start.die();
-
-
-$diceNum = dice();
 $t = new Label{x:0, y:30,align:"left",fillStyle:"Black",template:"$turn番目の人のターンです"};
-
-if($diceNum < 5){
-    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"$diceNum文字の駅を選んでください"};
-}else{
-    choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",template:"1文字か$diceNum文字以上の駅を選んでください"};
-}
 $selected = null;
 
 $prevPlayer = null;
 new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$prevPlayer番目のプレイヤーは"};
 new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$selected駅を取りました"};
-
+choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",text:""};
 var panel;
 
 
@@ -142,8 +133,11 @@ while(true) {
         
         n.x=sx/n.allConnected().length;
         n.y=sy/n.allConnected().length;
-        
-        
+    }
+    if($board.diceNum == 5){
+        choice.text="1文字か "+$board.diceNum+" 文字の駅を選んでください";
+    }else{
+        choice.text=$board.diceNum+" 文字の駅を選んでください";
     }
     update();
 }
@@ -288,7 +282,7 @@ function dice(){
 }
 
 function revengeDice(){
-    $diceNum = dice();
+    //diceNum = dice();
 }
 
 function namelengthComparison(sn,d){
