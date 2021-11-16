@@ -4,10 +4,11 @@ var ready;
 var error;
 var diceNum;
 var choice;
+var owner;
 
 function clicked(b){
     var nb;
-    nb = new Board{};
+    nb = new Board{owner: Object.assign({}, owner)};
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -19,11 +20,11 @@ function clicked(b){
     }
     all(Path).die();
         
-    if($hotSpring == true && $owner[b.stext] && $owner[b.stext].owner != turn){
+    if($hotSpring == true && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
         if(miss){//missのメッセージが大量にあると消えずに残る
             miss.die();
         }
-        $owner[b.stext].owner = turn;
+        nb.owner[b.stext].owner = turn;
         if($replay == false){
             var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
         }
@@ -84,13 +85,13 @@ function clicked(b){
         if($debug == true || $replay == true || $main.namelengthComparison(b.text.length,diceNum)){
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
             
-            if(! $owner[b.stext]){//$ownerに押された駅が無かったら
-                $owner[b.stext]={name:b.stext,owner:turn};//その駅を$ownerに数値turnで追加する
+            if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
+                nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
                 var lines = $stations[b.stext].lines;
                 var count = lines.length;
                 for (var line of lines) \(line){
                         //var current;
-                    var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:$owner[b.stext].owner, path:new Path/*,prev:null*/};
+                    var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/};
                     s.on("result") \(paths) {
                         if(line==="山手線" || line==="大阪環状線"){
                             if(paths[1]){
@@ -105,25 +106,25 @@ function clicked(b){
                         count--;
                         for (var path of paths) {
                             for(var node of path.nodes){
-                                if(!($owner[node.name]) || $owner[node.name].owner != turn){
+                                if(!(nb.owner[node.name]) || nb.owner[node.name].owner != turn){
                                     if(node.name.indexOf("point") > -1){
                                             //pointオブジェクトは弾く
                                     }else{
-                                        $owner[node.name] = {owner:turn};
+                                        nb.owner[node.name] = {owner:turn};
                                     }
                                 }
                                     
                             }
                                 
                             for (var b1 of all(Button)) {
-                                if($owner[b1.stext]){
-                                    if($owner[b1.stext].owner==1){
+                                if(nb.owner[b1.stext]){
+                                    if(nb.wner[b1.stext].owner==1){
                                         b1.fillStyle=new Color("red");
-                                    }else if($owner[b1.stext].owner==2){
+                                    }else if(nb.owner[b1.stext].owner==2){
                                         b1.fillStyle=new Color("cyan");
-                                    }else if($owner[b1.stext].owner==3){
+                                    }else if(nb.owner[b1.stext].owner==3){
                                         b1.fillStyle=new Color("yellow");
-                                    }else if($owner[b1.stext].owner==4){
+                                    }else if(nb.owner[b1.stext].owner==4){
                                         b1.fillStyle=new Color("green");
                                     }else{
                                         print(b1.text);
