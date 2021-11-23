@@ -118,7 +118,7 @@ function clicked(b){
                                 
                             for (var b1 of all(Button)) {
                                 if(nb.owner[b1.stext]){
-                                    if(nb.wner[b1.stext].owner==1){
+                                    if(nb.owner[b1.stext].owner==1){
                                         b1.fillStyle=new Color("red");
                                     }else if(nb.owner[b1.stext].owner==2){
                                         b1.fillStyle=new Color("cyan");
