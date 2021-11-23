@@ -31,7 +31,6 @@ $searchPrepared = true;//検索ボタンが押されたらfalse
 $hotSpring = false;//温泉駅が選択されたらtrue
 
 
-$turn = 1;
 $turnCount = 1;
 
 
@@ -42,10 +41,9 @@ if($kintetsu==true){
     diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 }
 
-$board = new Board{turn: $turn,ready: true,diceNum:dice(),owner:{}};
+$board = new Board{turn: 1,ready: true,diceNum:dice(),owner:{}};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
-
 
 var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
 
@@ -109,12 +107,9 @@ var choice;
 var start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
 wait(120);
 start.die();
-$t = new Label{x:0, y:30,align:"left",fillStyle:"Black",template:"$turn番目の人のターンです"};
-$selected = null;
-
-$prevPlayer = null;
-new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$prevPlayer番目のプレイヤーは"};
-new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$selected駅を取りました"};
+new Label{x:0, y:30,align:"left",fillStyle:"Black",template:"$board.turn番目の人のターンです"};
+new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$board.prevPlayer番目のプレイヤーは"};
+new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$board.selected駅を取りました"};
 choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",text:""};
 var panel;
 
@@ -195,13 +190,13 @@ function click(a){
     }
     panel.fillRect(0,0,300,300);
     
-    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$prevMyStation[$turn-1],onClick:searchClicked};
+    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$prevMyStation[$board.turn-1],onClick:searchClicked};
     
     var citySta;
     if($kintetsu==true){
-        citySta=[$selected,"近鉄名古屋","大和西大寺","京都","大阪難波","大和八木","古市","吉野","王寺","伊勢中川","賢島","近鉄四日市","尺土","大阪阿部野橋"];
+        citySta=[$board.selected,"近鉄名古屋","大和西大寺","京都","大阪難波","大和八木","古市","吉野","王寺","伊勢中川","賢島","近鉄四日市","尺土","大阪阿部野橋"];
     }else{
-        citySta=[$selected,"札幌","函館","秋田","仙台","新潟","東京","名古屋","金沢","大阪","高松(香)","広島","博多","鹿児島"];
+        citySta=[$board.selected,"札幌","函館","秋田","仙台","新潟","東京","名古屋","金沢","大阪","高松(香)","広島","博多","鹿児島"];
     }
     for(var i=0;i<citySta.length;i+=2){
         for(var j=0;j<2;j++){
@@ -304,7 +299,7 @@ function namelengthComparison(sn,d){
 function attackChance(){
     var enemyStation = false;
     for(var b2 of all(Button)){
-        if($board.owner[b2.stext] && $board.owner[b2.stext].owner != $turn){
+        if($board.owner[b2.stext] && $board.owner[b2.stext].owner != $board.turn){
             enemyStation = true;
             break;
         }
