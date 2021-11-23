@@ -4,7 +4,7 @@ var from:Node,lineName:Node,owner:Number;
 //fromは最初の駅(ボタンを押した駅)
 var current;
 var prevNode;
-
+var owner;
 
 path.add(current);
 while(true) {
