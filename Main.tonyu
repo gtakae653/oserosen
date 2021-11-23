@@ -30,7 +30,7 @@ var ready = true;//探索中はfalse
 $searchPrepared = true;//検索ボタンが押されたらfalse
 $hotSpring = false;//温泉駅が選択されたらtrue
 
-$owner={};
+
 $turn = 1;
 $turnCount = 1;
 
@@ -42,7 +42,7 @@ if($kintetsu==true){
     diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 }
 
-$board = new Board{turn: $turn,ready: true,diceNum:dice()};
+$board = new Board{turn: $turn,ready: true,diceNum:dice(),owner:{}};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
@@ -135,7 +135,7 @@ while(true) {
         n.y=sy/n.allConnected().length;
     }
     if($board.diceNum == 5){
-        choice.text="1文字か "+$board.diceNum+" 文字の駅を選んでください";
+        choice.text="1文字か "+$board.diceNum+" 文字以上の駅を選んでください";
     }else{
         choice.text=$board.diceNum+" 文字の駅を選んでください";
     }
@@ -170,13 +170,13 @@ function colorCount(){//色別に数える
     $green=0;
     
     for(var o of $name2Node){
-        if($owner[o] && $owner[o].owner==1){
+        if($board.owner[o] && $board.owner[o].owner==1){
             $red++;
-        }else if($owner[o] && $owner[o].owner==2){
+        }else if($board.owner[o] && $board.owner[o].owner==2){
             $blue++;
-        }else if($owner[o] && $owner[o].owner==3){
+        }else if($board.owner[o] && $board.owner[o].owner==3){
             $yellow++;
-        }else if($owner[o] && $owner[o].owner==4){
+        }else if($board.owner[o] && $board.owner[o].owner==4){
             $green++;
         }
     }
@@ -304,7 +304,7 @@ function namelengthComparison(sn,d){
 function attackChance(){
     var enemyStation = false;
     for(var b2 of all(Button)){
-        if($owner[b2.stext] && $owner[b2.stext].owner != $turn){
+        if($board.owner[b2.stext] && $board.owner[b2.stext].owner != $turn){
             enemyStation = true;
             break;
         }
@@ -316,7 +316,7 @@ function attackChance(){
 function residualStation(){
     var rs = [];
     for(var station of $name2Node){
-        if(!($owner[station])){
+        if(!($board.owner[station])){
             rs.push(station);
         }
     }
@@ -326,7 +326,7 @@ function residualStation(){
 function limit(dice){
     var stalim=[];
     for(var station of $name2Node){
-        if(namelengthComparison(station.replace(/\(.*/,"").length,dice) && !($owner[station])){
+        if(namelengthComparison(station.replace(/\(.*/,"").length,dice) && !($board.owner[station])){
             stalim.push(station);
         }
     }

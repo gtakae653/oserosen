@@ -5,15 +5,14 @@ var from:Node,lineName:Node,owner:Number;
 var current;
 var prevNode;
 
-
 path.add(current);
 while(true) {
-    if (from.name != current.name && $owner[current.name] && $owner[current.name].owner === owner) {
+    if (from.name != current.name && $board.owner[current.name] && $board.owner[current.name].owner === owner) {
         report([path]);
         break;
     }
     
-    if(isTransferStation(current.name) && !($owner[current.name])){
+    if(isTransferStation(current.name) && !($board.owner[current.name])){
         report([]);
         break;
     }
