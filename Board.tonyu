@@ -118,7 +118,7 @@ function clicked(b){
                                 
                             for (var b1 of all(Button)) {
                                 if(nb.owner[b1.stext]){
-                                    if(nb.wner[b1.stext].owner==1){
+                                    if(nb.owner[b1.stext].owner==1){
                                         b1.fillStyle=new Color("red");
                                     }else if(nb.owner[b1.stext].owner==2){
                                         b1.fillStyle=new Color("cyan");
@@ -162,7 +162,7 @@ function clicked(b){
                                     }
                                 }*/
                                 
-                            $selected = b.stext;
+                            nb.selected = b.stext;
                             $prevMyStation[turn-1] = b.stext;
                             $main.colorCount();
                                 
@@ -172,8 +172,7 @@ function clicked(b){
                                 tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                             }
                                 
-                                
-                            $prevPlayer = turn;
+                            nb.prevPlayer = turn;
                                 
                                 //色の変更
                             if(turn == 1){
