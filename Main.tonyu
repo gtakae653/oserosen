@@ -151,8 +151,8 @@ function sButtonClicked(b) {
         //エラーメッセージが表示される
     } else {
         $board=nb;
-        var log = new CreateFile{logStationName:$board.getStation,logOwner:nb.turn};
-        print(nb.getStation);
+        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};
+        print($board.getStation,$board.prev.turn);
     }
 }
 
