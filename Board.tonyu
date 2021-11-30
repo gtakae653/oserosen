@@ -5,10 +5,12 @@ var error;
 var diceNum;
 var choice;
 var owner;
+var gameConfig;
+var getStation;//今取った駅
 
 function clicked(b){
     var nb;
-    nb = new Board{owner: Object.assign({}, owner)};
+    nb = new Board{owner: Object.assign({}, owner), gameConfig};
     if($replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -41,13 +43,13 @@ function clicked(b){
         }
             
             //ターン変更
-            /*if(turn == $Player){
+            /*if(turn == gameConfig.player){
                 turn = 1;
                 $turnCount+=1;
             }else{
                 turn += 1;
             }
-            if(turn == $Player){
+            if(turn == gameConfig.player){
                 nb = new Board{turn: 1};
                 nb.turn = 1;
                 turn = 1;
@@ -59,7 +61,7 @@ function clicked(b){
             
                 
         $main.colorCount();
-        if($Replay==true){
+        if($replay==true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
             
@@ -171,7 +173,7 @@ function clicked(b){
                             }else{
                                 tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                             }
-                                
+                            
                             nb.prevPlayer = turn;
                                 
                                 //色の変更
@@ -186,7 +188,7 @@ function clicked(b){
                             }
                                 
                                 //ターン変更
-                            if(turn == $Player){
+                            if(turn == gameConfig.player){
                                 turn = 1;
                                 $turnCount+=1;
                             }else{
@@ -201,7 +203,7 @@ function clicked(b){
                         }
                             
                             //ゲーム終了処理
-                        if($limTurn && ($limTurn)-0 === $turnCount){
+                        if(gameConfig.limTurn && (gameConfig.limTurn)-0 === $turnCount){
                             print("gameset");
                             print("thank you for playing");
                             $boardPrepared = false;

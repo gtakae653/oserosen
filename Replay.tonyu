@@ -16,7 +16,7 @@ for(var line of f.lines()){
 }
     
 
-$Player = player;
+$gameConfig.player = player;
 $nowReplay = true;
 nowloading = new Label{x:0, y:70,align:"left",fillStyle:"Black",template:"盤面を再現しています。しばらくお待ちください"};
 $replaySet = new Label{x:0, y:90,align:"left",fillStyle:"Black",template:"$logsを取りました"};

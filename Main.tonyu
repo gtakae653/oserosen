@@ -30,7 +30,6 @@ var ready = true;//探索中はfalse
 $searchPrepared = true;//検索ボタンが押されたらfalse
 $hotSpring = false;//温泉駅が選択されたらtrue
 
-
 $turnCount = 1;
 
 
@@ -41,7 +40,7 @@ if($kintetsu==true){
     diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 }
 
-$board = new Board{turn: 1,ready: true,diceNum:dice(),owner:{}};
+$board = new Board{turn: 1,ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
@@ -91,8 +90,6 @@ new Label{x:460,y:350,fillStyle:"Black",align:"right",template:"赤=$red駅"};
 new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
-
-
 
 //リプレイモードだったら
 if($replay){
