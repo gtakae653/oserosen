@@ -1,13 +1,15 @@
 "field strict";
-var turn;
-var ready;
+var turn;               //誰のターンか
+var ready;              //探索中か否か
 var error;
-var diceNum;
-var choice;
-var owner;
-var gameConfig;
-var getStation;//今取った駅
-var prev;
+var diceNum;            //ダイスの出目
+var turnCount;          //何周したか
+var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか(ボタン表示用)
+var choice;             //何文字の駅を選べばいいか(テキスト表示用)
+var owner;              //誰が保持しているか
+var gameConfig;         //プレイヤー数、終了する指定ターン数
+var getStation;         //今取った駅
+var prev;               //前のボードの情報
 
 function clicked(b){
     var nb;
@@ -46,7 +48,7 @@ function clicked(b){
             //ターン変更
             /*if(turn == gameConfig.player){
                 turn = 1;
-                $turnCount+=1;
+                turnCount+=1;
             }else{
                 turn += 1;
             }
@@ -54,7 +56,7 @@ function clicked(b){
                 nb = new Board{turn: 1};
                 nb.turn = 1;
                 turn = 1;
-                $turnCount+=1;
+                turnCount+=1;
             }else{
                 nb = new Board{turn: turn++};
                 nb.turn++;
@@ -166,12 +168,11 @@ function clicked(b){
                                 }*/
                                 
                             nb.selected = b.stext;
-                            $prevMyStation[turn-1] = b.stext;
+                            prevMyStation[turn-1] = b.stext;
+                            nb.prevMyStation = prevMyStation;
                             $main.colorCount();
                                 
-                            if($replay == false){
-                                
-                            }else{
+                            if($replay == true){
                                 tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
                             }
                             
@@ -191,12 +192,12 @@ function clicked(b){
                                 //ターン変更
                             if(turn == gameConfig.player){
                                 turn = 1;
-                                $turnCount+=1;
+                                turnCount+=1;
                             }else{
                                 turn++;
                             }
                             nb.turn = turn;
-                            
+                            nb.turnCount = turnCount;
    
                             nb.diceNum = $main.dice();
                             nb.ready=true;
@@ -204,7 +205,7 @@ function clicked(b){
                         }
                             
                             //ゲーム終了処理
-                        if(gameConfig.limTurn && (gameConfig.limTurn)-0 === $turnCount){
+                        if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){
                             print("gameset");
                             print("thank you for playing");
                             $boardPrepared = false;
@@ -212,7 +213,7 @@ function clicked(b){
                         }
                             
                     };
-                    $from=null;
+                    //$from=null;
                 }(line);
                     
                 if(turn == 1){
