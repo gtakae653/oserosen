@@ -15,7 +15,7 @@ var gameOver;
 function clicked(b){
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this};
-    if($replay==true){
+    if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
     /*if(lost){
@@ -31,7 +31,7 @@ function clicked(b){
             miss.die();
         }
         nb.owner[b.stext].owner = turn;
-        if($replay == false){
+        if(gameConfig.replay == false){
             var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
         }
             
@@ -85,7 +85,7 @@ function clicked(b){
     }
         
     if($hotSpring == false){
-        if($debug == true || $replay == true || $main.namelengthComparison(b.text.length,diceNum)){
+        if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
             nb.getStation = b.stext;//今取った駅の名前
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
             if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
@@ -149,7 +149,7 @@ function clicked(b){
                                             }
                                             searching.die();
                                             update();
-                                            if($replay == false){
+                                            if(gameConfig.replay == false){
                                                 attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                             }
                                             nextPlayPrepared = true;

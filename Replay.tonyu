@@ -45,7 +45,7 @@ for(var line of f.lines()){
 
 nowloading.die();
 update();
-$replay = false;
+$gameConfig.replay = false;
 $nowReplay = false;
 fireEvent("replayEnd");
 

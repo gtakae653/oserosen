@@ -88,7 +88,7 @@ new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"}
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
 //リプレイモードだったら
-if($replay){
+if($gameConfig.replay){
     $replayStart = new Replay;
     waitEvent($replayStart,"replayEnd");
     $replaySet.die();
@@ -142,8 +142,8 @@ function sButtonClicked(b) {
         return;
     }
     if($board.gameOver){
-        print("gameset");
-        print("thank you for playing");
+        print("This game is finished!");
+        print("thank you for playing!");
         return;
     }
     var nb=$board.clicked(b);
@@ -153,7 +153,7 @@ function sButtonClicked(b) {
     } else {
         $board=nb;
         var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};//通常プレイ時のログ取得
-        if($replay == true){
+        if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
     }
