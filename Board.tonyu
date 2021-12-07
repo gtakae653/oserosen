@@ -64,9 +64,6 @@ function clicked(b){
             
                 
         $main.colorCount();
-        if($replay==true){
-            var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
-        }
             
             /*if(attack){
                 attack.die();
@@ -143,11 +140,6 @@ function clicked(b){
                         if(count == 0){
                                 
                                 /*if(b.stext.indexOf("温泉") > -1){
-                                    if($replay == false){
-                                        log = new CreateFile{logStationName:b.stext,logOwner:turn};
-                                    }else{
-                                        tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
-                                    }
                                     if(attackChance()){
                                         if(hotSpring == false){
                                             hotSpring = true;
@@ -171,10 +163,6 @@ function clicked(b){
                             prevMyStation[turn-1] = b.stext;
                             nb.prevMyStation = prevMyStation;
                             $main.colorCount();
-                                
-                            if($replay == true){
-                                tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
-                            }
                             
                             nb.prevPlayer = turn;
                                 

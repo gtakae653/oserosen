@@ -148,6 +148,9 @@ function sButtonClicked(b) {
     } else {
         $board=nb;
         var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};//通常プレイ時のログ取得
+        if($replay == true){
+            var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+        }
     }
 }
 
