@@ -1,4 +1,4 @@
-$gameConfig = new GameConfig{player,limTurn};
+$gameConfig = new GameConfig{player,limTurn,debug,replay};
 
 
 //押されるまでまたれてない
@@ -28,7 +28,7 @@ while(count < 10000000){
 }
 
 function debug(){
-    $debug=true;
+    $gameConfig.debug=true;
     print("デバッグモード");
     die();
     update();
@@ -36,12 +36,12 @@ function debug(){
 
 function clicked(b){
     $gameConfig.player = b.player;
-    $replay = false;
+    $gameConfig.replay = false;
     loadPage(Main);
 }
 
 function rc(){
-    $replay = true;
+    $gameConfig.replay = true;
     loadPage(Main);
 }
 
