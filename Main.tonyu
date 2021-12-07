@@ -22,16 +22,12 @@ for(var p of $pre){
 }
 */
 
-$prevMyStation = [];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
 var ready = true;//探索中はfalse
 $searchPrepared = true;//検索ボタンが押されたらfalse
 $hotSpring = false;//温泉駅が選択されたらtrue
-
-$turnCount = 1;
-
 
 var diceArray=[];
 if($kintetsu==true){
@@ -40,7 +36,7 @@ if($kintetsu==true){
     diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 }
 
-$board = new Board{turn: 1,ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
+$board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
 
@@ -85,7 +81,7 @@ $blue=0;
 $yellow=0;
 $green=0;
 
-new Label{x:460,y:330,fillStyle:"Black",align:"right",template:"ターン数=$turnCount"};
+new Label{x:460,y:330,fillStyle:"Black",align:"right",template:"ターン数=$board.turnCount"};
 new Label{x:460,y:350,fillStyle:"Black",align:"right",template:"赤=$red駅"};
 new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
@@ -151,8 +147,7 @@ function sButtonClicked(b) {
         //エラーメッセージが表示される
     } else {
         $board=nb;
-        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};
-        print($board.getStation,$board.prev.turn);
+        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};//通常プレイ時のログ取得
     }
 }
 
@@ -189,7 +184,7 @@ function click(a){
     }
     panel.fillRect(0,0,300,300);
     
-    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$prevMyStation[$board.turn-1],onClick:searchClicked};
+    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$board.prevMyStation[$board.turn-1],onClick:searchClicked};
     
     var citySta;
     if($kintetsu==true){
