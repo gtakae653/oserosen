@@ -143,10 +143,11 @@ function sButtonClicked(b) {
     }
     if($board.gameOver){
         print("This game is finished!");
-        print("thank you for playing!");
+        print("Thank you for playing!");
         return;
     }
     var nb=$board.clicked(b);
+    //print(nb);
     if (nb.error) {
         print("ERROR");
         //エラーメッセージが表示される
