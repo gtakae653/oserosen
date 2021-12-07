@@ -141,6 +141,9 @@ function sButtonClicked(b) {
     if(!$searchPrepared){
         return;
     }
+    if($board.gameOver){
+        return;
+    }
     var nb=$board.clicked(b);
     if (nb.error) {
         print("ERROR");
