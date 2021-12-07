@@ -142,6 +142,8 @@ function sButtonClicked(b) {
         return;
     }
     if($board.gameOver){
+        print("gameset");
+        print("thank you for playing");
         return;
     }
     var nb=$board.clicked(b);
