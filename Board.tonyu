@@ -48,10 +48,10 @@ function clicked(b){
             
             //ターン変更
             /*if(turn == gameConfig.player){
-                turn = 1;
-                turnCount+=1;
+                nb.turn = 1;
+                nb.turnCount = turnCount + 1;
             }else{
-                turn += 1;
+                nb.turn = turn+1;
             }
             if(turn == gameConfig.player){
                 nb = new Board{turn: 1};
@@ -180,13 +180,11 @@ function clicked(b){
                                 
                                 //ターン変更
                             if(turn == gameConfig.player){
-                                turn = 1;
-                                turnCount+=1;
+                                nb.turn = 1;
+                                nb.turnCount = turnCount + 1;
                             }else{
-                                turn++;
+                                nb.turn = turn+1;
                             }
-                            nb.turn = turn;
-                            nb.turnCount = turnCount;
    
                             nb.diceNum = $main.dice();
                             nb.ready=true;
