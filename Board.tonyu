@@ -10,6 +10,7 @@ var owner;              //誰が保持しているか
 var gameConfig;         //プレイヤー数、終了する指定ターン数
 var getStation;         //今取った駅
 var prev;               //前のボードの情報
+var gameOver = false;
 
 function clicked(b){
     var nb;
@@ -196,7 +197,7 @@ function clicked(b){
                         if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){
                             print("gameset");
                             print("thank you for playing");
-                            $boardPrepared = false;
+                            nb.gameover=true;
                                 //loadPage(GameSet);
                         }
                             
