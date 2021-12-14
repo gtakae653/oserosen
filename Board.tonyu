@@ -32,6 +32,7 @@ function clicked(b){
     }
     all(Path).die();
     
+    //温泉駅を取った次のボードで実行したい処理
     if(prevHotSpring && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
         if(miss){//missのメッセージが大量にあると消えずに残る
             miss.die();
@@ -141,12 +142,13 @@ function clicked(b){
                                         choice.die();
                                     }
                                     searching.die();
-                                    update();
+                                    //update();
                                     if(gameConfig.replay == false){
-                                        attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
+                                        //attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                     }
-                                    ready = true;
-                                    return;//ここは何を返すべき？(以降のターン変更の処理に行かせたくない)
+                                    nb.turn = turn;
+                                    nb.ready = true;
+                                    return nb;
                                 }else{
                                     lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
                                 }
