@@ -56,3 +56,27 @@ undefined	2
 春日居町	2
 甲斐大和	3
 石和温泉	1
+塩山	1
+山梨市	2
+甲斐大和	3
+石和温泉	1
+塩山	1
+山梨市	2
+甲斐大和	3
+石和温泉	1
+塩山	1
+山梨市	2
+甲斐大和	3
+石和温泉	1
+甲斐大和	undefined	attacked
+undefined	undefined
+笹子	NaN
+塩山	1
+山梨市	2
+甲斐大和	3
+石和温泉	1
+石和温泉	1
+甲斐大和	1	attacked
+undefined	1
+初狩	2
+金手	3
