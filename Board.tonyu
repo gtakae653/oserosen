@@ -16,7 +16,7 @@ var lost;
 var miss;
 
 function clicked(b){
-    print(getStation);
+    //print(getStation);
     var prevHotSpring=getStation && getStation.indexOf("温泉") > -1;
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
@@ -42,24 +42,8 @@ function clicked(b){
             var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
         }
             
-            //色の変更
-        if(turn == 1){
-            b.fillStyle = new Color("red");
-        }else if(turn == 2){
-            b.fillStyle = new Color("cyan");
-        }else if(turn == 3){
-            b.fillStyle = new Color("yellow");
-        }else{
-            b.fillStyle = new Color("green");
-        }
-            
-            //ターン変更
-        if(turn == gameConfig.player){
-            nb.turn = 1;
-            nb.turnCount = turnCount + 1;
-        }else{
-            nb.turn = turn+1;
-        }
+        paint(b,turn);//色の変更
+        setNextTurn(turn,nb);//ターン変更
             
         $main.colorCount();
         if(attack){
@@ -89,7 +73,6 @@ function clicked(b){
                 var lines = $stations[b.stext].lines;
                 var count = lines.length;
                 for (var line of lines) \(line){
-                        //var current;
                     var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/};
                     s.on("result") \(paths) {
                         if(line==="山手線" || line==="大阪環状線"){
@@ -135,8 +118,7 @@ function clicked(b){
                         }
                             
                         if(count == 0){
-                            //選んだのが温泉駅だったら
-                            if(curHotSpring){
+                            if(curHotSpring){//選んだのが温泉駅だったら
                                 if($main.attackChance()){
                                     if(choice){
                                         choice.die();
@@ -159,64 +141,37 @@ function clicked(b){
                             prevMyStation[turn-1] = b.stext;
                             nb.prevMyStation = prevMyStation;
                             $main.colorCount();
-                            
                             nb.prevPlayer = turn;
                                 
-                                //色の変更
-                            if(turn == 1){
-                                b.fillStyle = new Color("red");
-                            }else if(turn == 2){
-                                b.fillStyle = new Color("cyan");
-                            }else if(turn == 3){
-                                b.fillStyle = new Color("yellow");
-                            }else{
-                                b.fillStyle = new Color("green");
-                            }
-                                
-                                //ターン変更
-                            if(turn == gameConfig.player){
-                                nb.turn = 1;
-                                nb.turnCount = turnCount + 1;
-                            }else{
-                                nb.turn = turn+1;
-                            }
+                            paint(b,turn);//色の変更
+                            setNextTurn(turn,nb);//ターン変更
    
                             nb.diceNum = $main.dice();
                             nb.ready=true;
                             searching.die();
                         }
                             
-                            //ゲーム終了処理
-                        if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){
+                        if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
                             nb.gameOver=true;
                                 //loadPage(GameSet);
                         }
                             
                     };
-                    //$from=null;
                 }(line);
                     
-                if(turn == 1){
-                    b.fillStyle=new Color("red");
-                }else if(turn == 2){
-                    b.fillStyle=new Color("cyan");
-                }else if(turn == 3){
-                    b.fillStyle=new Color("yellow");
-                }else if(turn == 4){
-                    b.fillStyle=new Color("green");
-                }
-            }else{
+                paint(b,turn);//色の変更
+                
+            }else{//すでに取られている駅を押した場合
                 error = true;
-                //すでに取られている駅を押した場合
                 if(searching){
                     searching.die();
                 }
                 nb.ready=true;
                 return this;
             }
-        }else{
+        }else{//文字数と一致した駅が選ばれなかった場合
             error = true;
-            //文字数と一致した駅が選ばれなかった場合
+            
             if(searching){
                 searching.die();
             }
@@ -227,3 +182,26 @@ function clicked(b){
     return nb;
     //$rsta = residualStation();
 }
+
+
+function setNextTurn(turn,nb) {
+    if(turn == gameConfig.player){
+        nb.turn = 1;
+        nb.turnCount = turnCount + 1;
+    }else{
+        nb.turn = turn+1;
+    }
+} 
+
+function paint(b,turn) {
+    if(turn == 1){
+        b.fillStyle = new Color("red");
+    }else if(turn == 2){
+        b.fillStyle = new Color("cyan");
+    }else if(turn == 3){
+        b.fillStyle = new Color("yellow");
+    }else{
+        b.fillStyle = new Color("green");
+    }
+}
+
