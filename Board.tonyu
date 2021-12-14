@@ -8,7 +8,7 @@ var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか
 var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
 var gameConfig;         //プレイヤー数、終了する指定ターン数
-var getStation;         //b.prev.turnの人が取った駅
+var getStation;         //prev.turnの人が取った駅
 var prev;               //前のボードの情報
 var gameOver;
 var attack;
@@ -17,6 +17,8 @@ var miss;
 
 function clicked(b){
     print(getStation);
+    var prevHotSpring=getStation && getStation.indexOf("温泉") > -1;
+    var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this};
     if(gameConfig.replay==true){
@@ -30,7 +32,7 @@ function clicked(b){
     }
     all(Path).die();
     
-    if(getStation && getStation.indexOf("温泉") > -1 && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
+    if(prevHotSpring && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
         if(miss){//missのメッセージが大量にあると消えずに残る
             miss.die();
         }
@@ -64,7 +66,7 @@ function clicked(b){
         }
         nb.ready=true;
         return nb;
-    }else if(getStation && getStation.indexOf("温泉") > -1){
+    }else if(prevHotSpring){
         if(attack){
             attack.die();
         }
@@ -77,7 +79,7 @@ function clicked(b){
     }
     
     
-    if(b.stext.indexOf("温泉") < 0 || getStation.indexOf("温泉") < 0){
+    if(!curHotSpring || !prevHotSpring){
         if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
             nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
@@ -133,7 +135,7 @@ function clicked(b){
                             
                         if(count == 0){
                             //選んだのが温泉駅だったら
-                            if(b.stext.indexOf("温泉") > -1){
+                            if(curHotSpring){
                                 if($main.attackChance()){
                                     if(choice){
                                         choice.die();
@@ -143,11 +145,12 @@ function clicked(b){
                                     if(gameConfig.replay == false){
                                         attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                     }
-                                    return;
+                                    ready = true;
+                                    return;//ここは何を返すべき？(以降のターン変更の処理に行かせたくない)
                                 }else{
                                     lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
                                 }
-                                ready = true;
+                                
                             }
                                 
                             nb.selected = b.stext;
