@@ -16,6 +16,7 @@ var lost;
 var miss;
 
 function clicked(b){
+    print(getStation);
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this};
     if(gameConfig.replay==true){
@@ -75,7 +76,8 @@ function clicked(b){
             
     }
     
-    if(b.stext.indexOf("温泉") < 0){
+    
+    if(b.stext.indexOf("温泉") < 0 || getStation.indexOf("温泉") < 0){
         if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
             nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
@@ -145,6 +147,7 @@ function clicked(b){
                                 }else{
                                     lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
                                 }
+                                ready = true;
                             }
                                 
                             nb.selected = b.stext;
