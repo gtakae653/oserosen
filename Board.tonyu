@@ -8,9 +8,12 @@ var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか
 var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
 var gameConfig;         //プレイヤー数、終了する指定ターン数
-var getStation;         //今取った駅
+var getStation;         //b.prev.turnの人が取った駅
 var prev;               //前のボードの情報
 var gameOver;
+var attack;
+var lost;
+var miss;
 
 function clicked(b){
     var nb;
@@ -18,15 +21,15 @@ function clicked(b){
     if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
-    /*if(lost){
+    if(lost){
         lost.die();
-    }*/
+    }
     if(miss){
         miss.die();
     }
     all(Path).die();
-        
-    if($hotSpring == true && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
+    
+    if(getStation && getStation.indexOf("温泉") > -1 && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
         if(miss){//missのメッセージが大量にあると消えずに残る
             miss.die();
         }
@@ -47,46 +50,34 @@ function clicked(b){
         }
             
             //ターン変更
-            /*if(turn == gameConfig.player){
-                nb.turn = 1;
-                nb.turnCount = turnCount + 1;
-            }else{
-                nb.turn = turn+1;
-            }
-            if(turn == gameConfig.player){
-                nb = new Board{turn: 1};
-                nb.turn = 1;
-                turn = 1;
-                turnCount+=1;
-            }else{
-                nb = new Board{turn: turn++};
-                nb.turn++;
-            }*/
+        if(turn == gameConfig.player){
+            nb.turn = 1;
+            nb.turnCount = turnCount + 1;
+        }else{
+            nb.turn = turn+1;
+        }
             
-                
         $main.colorCount();
-            
-            /*if(attack){
-                attack.die();
-            }*/
-        $hotSpring = false;
+        if(attack){
+            attack.die();
+        }
         nb.ready=true;
-        return;
-    }else if($hotSpring == true){
-            /*if(attack){
-                attack.die();
-            }*/
-        var miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-            //ready = true;
+        return nb;
+    }else if(getStation && getStation.indexOf("温泉") > -1){
+        if(attack){
+            attack.die();
+        }
+        miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
+        ready = true;
         nb.ready=true;
         return;
     }else{
             
     }
-        
-    if($hotSpring == false){
+    
+    if(b.stext.indexOf("温泉") < 0){
         if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
-            nb.getStation = b.stext;//今取った駅の名前
+            nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
             if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
                 nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
@@ -139,26 +130,22 @@ function clicked(b){
                         }
                             
                         if(count == 0){
-                                
-                                /*if(b.stext.indexOf("温泉") > -1){
-                                    if(attackChance()){
-                                        if(hotSpring == false){
-                                            hotSpring = true;
-                                            if(choice){
-                                                choice.die();
-                                            }
-                                            searching.die();
-                                            update();
-                                            if(gameConfig.replay == false){
-                                                attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
-                                            }
-                                            nextPlayPrepared = true;
-                                        }
-                                        return;
-                                    }else{
-                                        lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
+                            //選んだのが温泉駅だったら
+                            if(b.stext.indexOf("温泉") > -1){
+                                if($main.attackChance()){
+                                    if(choice){
+                                        choice.die();
                                     }
-                                }*/
+                                    searching.die();
+                                    update();
+                                    if(gameConfig.replay == false){
+                                        attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
+                                    }
+                                    return;
+                                }else{
+                                    lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
+                                }
+                            }
                                 
                             nb.selected = b.stext;
                             prevMyStation[turn-1] = b.stext;
