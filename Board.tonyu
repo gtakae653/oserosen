@@ -42,8 +42,8 @@ function clicked(b){
             var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
         }
             
-        paint(b,turn);//色の変更
-        setNextTurn(turn,nb);//ターン変更
+        paint(b);//色の変更
+        setNextTurn(nb);//ターン変更
             
         $main.colorCount();
         if(attack){
@@ -56,13 +56,10 @@ function clicked(b){
             attack.die();
         }
         miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
-        ready = true;
+        nb.ready = true;
         nb.ready=true;
-        return;
-    }else{
-            
+        return nb;
     }
-    
     
     if(!curHotSpring || !prevHotSpring){
         if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
@@ -70,6 +67,7 @@ function clicked(b){
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
             if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
                 nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
+                owner[b.stext]={name:b.stext,owner:turn};//追記
                 var lines = $stations[b.stext].lines;
                 var count = lines.length;
                 for (var line of lines) \(line){
@@ -100,7 +98,8 @@ function clicked(b){
                                 
                             for (var b1 of all(Button)) {
                                 if(nb.owner[b1.stext]){
-                                    if(nb.owner[b1.stext].owner==1){
+                                    nb.paint(b1);
+                                    /*if(nb.owner[b1.stext].owner==1){
                                         b1.fillStyle=new Color("red");
                                     }else if(nb.owner[b1.stext].owner==2){
                                         b1.fillStyle=new Color("cyan");
@@ -110,7 +109,7 @@ function clicked(b){
                                         b1.fillStyle=new Color("green");
                                     }else{
                                         print(b1.text);
-                                    }
+                                    }*/
                                         
                                 }
                             }
@@ -143,8 +142,8 @@ function clicked(b){
                             $main.colorCount();
                             nb.prevPlayer = turn;
                                 
-                            paint(b,turn);//色の変更
-                            setNextTurn(turn,nb);//ターン変更
+                            paint(b);//色の変更
+                            setNextTurn(nb);//ターン変更
    
                             nb.diceNum = $main.dice();
                             nb.ready=true;
@@ -159,7 +158,7 @@ function clicked(b){
                     };
                 }(line);
                     
-                paint(b,turn);//色の変更
+                paint(b);//色の変更
                 
             }else{//すでに取られている駅を押した場合
                 error = true;
@@ -184,7 +183,7 @@ function clicked(b){
 }
 
 
-function setNextTurn(turn,nb) {
+function setNextTurn(nb) {
     if(turn == gameConfig.player){
         nb.turn = 1;
         nb.turnCount = turnCount + 1;
@@ -193,12 +192,12 @@ function setNextTurn(turn,nb) {
     }
 } 
 
-function paint(b,turn) {
-    if(turn == 1){
+function paint(b) {
+    if(owner[b.stext].owner==1){
         b.fillStyle = new Color("red");
-    }else if(turn == 2){
+    }else if(owner[b.stext].owner==2){
         b.fillStyle = new Color("cyan");
-    }else if(turn == 3){
+    }else if(owner[b.stext].owner==3){
         b.fillStyle = new Color("yellow");
     }else{
         b.fillStyle = new Color("green");
