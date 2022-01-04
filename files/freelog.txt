@@ -249,3 +249,35 @@ undefined	1
 石和温泉	1
 石和温泉	1
 石和温泉	1
+undefined	1
+undefined	undefined
+undefined	undefined
+undefined	undefined
+undefined	1
+undefined	1
+undefined	undefined
+undefined	1
+undefined	1
+菖蒲池	1
+西ノ京	2
+富雄	1
+湯の山温泉	2
+石和温泉	1
+山梨市	2
+塩山	1
+塩山	1
+山梨市	2
+石和温泉	1
+undefined	1
+undefined	undefined
+山梨市	undefined	attacked
+undefined	undefined
+塩山	1
+山梨市	2
+石和温泉	1
+undefined	1
+春日居町	undefined	attacked
+undefined	undefined
+勝沼ぶどう郷	NaN
+善光寺	NaN
+甲府	NaN

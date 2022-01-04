@@ -36,145 +36,146 @@ function clicked(b){
     all(Path).die();
     
     //温泉駅を取った次のボードで実行したい処理
-    if(attackChance)
-    if(nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
-        if(miss){//missのメッセージが大量にあると消えずに残る
-            miss.die();
-        }
-        nb.owner[b.stext].owner = turn;
-        if(gameConfig.replay == false){
-            var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
-        }
+    if(attackChance){
+        print("This");
+        if(nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
+            if(miss){//missのメッセージが大量にあると消えずに残る
+                miss.die();
+            }
+            nb.owner[b.stext].owner = turn;
+            if(gameConfig.replay == false){
+                var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
+            }
                 
-        paint(b);//色の変更
-        setNextTurn(nb);//ターン変更
+            paint(b);//色の変更
+            setNextTurn(nb);//ターン変更
                 
-        $main.colorCount();
-        if(attack){
-            attack.die();
+            $main.colorCount();
+            if(attack){
+                attack.die();
+            }
+            nb.ready=true;
+            return nb;
+        }else{
+            if(attack){
+                attack.die();
+            }
+            error = "塗り替え可能な駅ではありません";
+            nb.attackChance = true;
+            nb.ready = true;
+            return nb;
         }
-        nb.ready=true;
-        return nb;
-    }else{
-        if(attack){
-            attack.die();
-        }
-        error = "塗り替え可能な駅ではありません";
-        nb.attackChance = true;
-        nb.ready = true;
-        return nb;
     }
     
-    if(!curHotSpring || !attackChance){
-        if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
-            nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
-            var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
-            if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
-                nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
-                owner[b.stext]={name:b.stext,owner:turn};//追記
-                var lines = $stations[b.stext].lines;
-                var count = lines.length;
-                for (var line of lines) \(line){
-                    var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/};
-                    s.on("result") \(paths) {
-                        if(line==="山手線" || line==="大阪環状線"){
-                            if(paths[1]){
-                                if(paths[0].nodes.length == paths[1].nodes.length){
-                                }else if(paths[0].nodes.length > paths[1].nodes.length){
-                                    paths.splice(0,1);
-                                }else{
-                                    paths.splice(1,1);
-                                }
+    
+    if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
+        nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
+        var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
+        if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
+            nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
+            owner[b.stext]={name:b.stext,owner:turn};//追記
+            var lines = $stations[b.stext].lines;
+            var count = lines.length;
+            for (var line of lines) \(line){
+                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/};
+                s.on("result") \(paths) {
+                    if(line==="山手線" || line==="大阪環状線"){
+                        if(paths[1]){
+                            if(paths[0].nodes.length == paths[1].nodes.length){
+                            }else if(paths[0].nodes.length > paths[1].nodes.length){
+                                paths.splice(0,1);
+                            }else{
+                                paths.splice(1,1);
                             }
                         }
-                        count--;
-                        for (var path of paths) {
-                            for(var node of path.nodes){
-                                if(!(nb.owner[node.name]) || nb.owner[node.name].owner != turn){
-                                    if(node.name.indexOf("point") > -1){
+                    }
+                    count--;
+                    for (var path of paths) {
+                        for(var node of path.nodes){
+                            if(!(nb.owner[node.name]) || nb.owner[node.name].owner != turn){
+                                if(node.name.indexOf("point") > -1){
                                             //pointオブジェクトは弾く
-                                    }else{
-                                        nb.owner[node.name] = {owner:turn};
-                                    }
-                                }
-                                    
-                            }
-                                
-                            for (var b1 of all(Button)) {
-                                if(nb.owner[b1.stext]){
-                                    nb.paint(b1);
-                                }
-                            }
-                                
-                        }
-                            
-                        if(count == 0){
-                            if(curHotSpring){//選んだのが温泉駅だったら
-                                if(attackChance()){
-                                    if(choice){
-                                        choice.die();
-                                    }
-                                    searching.die();
-                                    //update();
-                                    if(gameConfig.replay == false){
-                                        attack = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
-                                    }
-                                    nb.turn = turn;
-                                    nb.ready = true;
-                                    nb.selected = b.stext;
-                                    prevMyStation[turn-1] = b.stext;
-                                    nb.prevMyStation = prevMyStation;
-                                    $main.colorCount();
-                                    nb.prevPlayer = turn;
-                                    nb.attackChance = true;
-                                    return nb;
                                 }else{
-                                    lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
+                                    nb.owner[node.name] = {owner:turn};
                                 }
+                            }
+                                    
+                        }
                                 
+                        for (var b1 of all(Button)) {
+                            if(nb.owner[b1.stext]){
+                                nb.paint(b1);
+                            }
+                        }
+                                
+                    }
+                            
+                    if(count == 0){
+                        if(curHotSpring){//選んだのが温泉駅だったら
+                            if(nb.enemyHasStation()){
+                                if(choice){
+                                    choice.die();
+                                }
+                                searching.die();
+                                    //update();
+                                if(gameConfig.replay == false){
+                                    attack = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
+                                }
+                                nb.turn = turn;
+                                nb.ready = true;
+                                nb.selected = b.stext;
+                                prevMyStation[turn-1] = b.stext;
+                                nb.prevMyStation = prevMyStation;
+                                $main.colorCount();
+                                nb.prevPlayer = turn;
+                                nb.attackChance = true;
+                                return nb;
+                            }else{
+                                lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
                             }
                                 
-                            nb.selected = b.stext;
-                            prevMyStation[turn-1] = b.stext;
-                            nb.prevMyStation = prevMyStation;
-                            $main.colorCount();
-                            nb.prevPlayer = turn;
+                        }
                                 
-                            paint(b);//色の変更
-                            setNextTurn(nb);//ターン変更
+                        nb.selected = b.stext;
+                        prevMyStation[turn-1] = b.stext;
+                        nb.prevMyStation = prevMyStation;
+                        $main.colorCount();
+                        nb.prevPlayer = turn;
+                                
+                        paint(b);//色の変更
+                        setNextTurn(nb);//ターン変更
    
-                            nb.diceNum = $main.dice();
-                            nb.ready=true;
-                            searching.die();
-                        }
+                        nb.diceNum = $main.dice();
+                        nb.ready=true;
+                        searching.die();
+                    }
                             
-                        if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
-                            nb.gameOver=true;
+                    if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
+                        nb.gameOver=true;
                                 //loadPage(GameSet);
-                        }
+                    }
                             
-                    };
-                }(line);
+                };
+            }(line);
                     
-                paint(b);//色の変更
+            paint(b);//色の変更
                 
-            }else{//すでに取られている駅を押した場合
-                error = true;
-                if(searching){
-                    searching.die();
-                }
-                nb.ready=true;
-                return this;
-            }
-        }else{//文字数と一致した駅が選ばれなかった場合
-            error = true;
-            
+        }else{//すでに取られている駅を押した場合
+            error = "その駅は既に取られています";
             if(searching){
                 searching.die();
             }
             nb.ready=true;
             return this;
         }
+    }else{//文字数と一致した駅が選ばれなかった場合
+        error = "指定された文字数と一致した駅を選んでください";
+            
+        if(searching){
+            searching.die();
+        }
+        nb.ready=true;
+        return this;
     }
     return nb;
     //$rsta = residualStation();
@@ -202,10 +203,10 @@ function paint(b) {
     }
 }
 
-function attackChance(){
+function enemyHasStation(){
     var enemyStation = false;
     for(var b2 in owner){
-        if(owner[b2.stext].owner != turn){
+        if(owner[b2].owner != turn){
             enemyStation = true;
             break;
         }
