@@ -220,3 +220,32 @@ undefined	1
 undefined	1
 矢倉	2
 群馬原町	1
+石和温泉	1
+undefined	2
+石和温泉	1
+undefined	2
+山梨市	undefined
+石和温泉	1
+undefined	2
+塩山	undefined
+石和温泉	1
+undefined	2
+東山梨	1
+石和温泉	2
+東山梨	2	attacked
+undefined	2
+塩山	1
+酒折	2
+春日居町	1
+山梨市	1
+長野原草津口	2
+岩島	1
+郷原	2
+石和温泉	1
+川原湯温泉	1	attacked
+undefined	1
+群馬原町	2
+市城	1
+石和温泉	1
+石和温泉	1
+石和温泉	1

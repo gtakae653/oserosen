@@ -14,17 +14,15 @@ var gameOver;
 var attack;
 var lost;
 var miss;
+var attackChance;
 
 function clicked(b){
-    //print(getStation);
-    var prevHotSpring=getStation && getStation.indexOf("温泉") > -1;
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this};
     if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
-    
     if(attack){//本当は奪取処理をした後に消したい(消えない)
         attack.die();
     }
@@ -38,7 +36,8 @@ function clicked(b){
     all(Path).die();
     
     //温泉駅を取った次のボードで実行したい処理
-    if(prevHotSpring && nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
+    if(attackChance)
+    if(nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
         if(miss){//missのメッセージが大量にあると消えずに残る
             miss.die();
         }
@@ -46,27 +45,27 @@ function clicked(b){
         if(gameConfig.replay == false){
             var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
         }
-            
+                
         paint(b);//色の変更
         setNextTurn(nb);//ターン変更
-            
+                
         $main.colorCount();
         if(attack){
             attack.die();
         }
         nb.ready=true;
         return nb;
-    }else if(prevHotSpring){
+    }else{
         if(attack){
             attack.die();
         }
-        miss = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
+        error = "塗り替え可能な駅ではありません";
+        nb.attackChance = true;
         nb.ready = true;
-        nb.ready=true;
         return nb;
     }
     
-    if(!curHotSpring || !prevHotSpring){
+    if(!curHotSpring || !attackChance){
         if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
             nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
             var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
@@ -111,7 +110,7 @@ function clicked(b){
                             
                         if(count == 0){
                             if(curHotSpring){//選んだのが温泉駅だったら
-                                if($main.attackChance(turn)){
+                                if(attackChance()){
                                     if(choice){
                                         choice.die();
                                     }
@@ -127,7 +126,7 @@ function clicked(b){
                                     nb.prevMyStation = prevMyStation;
                                     $main.colorCount();
                                     nb.prevPlayer = turn;
-                                    
+                                    nb.attackChance = true;
                                     return nb;
                                 }else{
                                     lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
@@ -203,3 +202,13 @@ function paint(b) {
     }
 }
 
+function attackChance(){
+    var enemyStation = false;
+    for(var b2 in owner){
+        if(owner[b2.stext].owner != turn){
+            enemyStation = true;
+            break;
+        }
+    }
+    return enemyStation;
+}

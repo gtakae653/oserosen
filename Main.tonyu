@@ -299,16 +299,7 @@ function namelengthComparison(sn,d){
     }
 }
 
-function attackChance(turn){
-    var enemyStation = false;
-    for(var b2 of all(Button)){
-        if($board.owner[b2.stext] && $board.owner[b2.stext].owner != turn){
-            enemyStation = true;
-            break;
-        }
-    }
-    return enemyStation;
-}
+
 
 function residualStation(){
     var rs = [];
