@@ -24,6 +24,11 @@ function clicked(b){
     if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
+    
+    if(attack){//本当は奪取処理をした後に消したい(消えない)
+        attack.die();
+    }
+    
     if(lost){
         lost.die();
     }
@@ -55,7 +60,7 @@ function clicked(b){
         if(attack){
             attack.die();
         }
-        miss = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
+        miss = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"その駅は塗り替えられません！"};
         nb.ready = true;
         nb.ready=true;
         return nb;
@@ -99,18 +104,6 @@ function clicked(b){
                             for (var b1 of all(Button)) {
                                 if(nb.owner[b1.stext]){
                                     nb.paint(b1);
-                                    /*if(nb.owner[b1.stext].owner==1){
-                                        b1.fillStyle=new Color("red");
-                                    }else if(nb.owner[b1.stext].owner==2){
-                                        b1.fillStyle=new Color("cyan");
-                                    }else if(nb.owner[b1.stext].owner==3){
-                                        b1.fillStyle=new Color("yellow");
-                                    }else if(nb.owner[b1.stext].owner==4){
-                                        b1.fillStyle=new Color("green");
-                                    }else{
-                                        print(b1.text);
-                                    }*/
-                                        
                                 }
                             }
                                 
@@ -118,17 +111,23 @@ function clicked(b){
                             
                         if(count == 0){
                             if(curHotSpring){//選んだのが温泉駅だったら
-                                if($main.attackChance()){
+                                if($main.attackChance(turn)){
                                     if(choice){
                                         choice.die();
                                     }
                                     searching.die();
                                     //update();
                                     if(gameConfig.replay == false){
-                                        //attack = new Label{x:0,y:50,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
+                                        attack = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                     }
                                     nb.turn = turn;
                                     nb.ready = true;
+                                    nb.selected = b.stext;
+                                    prevMyStation[turn-1] = b.stext;
+                                    nb.prevMyStation = prevMyStation;
+                                    $main.colorCount();
+                                    nb.prevPlayer = turn;
+                                    
                                     return nb;
                                 }else{
                                     lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
