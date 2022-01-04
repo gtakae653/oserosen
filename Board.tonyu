@@ -60,7 +60,7 @@ function clicked(b){
             if(attack){
                 attack.die();
             }
-            error = "塗り替え可能な駅ではありません";
+            nb.error = "塗り替え可能な駅ではありません";
             nb.attackChance = true;
             nb.ready = true;
             return nb;
@@ -104,7 +104,7 @@ function clicked(b){
                                 
                         for (var b1 of all(Button)) {
                             if(nb.owner[b1.stext]){
-                                nb.paint(b1);
+                                nb.paint(b1);//色の変更
                             }
                         }
                                 
@@ -112,7 +112,7 @@ function clicked(b){
                             
                     if(count == 0){
                         if(curHotSpring){//選んだのが温泉駅だったら
-                            if(nb.enemyHasStation()){
+                            if(nb.enemyHasStation(turn)){
                                 if(choice){
                                     choice.die();
                                 }
@@ -161,21 +161,21 @@ function clicked(b){
             paint(b);//色の変更
                 
         }else{//すでに取られている駅を押した場合
-            error = "その駅は既に取られています";
+            nb.error = "その駅は既に取られています";
             if(searching){
                 searching.die();
             }
             nb.ready=true;
-            return this;
+            return nb;
         }
     }else{//文字数と一致した駅が選ばれなかった場合
-        error = "指定された文字数と一致した駅を選んでください";
+        nb.error = "指定された文字数と一致した駅を選んでください";
             
         if(searching){
             searching.die();
         }
         nb.ready=true;
-        return this;
+        return nb;
     }
     return nb;
     //$rsta = residualStation();
@@ -203,7 +203,7 @@ function paint(b) {
     }
 }
 
-function enemyHasStation(){
+function enemyHasStation(turn){
     var enemyStation = false;
     for(var b2 in owner){
         if(owner[b2].owner != turn){

@@ -281,3 +281,21 @@ undefined	undefined
 勝沼ぶどう郷	NaN
 善光寺	NaN
 甲府	NaN
+塩山	1
+山梨市	2
+石和温泉	1
+塩山	1
+山梨市	2
+石和温泉	1
+undefined	1
+春日居町	undefined	attacked
+undefined	undefined
+塩山	1
+山梨市	2
+石和温泉	1
+塩山	1
+山梨市	2
+石和温泉	1
+勝沼ぶどう郷	2
+酒折	1
+甲府	2
