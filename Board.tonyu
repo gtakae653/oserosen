@@ -6,6 +6,7 @@ var error;
 var diceNum;            //ダイスの出目
 var turnCount;          //何周したか
 var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか(ボタン表示用)
+var selected;
 var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
 var gameConfig;         //プレイヤー数、終了する指定ターン数
@@ -20,6 +21,7 @@ var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
 
 function clicked(b){
+    print(prevMyStation);
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this ,turnCount:turnCount};
@@ -40,7 +42,7 @@ function clicked(b){
         if(nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
             nb.owner[b.stext].owner = turn;
             if(gameConfig.replay == false){
-                var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
+                var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attacked:"attacked"};
             }
                 
             paint(b);//色の変更
@@ -115,7 +117,7 @@ function clicked(b){
                                     choice.die();
                                 }
                                 if(gameConfig.replay == false){
-                                    attack = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
+                                    new PopupLabel{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                 }
                                 nb.turn = turn;
                                 nb.turnCount = turnCount;
@@ -129,7 +131,7 @@ function clicked(b){
                                 nb.attackChance = true;
                                 return nb;
                             }else{
-                                lost = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
+                                new PopupLabel{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
                             }
                                 
                         }

@@ -155,8 +155,7 @@ function sButtonClicked(b) {
             searching.die();
         };
     } 
-    
-    
+
     
     if (nb.error) {
         //printの代わりにLabelを作って消えるようにする
