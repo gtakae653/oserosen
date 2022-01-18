@@ -1,6 +1,7 @@
 "field strict";
 var turn;               //誰のターンか
 var ready;              //探索中か否か
+var onReady;            //ready=trueになったら呼ばれる
 var error;
 var diceNum;            //ダイスの出目
 var turnCount;          //何周したか
@@ -13,13 +14,15 @@ var prev;               //前のボードの情報
 var gameOver;
 var attack;
 var lost;
-var miss;
 var attackChance;
+var prevPlayer;
+var message1 = "塗り替える駅を選んでください";
+var message2 = "塗り替えられる駅が存在しませんでした";
 
 function clicked(b){
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
-    nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this};
+    nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this ,turnCount:turnCount};
     if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -30,18 +33,11 @@ function clicked(b){
     if(lost){
         lost.die();
     }
-    if(miss){
-        miss.die();
-    }
     all(Path).die();
     
     //温泉駅を取った次のボードで実行したい処理
     if(attackChance){
-        print("This");
         if(nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
-            if(miss){//missのメッセージが大量にあると消えずに残る
-                miss.die();
-            }
             nb.owner[b.stext].owner = turn;
             if(gameConfig.replay == false){
                 var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attack:"attacked"};
@@ -55,6 +51,7 @@ function clicked(b){
                 attack.die();
             }
             nb.ready=true;
+            if(onReady) onReady();
             return nb;
         }else{
             if(attack){
@@ -63,6 +60,7 @@ function clicked(b){
             nb.error = "塗り替え可能な駅ではありません";
             nb.attackChance = true;
             nb.ready = true;
+            if(onReady) onReady();
             return nb;
         }
     }
@@ -70,7 +68,7 @@ function clicked(b){
     
     if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
         nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
-        var searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
+        
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
             owner[b.stext]={name:b.stext,owner:turn};//追記
@@ -116,13 +114,13 @@ function clicked(b){
                                 if(choice){
                                     choice.die();
                                 }
-                                searching.die();
-                                    //update();
                                 if(gameConfig.replay == false){
                                     attack = new Label{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替える駅を選んでください"};
                                 }
                                 nb.turn = turn;
+                                nb.turnCount = turnCount;
                                 nb.ready = true;
+                                if(onReady) onReady();
                                 nb.selected = b.stext;
                                 prevMyStation[turn-1] = b.stext;
                                 nb.prevMyStation = prevMyStation;
@@ -147,7 +145,7 @@ function clicked(b){
    
                         nb.diceNum = $main.dice();
                         nb.ready=true;
-                        searching.die();
+                        if(onReady) onReady();
                     }
                             
                     if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
@@ -162,19 +160,14 @@ function clicked(b){
                 
         }else{//すでに取られている駅を押した場合
             nb.error = "その駅は既に取られています";
-            if(searching){
-                searching.die();
-            }
             nb.ready=true;
+            if(onReady) onReady();
             return nb;
         }
     }else{//文字数と一致した駅が選ばれなかった場合
         nb.error = "指定された文字数と一致した駅を選んでください";
-            
-        if(searching){
-            searching.die();
-        }
         nb.ready=true;
+        if(onReady) onReady();
         return nb;
     }
     return nb;
@@ -188,6 +181,7 @@ function setNextTurn(nb) {
         nb.turnCount = turnCount + 1;
     }else{
         nb.turn = turn+1;
+        nb.turnCount = turnCount;
     }
 } 
 
