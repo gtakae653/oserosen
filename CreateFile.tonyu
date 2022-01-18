@@ -6,5 +6,5 @@ if (f.exists()){
 
 f.text(c+logStationName+"\t"+logOwner+"\n");
 if(attackedStation){
-    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attack+"\n");
+    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attacked+"\n");
 }

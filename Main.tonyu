@@ -2,6 +2,8 @@
 $Screen.setBGColor("white");
 $main=this;
 
+var searching;
+
 if($kintetsu==true){
     new KLines;
     update();
@@ -102,7 +104,7 @@ wait(120);
 start.die();
 new Label{x:0, y:30,align:"left",fillStyle:"Black",template:"$board.turn番目の人のターンです"};
 new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$board.prevPlayer番目のプレイヤーは"};
-new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$board.selected駅を取りました"};
+new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$board.getStation駅を取りました"};
 choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",text:""};
 var panel;
 
@@ -147,9 +149,17 @@ function sButtonClicked(b) {
         return;
     }
     var nb=$board.clicked(b);
-    //print(nb);
+    if (!nb.ready) {
+        searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
+        nb.onReady=function () {
+            searching.die();
+        };
+    } 
+
+    
     if (nb.error) {
-        print("ERROR");
+        //printの代わりにLabelを作って消えるようにする
+        new PopupLabel{template:"ERROR",x:30,y:480};
         //エラーメッセージが表示される
     } else {
         $board=nb;
