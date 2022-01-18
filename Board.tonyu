@@ -21,7 +21,6 @@ var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
 
 function clicked(b){
-    print(prevMyStation);
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this ,turnCount:turnCount};
@@ -77,7 +76,7 @@ function clicked(b){
             var lines = $stations[b.stext].lines;
             var count = lines.length;
             for (var line of lines) \(line){
-                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/};
+                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/,board:this};
                 s.on("result") \(paths) {
                     if(line==="山手線" || line==="大阪環状線"){
                         if(paths[1]){
