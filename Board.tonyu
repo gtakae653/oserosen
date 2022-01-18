@@ -76,7 +76,7 @@ function clicked(b){
             var lines = $stations[b.stext].lines;
             var count = lines.length;
             for (var line of lines) \(line){
-                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path/*,prev:null*/,board:this};
+                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path,board:this};
                 s.on("result") \(paths) {
                     if(line==="山手線" || line==="大阪環状線"){
                         if(paths[1]){

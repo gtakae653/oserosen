@@ -36,7 +36,7 @@ while(true) {
     } else {//nextsが３つ以上の場合
         var count=neighbors.length;
         for (var neighbor of neighbors) {
-            var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone(),prevNode:current.name};
+            var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone(),prevNode:current.name,board:board};
             var allPaths=[];
             s.on("result") \(paths) {
                 allPaths=allPaths.concat(paths);
