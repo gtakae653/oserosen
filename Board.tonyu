@@ -37,7 +37,7 @@ function clicked(b){
     all(Path).die();
     
     //温泉駅を取った次のボードで実行したい処理
-    if(attackChance){
+    /*if(attackChance){
         if(nb.owner[b.stext] && nb.owner[b.stext].owner != turn){
             nb.owner[b.stext].owner = turn;
             if(gameConfig.replay == false){
@@ -64,7 +64,7 @@ function clicked(b){
             if(onReady) onReady();
             return nb;
         }
-    }
+    }*/
     
     
     if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
@@ -110,7 +110,7 @@ function clicked(b){
                     }
                             
                     if(count == 0){
-                        if(curHotSpring){//選んだのが温泉駅だったら
+                        /*if(curHotSpring){//選んだのが温泉駅だったら
                             if(nb.enemyHasStation(turn)){
                                 if(choice){
                                     choice.die();
@@ -133,7 +133,7 @@ function clicked(b){
                                 new PopupLabel{x:0,y:70,align:"left",fillStyle:"Black",text:"塗り替えられる駅が存在しませんでした"};
                             }
                                 
-                        }
+                        }*/
                                 
                         nb.selected = b.stext;
                         prevMyStation[turn-1] = b.stext;
