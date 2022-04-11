@@ -119,7 +119,7 @@ print("Game Start (Auto)");
 
 var stnames=Object.keys($name2Node);
 var takenStations;
-var allStations=$stationPlace.length-1;
+var allStations=$stationPlace.length;
 
 while(takenStations != allStations) {
     while(true) {
@@ -129,12 +129,11 @@ while(takenStations != allStations) {
     }
     takenStations=Object.keys(board.owner).length;
     print(stname);
-    //print(takenStations,allStations);
+    print(takenStations,allStations);
     var btn=$name2Button[stname];
     var nb=sButtonClicked(btn);
     while(!nb.ready) update();
-
-    print(all(SButton).length);
+    //print(all().length);
     
 }
 

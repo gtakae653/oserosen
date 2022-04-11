@@ -11,6 +11,7 @@ if($kintetsu==true){
 }
 name;
 
+
 for(var line of f.lines()){
     if(line){
         field=line.split("\t");
@@ -25,6 +26,7 @@ for(var line of f.lines()){
     }
     name=field[0];
     $stationPlace.push({name:name,x:ax,y:ay});
+    //var log = new CreateFile{logStationName:name,logOwner:0};
 }
 
 /*北　稚内、東　東根室、南　西大山、西　佐世保
