@@ -1,0 +1,147 @@
+"field strict";
+$gameConfig={
+    debug=true,
+    player = 2,
+    replay = false,
+};
+$kintetsu=true;
+
+//---Main
+$Screen.setBGColor("white");
+$main=this;
+
+var searching;
+
+if($kintetsu==true){
+    new KLines;
+    update();
+}else{
+    new Lines;//路線と駅のデータ
+    update();
+}
+
+new StationPlace;//各駅の座標のデータ
+update();
+new MapScroll{x:0,y:0,scale:1};
+
+$boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
+var ready = true;//探索中はfalse
+$searchPrepared = true;//検索ボタンが押されたらfalse
+$hotSpring = false;//温泉駅が選択されたらtrue
+
+var diceArray=[];
+if($kintetsu==true){
+    diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
+}else{
+    diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+}
+
+var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
+
+new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
+
+var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
+
+$name2Button={};
+
+var sta;
+for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
+    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
+    fillStyle:"white",layer=$mainLayer,onClick: sButtonClicked};
+    
+    $name2Button[$stationPlace[i].name]=sta;
+    if(i%10==0){
+        update();
+    }
+}
+
+$Boot.newLimit=10000;
+update();
+$name2Node={};
+var stationPlace;
+for (stationPlace of $stationPlace) {
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
+}
+$Boot.newLimit=1000;
+update();
+
+for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さなければいけない為
+    if(stations.indexOf("point") > -1){
+        $name2Node[stations]=new Node{name:stations,x:0,y:0};
+    }
+}
+
+
+function sButtonClicked(b) {
+    if (!board.ready) {
+        return;
+    }
+    if(!$boardPrepared){
+        return;
+    }
+    if(!$searchPrepared){
+        return;
+    }
+    if(board.gameOver){
+        print("This game is finished!");
+        print("Thank you for playing!");
+        return;
+    }
+    var nb=board.clicked(b);
+    if (!nb.ready) {
+        searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
+        nb.onReady=function () {
+            searching.die();
+        };
+    } 
+
+    
+    if (nb.error) {
+        //printの代わりにLabelを作って消えるようにする
+        new PopupLabel{template:"ERROR",x:30,y:480};
+        //エラーメッセージが表示される
+    } else {
+        board.die();
+        board=nb;
+        var log = new CreateFile{logStationName:board.getStation,logOwner:board.prev.turn};//通常プレイ時のログ取得
+        log.die();
+        if($gameConfig.replay == true){
+            var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+        }
+    }
+    return nb;
+}
+
+
+loading.die();
+$boardPrepared = true;//全ての駅のボタンとNodeの配置完了
+print("Game Start (Auto)");
+
+var stnames=Object.keys($name2Node);
+var takenStations;
+var allStations=$stationPlace.length;
+
+while(takenStations != allStations) {
+    while(true) {
+        var stname=stnames[rnd(stnames.length)];
+        if (stname.match(/point/)) continue;
+        break;
+    }
+    takenStations=Object.keys(board.owner).length;
+    print(stname);
+    print(takenStations,allStations);
+    var btn=$name2Button[stname];
+    var nb=sButtonClicked(btn);
+    while(!nb.ready) update();
+    //print(all().length);
+    
+}
+
+
+\colorCount() {
+    //dummy
+}
+\dice(){
+    // dummy(debug mode)
+    return 3;
+}
