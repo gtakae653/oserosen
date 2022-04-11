@@ -116,13 +116,18 @@ $boardPrepared = true;//全ての駅のボタンとNodeの配置完了
 print("Game Start (Auto)");
 
 var stnames=Object.keys($name2Node);
-while(true) {
+var owneredStations;
+var allStations=$stationPlace.length-1;
+
+while(owneredStations != allStations) {
     while(true) {
         var stname=stnames[rnd(stnames.length)];
         if (stname.match(/point/)) continue;
         break;
     }
+    owneredStations=Object.keys(board.owner).length;
     print(stname);
+    print(owneredStations,allStations);
     var btn=$name2Button[stname];
     var nb=sButtonClicked(btn);
     while(!nb.ready) update();
