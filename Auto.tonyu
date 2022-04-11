@@ -101,8 +101,10 @@ function sButtonClicked(b) {
         new PopupLabel{template:"ERROR",x:30,y:480};
         //エラーメッセージが表示される
     } else {
+        board.die();
         board=nb;
         var log = new CreateFile{logStationName:board.getStation,logOwner:board.prev.turn};//通常プレイ時のログ取得
+        log.die();
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
@@ -116,21 +118,24 @@ $boardPrepared = true;//全ての駅のボタンとNodeの配置完了
 print("Game Start (Auto)");
 
 var stnames=Object.keys($name2Node);
-var owneredStations;
+var takenStations;
 var allStations=$stationPlace.length-1;
 
-while(owneredStations != allStations) {
+while(takenStations != allStations) {
     while(true) {
         var stname=stnames[rnd(stnames.length)];
         if (stname.match(/point/)) continue;
         break;
     }
-    owneredStations=Object.keys(board.owner).length;
+    takenStations=Object.keys(board.owner).length;
     print(stname);
-    print(owneredStations,allStations);
+    //print(takenStations,allStations);
     var btn=$name2Button[stname];
     var nb=sButtonClicked(btn);
     while(!nb.ready) update();
+
+    print(all(SButton).length);
+    
 }
 
 
