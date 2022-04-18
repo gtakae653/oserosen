@@ -104,7 +104,6 @@ function sButtonClicked(b) {
         board.die();
         board=nb;
         var log = new CreateFile{logStationName:board.getStation,logOwner:board.prev.turn};//通常プレイ時のログ取得
-        log.die();
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
@@ -121,6 +120,8 @@ var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
 
+var kouho=[];
+
 while(takenStations != allStations) {
     while(true) {
         var stname=stnames[rnd(stnames.length)];
@@ -134,12 +135,25 @@ while(takenStations != allStations) {
     var nb=sButtonClicked(btn);
     while(!nb.ready) update();
     //print(all().length);
-    
+    //自分の駅数がどれくらいあるかを数える(リストで保存するとか)
+    //takenCount();
 }
 
+print("This game is finished!");
 
+\takenCount(){
+    var taken=0;
+    var sn;
+    for(sn of board.owner){
+        if(board.owner[sn].owner==1){
+            taken++;
+        }
+    }
+    print(taken);
+    return taken;
+}
 \colorCount() {
-    //dummy
+    // dummy
 }
 \dice(){
     // dummy(debug mode)

@@ -8,3 +8,4 @@ f.text(c+logStationName+"\t"+logOwner+"\n");
 if(attackedStation){
     f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attacked+"\n");
 }
+die();
