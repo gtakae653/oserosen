@@ -59,8 +59,10 @@ $Boot.newLimit=10000;
 update();
 $name2Node={};
 var stationPlace;
+var nts=[];
 for (stationPlace of $stationPlace) {
-    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};
+    nts.push(stationPlace.name);
 }
 $Boot.newLimit=1000;
 update();
@@ -122,10 +124,11 @@ var takenStations;
 var allStations=$stationPlace.length;
 
 var kouho=[];
-
 while(takenStations != allStations) {
     while(true) {
-        var stname=stnames[rnd(stnames.length)];
+        var ns=notTakenStations();
+        if(ns.length==0) break;
+        var stname=ns[rnd(ns.length)];
         if (stname.match(/point/)) continue;
         break;
     }
@@ -139,6 +142,7 @@ while(takenStations != allStations) {
     update();
     //自分の駅数がどれくらいあるかを数える(リストで保存するとか)
     //takenCount();
+    
 }
 
 print("This game is finished!");
@@ -154,6 +158,18 @@ print("This game is finished!");
     print(taken);
     return taken;
 }
+
+\notTakenStations(){
+    var taken_s;
+    for(taken_s of board.owner){
+        var index=nts.indexOf(taken_s);
+        if(index>-1){
+            nts.splice(index,1);
+        }
+    }
+    return nts;
+}
+
 \colorCount() {
     // dummy
 }
