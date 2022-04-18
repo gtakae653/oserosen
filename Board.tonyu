@@ -69,14 +69,14 @@ function clicked(b){
     
     if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
         nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
-        
+        var ns=new Scheduler();
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
             owner[b.stext]={name:b.stext,owner:turn};//追記
             var lines = $stations[b.stext].lines;
             var count = lines.length;
             for (var line of lines) \(line){
-                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path,board:this};
+                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path,board:this,_scheduler:ns};
                 s.on("result") \(paths) {
                     if(line==="山手線" || line==="大阪環状線"){
                         if(paths[1]){
@@ -156,7 +156,7 @@ function clicked(b){
                             
                 };
             }(line);
-                    
+            while(!nb.ready) ns.stepsAll();        
             paint(b);//色の変更
                 
         }else{//すでに取られている駅を押した場合
