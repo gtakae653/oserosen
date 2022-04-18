@@ -152,6 +152,7 @@ function sButtonClicked(b) {
     if (!nb.ready) {
         searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
         nb.onReady=function () {
+            
             searching.die();
         };
     } 
@@ -159,7 +160,8 @@ function sButtonClicked(b) {
     
     if (nb.error) {
         //printの代わりにLabelを作って消えるようにする
-        new PopupLabel{template:"ERROR",x:30,y:480};
+        print("This");
+        new PopupLabel{template:"ERROR",x:30,y:480,fillStile:"black"};
         //エラーメッセージが表示される
     } else {
         $board=nb;
