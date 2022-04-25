@@ -145,7 +145,14 @@ while(takenStations != allStations) {
     
 }
 
-print("This game is finished!");
+print("This game is finished!"+"\nFirstPlayer's station:"+takenCount());
+$firstPlayer=false;
+if(takenCount() > 145){
+    $firstPlayer=true;
+    new CreateFile{taken:takenCount()};
+}
+
+
 
 \takenCount(){
     var taken=0;
@@ -155,7 +162,6 @@ print("This game is finished!");
             taken++;
         }
     }
-    print(taken);
     return taken;
 }
 
