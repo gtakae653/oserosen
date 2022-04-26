@@ -128,7 +128,8 @@ while(takenStations != allStations) {
     while(true) {
         var ns=notTakenStations();
         if(ns.length==0) break;
-        var stname=ns[rnd(ns.length)];
+        //var stname=ns[rnd(ns.length)];
+        var stname=spraying();
         if (stname.match(/point/)) continue;
         break;
     }
@@ -174,6 +175,35 @@ if(takenCount() > 145){
         }
     }
     return nts;
+}
+
+\spraying(){
+    var nts=notTakenStations();
+    var choice;
+    var stn;
+    var kouho=[];
+    
+    for(stn of nts){
+        if($stations[stn].nexts.length == $stations[stn].lines.length){
+            kouho.push(stn);
+        }
+    }
+    if(kouho.length>0){
+        choice=searchCorner(kouho);
+    }else{
+        choice=nts[rnd(nts.length)];
+    }
+    return choice;
+}
+
+\searchCorner(stationArray){
+    var biggest=stationArray[0];
+    for(var i=1;i<stationArray.length;i++){
+        if($stations[biggest].nexts.length < $stations[stationArray[i]].nexts.length){
+            biggest=stationArray[i];
+        }
+    }
+    return biggest;
 }
 
 \colorCount() {
