@@ -124,13 +124,21 @@ var takenStations;
 var allStations=$stationPlace.length;
 
 var kouho=[];
+var stname;
 while(takenStations != allStations) {
     while(true) {
         var ns=notTakenStations();
         if(ns.length==0) break;
-        //var stname=ns[rnd(ns.length)];
-        var stname=spraying();
-        if (stname.match(/point/)) continue;
+        
+        if(board.turn==1){
+            stname=sprayingBot();
+            //stname=ns[rnd(ns.length)];
+        }else{
+            //stname=sprayingBot();
+            stname=ns[rnd(ns.length)];
+        }
+        //if (stname.match(/point/)) continue;
+        /*なぜ↑のif文で引っかかる？*/
         break;
     }
     takenStations=Object.keys(board.owner).length;
@@ -177,34 +185,48 @@ if(takenCount() > 145){
     return nts;
 }
 
-\spraying(){
-    var nts=notTakenStations();
+\sprayingBot(){
+    var nts=notTakenStations();//取られていない駅
     var choice;
     var stn;
     var kouho=[];
     
     for(stn of nts){
-        if($stations[stn].nexts.length == $stations[stn].lines.length){
-            kouho.push(stn);
+        if($stations[stn].nexts.length == $stations[stn].lines.length){//角の駅かを判定
+            kouho.push(stn);//角ならkouhoに追加
         }
     }
     if(kouho.length>0){
-        choice=searchCorner(kouho);
+        choice=searchCorner(shuffle(kouho));
     }else{
         choice=nts[rnd(nts.length)];
     }
     return choice;
 }
 
-\searchCorner(stationArray){
+\searchCorner(stationArray){//取られていない角の駅の配列を受け取る
     var biggest=stationArray[0];
     for(var i=1;i<stationArray.length;i++){
         if($stations[biggest].nexts.length < $stations[stationArray[i]].nexts.length){
+        /*隣接駅数が多ければそちらを最大の角とする*/
             biggest=stationArray[i];
         }
     }
     return biggest;
 }
+
+\shuffle(stArray){//kouhoを受け取る
+    var newArray=[];
+    var choice;
+    while(true){
+        newArray.push(stArray.splice([rnd(stArray.length)],1));//ランダムな1駅を選び新たな配列の末尾に追加する
+        if(stArray.length==0){
+            break;
+        }
+    }
+    return newArray;//ランダムな順になった配列を返す
+}
+
 
 \colorCount() {
     // dummy
