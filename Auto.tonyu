@@ -137,8 +137,7 @@ while(takenStations != allStations) {
             //stname=sprayingBot();
             stname=ns[rnd(ns.length)];
         }
-        //if (stname.match(/point/)) continue;
-        /*なぜ↑のif文で引っかかる？*/
+        if (stname.match(/point/)) continue;
         break;
     }
     takenStations=Object.keys(board.owner).length;
@@ -218,8 +217,10 @@ if(takenCount() > 145){
 \shuffle(stArray){//kouhoを受け取る
     var newArray=[];
     var choice;
+    var z;
     while(true){
-        newArray.push(stArray.splice([rnd(stArray.length)],1));//ランダムな1駅を選び新たな配列の末尾に追加する
+        z=stArray.splice([rnd(stArray.length)],1);
+        newArray.push(z[0]);//ランダムな1駅を選び新たな配列の末尾に追加する
         if(stArray.length==0){
             break;
         }
