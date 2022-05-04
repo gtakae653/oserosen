@@ -24,6 +24,8 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
+new CreateFile{count:$roopCount+1};//記録用
+
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
 var ready = true;//探索中はfalse
 $searchPrepared = true;//検索ボタンが押されたらfalse
@@ -39,6 +41,7 @@ if($kintetsu==true){
 var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
+new Label{x:430,y:20,fillStyle:"Black",template:"$roopCount"};
 
 var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
 
@@ -106,7 +109,7 @@ function sButtonClicked(b) {
     } else {
         board.die();
         board=nb;
-        var log = new CreateFile{logStationName:board.getStation,logOwner:board.prev.turn};//通常プレイ時のログ取得
+        var log = new CreateFile{logStationName:board.getStation,logOwner:board.prev.turn,rsta:takenCount(1),bsta:takenCount(2)};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
@@ -134,14 +137,14 @@ while(takenStations != allStations) {
             stname=sprayingBot();
             //stname=ns[rnd(ns.length)];
         }else{
-            //stname=sprayingBot();
-            stname=ns[rnd(ns.length)];
+            stname=sprayingBot();
+            //stname=ns[rnd(ns.length)];
         }
         if (stname.match(/point/)) continue;
         break;
     }
     takenStations=Object.keys(board.owner).length;
-    print(stname);
+    print(stname,linesAllStations(stname));
     print(takenStations,allStations);
     var btn=$name2Button[stname];
     var nb=sButtonClicked(btn);
@@ -153,20 +156,26 @@ while(takenStations != allStations) {
     
 }
 
-print("This game is finished!"+"\nFirstPlayer's station:"+takenCount());
+print("This game is finished!"+"\nFirstPlayer's station:"+takenCount(1));
 $firstPlayer=false;
-if(takenCount() > 145){
+if(takenCount(1) > 145){
     $firstPlayer=true;
-    new CreateFile{taken:takenCount()};
+    new CreateFile{taken:takenCount(1)};
 }
 
+/*
+if($roopCount<499){//戦わせる回数
+    new CreateFile{count:$roopCount+1};//記録用
+    $roopCount++;
+    loadPage(Auto);
+}
+*/
 
-
-\takenCount(){
+\takenCount(turn){
     var taken=0;
     var sn;
     for(sn of board.owner){
-        if(board.owner[sn].owner==1){
+        if(board.owner[sn].owner==turn){
             taken++;
         }
     }
@@ -184,7 +193,7 @@ if(takenCount() > 145){
     return nts;
 }
 
-\sprayingBot(){
+\sprayingBot(){//散布型Bot
     var nts=notTakenStations();//取られていない駅
     var choice;
     var stn;
@@ -198,7 +207,7 @@ if(takenCount() > 145){
     if(kouho.length>0){
         choice=searchCorner(shuffle(kouho));
     }else{
-        choice=nts[rnd(nts.length)];
+        choice=nts[rnd(nts.length)];//ランダムを返す
     }
     return choice;
 }
@@ -214,6 +223,7 @@ if(takenCount() > 145){
     return biggest;
 }
 
+/*シャッフル*/
 \shuffle(stArray){//kouhoを受け取る
     var newArray=[];
     var choice;
@@ -228,6 +238,21 @@ if(takenCount() > 145){
     return newArray;//ランダムな順になった配列を返す
 }
 
+\linesAllStations(stationName){
+    var sum=0;
+    var sLines=$stations[stationName].lines;
+    for(var i=0;i<sLines.length;i++){
+        for (var station of $stationPlace) {
+            //接続駅が選ばれた場合、同じ駅を重複して数えている
+            //あえてこのままにするのも手かもしれない
+            if($stations[station.name].lines.indexOf(sLines[i])>-1){
+                sum+=1;
+            }
+        }
+    }
+    print(sum);
+    return sum;
+}
 
 \colorCount() {
     // dummy

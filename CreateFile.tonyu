@@ -4,11 +4,18 @@ if (f.exists()){
     c=f.text();
 }
 
-f.text(c+logStationName+"\t"+logOwner+"\n");
-if(attackedStation){
-    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attacked+"\n");
+if(logStationName){
+    f.text(c+logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");
+}else{
+    if($firstPlayer){
+        f.text(c+taken+"win");
+    }
+    f.text(c+count+"ゲーム目\n");
 }
-if($firstPlayer){
-    f.text(c+taken+"win");
-}
+
 die();
+/*
+if(attackedStation){
+    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attacked+"\t"+rsta+"\t"+bsta+"\n");
+}
+*/
