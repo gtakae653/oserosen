@@ -1,3 +1,4 @@
+extends State;
 "field strict";
 var turn;               //誰のターンか
 var ready;              //探索中か否か
@@ -19,6 +20,9 @@ var prevPlayer;
 var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
 
+\next(gameConfig,b){
+    return clicked(gameConfig,b);
+}
 function clicked(gameConfig,b){
     
     value(1,1);
@@ -203,7 +207,7 @@ function enemyHasStation(turn){
             res.push({stext:stationPlace.name});
         }
     }
-    print(res[0].stext);
+    //print(res[0].stext);
     return res;
 }
 
