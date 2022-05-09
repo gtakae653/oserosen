@@ -219,9 +219,12 @@ function enemyHasStation(turn){
 /*今のボードからどの駅が取れるかを返す*/
 \actionsEvents(ctx:GameConfig) {
     var res=[];
-    for(var sname of $main.notTakenStations()){
-        res.push( {stext: sname } );
+    for (var stationPlace of $stationPlace) {
+        if(!owner[stationPlace.name]){
+            res.push({stext:stationPlace.name});
+        }
     }
     print(res[0].stext);
     return res;
 }
+
