@@ -1,7 +1,7 @@
 "field strict";
 $gameConfig={
     debug=true,
-    player = 2,
+    players = [1,2],
     replay = false,
 };
 $kintetsu=true;
@@ -92,7 +92,7 @@ function sButtonClicked(b) {
         print("Thank you for playing!");
         return;
     }
-    var nb=board.clicked(b);
+    var nb=board.clicked($gameConfig,b);
     if (!nb.ready) {
         throw new Error("Not Ready(こんなはずでは……)");
         /*searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};

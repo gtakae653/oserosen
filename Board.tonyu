@@ -9,7 +9,6 @@ var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか
 var selected;
 var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
-var gameConfig;         //プレイヤー数、終了する指定ターン数
 var getStation;         //prev.turnの人が取った駅
 var prev;               //前のボードの情報
 var gameOver;
@@ -19,8 +18,9 @@ var attackChance;
 var prevPlayer;
 var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
+//ctx:  { players: [ 1, 2 ] }
 
-function clicked(b){
+function clicked(gameConfig,b){
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this ,turnCount:turnCount};
@@ -142,7 +142,7 @@ function clicked(b){
                         nb.prevPlayer = turn;
                                 
                         paint(b);//色の変更
-                        setNextTurn(nb);//ターン変更
+                        setNextTurn(gameConfig,nb);//ターン変更
    
                         nb.diceNum = $main.dice();
                         nb.ready=true;
@@ -176,7 +176,7 @@ function clicked(b){
 }
 
 
-function setNextTurn(nb) {
+function setNextTurn(gameConfig,nb) {
     if(turn == gameConfig.player){
         nb.turn = 1;
         nb.turnCount = turnCount + 1;
@@ -209,4 +209,11 @@ function enemyHasStation(turn){
     return enemyStation;
 }
 
+\player {//.playerでturnを取得できる
+    return turn;
+}
+
 /*今のボードからどの駅が取れるかを返す*/
+\actionsEvents(ctx:GameConfig) {
+    
+}

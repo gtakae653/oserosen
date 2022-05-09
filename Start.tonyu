@@ -36,6 +36,11 @@ function debug(){
 
 function clicked(b){
     $gameConfig.player = b.player;
+    $gameConfig.players = [];
+    for(var i=0;i<b.player;i++){
+        $gameConfig.players.push(i+1);
+    }
+    
     $gameConfig.replay = false;
     loadPage(Main);
 }
