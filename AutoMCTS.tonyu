@@ -128,7 +128,7 @@ var mcts10=new MCTSBot{value,Cp:10, expandThresh:2, iteration:10};
 \value(ctx, p, s:Board):number {
     return s.value(ctx,p);
 }
-$gameConfig.bots={"1":new RandomBot()/*mcts10*/, "2": new RandomBot()};
+$gameConfig.bots={"1":/*new RandomBot()*/mcts10, "2": new RandomBot()};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
@@ -141,7 +141,23 @@ while(!g.gameover()) {
     g.step();
     print(g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
     //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
+    for (var b1 of all(Button)) {
+        if(g.state.owner[b1.stext]){
+            paint(g.state, b1);//色の変更
+        }
+    }
     update();
+}
+function paint(state, b) {
+    if(state.owner[b.stext].owner==1){
+        b.fillStyle = new Color("red");
+    }else if(state.owner[b.stext].owner==2){
+        b.fillStyle = new Color("cyan");
+    }else if(state.owner[b.stext].owner==3){
+        b.fillStyle = new Color("yellow");
+    }else{
+        b.fillStyle = new Color("green");
+    }
 }
 /*
 while(takenStations != allStations) {
