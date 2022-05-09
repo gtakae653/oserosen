@@ -158,7 +158,8 @@ function sButtonClicked(b) {
             searching.die();
         };
     } 
-
+    
+    
     
     if (nb.error) {
         //printの代わりにLabelを作って消えるようにする
@@ -170,6 +171,11 @@ function sButtonClicked(b) {
         var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+        }
+        for (var b1 of all(Button)) {
+            if($board.owner[b1.stext]){
+                paint(b1);//色の変更
+            }
         }
     }
 }
@@ -263,6 +269,18 @@ function iBox(a){
                 break;
             }
         }
+    }
+}
+
+function paint(b) {
+    if($board.owner[b.stext].owner==1){
+        b.fillStyle = new Color("red");
+    }else if($board.owner[b.stext].owner==2){
+        b.fillStyle = new Color("cyan");
+    }else if($board.owner[b.stext].owner==3){
+        b.fillStyle = new Color("yellow");
+    }else{
+        b.fillStyle = new Color("green");
     }
 }
 

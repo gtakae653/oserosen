@@ -1,2 +1,2 @@
 var player;
-var players;//[]
+var players;//[]   ctx: { players: [ 1, 2 ] }
