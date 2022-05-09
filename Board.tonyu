@@ -46,7 +46,6 @@ function clicked(gameConfig,b){
                 var attackLog = new CreateFile{attackedStation:b.stext,attackedPlayer:turn,attacked:"attacked"};
             }
                 
-            paint(b);//色の変更
             setNextTurn(nb);//ターン変更
                 
             $main.colorCount();
@@ -74,7 +73,6 @@ function clicked(gameConfig,b){
         var ns=new Scheduler();
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
-            //owner[b.stext]={name:b.stext,owner:turn};//追記
             var lines = $stations[b.stext].lines;
             var count = lines.length;
             for (var line of lines) \(line){
@@ -101,12 +99,6 @@ function clicked(gameConfig,b){
                                 }
                             }
                                     
-                        }
-                                
-                        for (var b1 of all(Button)) {
-                            if(nb.owner[b1.stext]){
-                                nb.paint(b1);//色の変更
-                            }
                         }
                                 
                     }
@@ -143,7 +135,6 @@ function clicked(gameConfig,b){
                         $main.colorCount();
                         nb.prevPlayer = turn;
                                 
-                        nb.paint(b);//色の変更
                         setNextTurn(gameConfig,nb);//ターン変更
    
                         nb.diceNum = $main.dice();
@@ -159,7 +150,6 @@ function clicked(gameConfig,b){
                 };
             }(line);
             while(!nb.ready) ns.stepsAll();        
-            nb.paint(b);//色の変更
                 
         }else{//すでに取られている駅を押した場合
             nb.error = "その駅は既に取られています";
@@ -188,17 +178,7 @@ function setNextTurn(gameConfig,nb) {
     }
 } 
 
-function paint(b) {
-    if(owner[b.stext].owner==1){
-        b.fillStyle = new Color("red");
-    }else if(owner[b.stext].owner==2){
-        b.fillStyle = new Color("cyan");
-    }else if(owner[b.stext].owner==3){
-        b.fillStyle = new Color("yellow");
-    }else{
-        b.fillStyle = new Color("green");
-    }
-}
+
 
 function enemyHasStation(turn){
     var enemyStation = false;

@@ -212,6 +212,10 @@ if($roopCount<499){//戦わせる回数
     return choice;
 }
 
+\nextCrossStations(station){
+    //取った駅から見て次の分岐駅・接続駅のリストを返す
+}
+
 \searchCorner(stationArray){//取られていない角の駅の配列を受け取る
     var biggest=stationArray[0];
     for(var i=1;i<stationArray.length;i++){
@@ -252,6 +256,18 @@ if($roopCount<499){//戦わせる回数
     }
     print(sum);
     return sum;
+}
+
+function paint(b) {
+    if(board.owner[b.stext].owner==1){
+        b.fillStyle = new Color("red");
+    }else if(board.owner[b.stext].owner==2){
+        b.fillStyle = new Color("cyan");
+    }else if(board.owner[b.stext].owner==3){
+        b.fillStyle = new Color("yellow");
+    }else{
+        b.fillStyle = new Color("green");
+    }
 }
 
 \colorCount() {
