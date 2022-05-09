@@ -208,3 +208,5 @@ function enemyHasStation(turn){
     }
     return enemyStation;
 }
+
+/*今のボードからどの駅が取れるかを返す*/

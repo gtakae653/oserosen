@@ -1,16 +1,16 @@
 f=file("freelog.txt");//指定した名前の付いたテキストを先に用意しておく
-c="";
+/*c="";
 if (f.exists()){
     c=f.text();
-}
+}*/
 
 if(logStationName){
-    f.text(c+logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");
+    f.appendText(logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");
 }else{
     if($firstPlayer){
-        f.text(c+taken+"win");
+        f.appendText(taken+"win");
     }
-    f.text(c+count+"ゲーム目\n");
+    f.appendText(count+"ゲーム目\n");
 }
 
 die();
