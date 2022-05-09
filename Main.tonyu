@@ -61,8 +61,10 @@ $Boot.newLimit=10000;
 update();
 $name2Node={};
 var stationPlace;
+var nts=[];
 for (stationPlace of $stationPlace) {
-    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};   
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0}; 
+    nts.push(stationPlace.name);
 }
 $Boot.newLimit=1000;
 update();
@@ -343,7 +345,16 @@ function limit(dice){
     }
 }
 
-
+\notTakenStations(){
+    var taken_s;
+    for(taken_s of $board.owner){
+        var index=nts.indexOf(taken_s);
+        if(index>-1){
+            nts.splice(index,1);
+        }
+    }
+    return nts;
+}
 /*
 function getStationPlace(n) {
     if (!$stationPlace[n]) throw new Error(n+" not found");

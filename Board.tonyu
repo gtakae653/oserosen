@@ -18,9 +18,12 @@ var attackChance;
 var prevPlayer;
 var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
-//ctx:  { players: [ 1, 2 ] }
+//ctx: { players: [ 1, 2 ] }
 
 function clicked(gameConfig,b){
+    
+    actionsEvents();
+    
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this ,turnCount:turnCount};
@@ -215,5 +218,10 @@ function enemyHasStation(turn){
 
 /*今のボードからどの駅が取れるかを返す*/
 \actionsEvents(ctx:GameConfig) {
-    
+    var res=[];
+    for(var sname of $main.notTakenStations()){
+        res.push( {stext: sname } );
+    }
+    print(res[0].stext);
+    return res;
 }
