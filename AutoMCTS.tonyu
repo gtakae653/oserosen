@@ -1,6 +1,7 @@
 "field strict";
 $gameConfig={
     debug=true,
+    player = 2,
     players = [1,2],
     replay = false,
 };
@@ -119,21 +120,37 @@ function sButtonClicked(b) {
 
 loading.die();
 $boardPrepared = true;//全ての駅のボタンとNodeの配置完了
-print("Game Start (Auto)");
+print("Game Start (Auto)", $Boot.newLimit);
 
+$Boot.newLimit=null;//10000000;
+
+var mcts10=new MCTSBot{value,Cp:10, expandThresh:2, iteration:10};
+\value(ctx, p, s:Board):number {
+    return s.value(ctx,p);
+}
+$gameConfig.bots={"1":new RandomBot()/*mcts10*/, "2": new RandomBot()};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
 
 var kouho=[];
 var stname;
+
+var g=new GameMaster{state: board, context:$gameConfig };
+while(!g.gameover()) {
+    g.step();
+    print(g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
+    //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
+    update();
+}
+/*
 while(takenStations != allStations) {
     while(true) {
         var ns=notTakenStations();
         if(ns.length==0) break;
         
         if(board.turn==1){
-            stname=sprayingBot();
+            stname=mcts10.next( sprayingBot();
             //stname=ns[rnd(ns.length)];
         }else{
             stname=sprayingBot();
@@ -153,7 +170,7 @@ while(takenStations != allStations) {
     //自分の駅数がどれくらいあるかを数える(リストで保存するとか)
     //takenCount();
     
-}
+}*/
 
 print("This game is finished!"+"\nFirstPlayer's station:"+takenCount(1));
 $firstPlayer=false;

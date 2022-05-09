@@ -1,3 +1,4 @@
+extends State;
 "field strict";
 var turn;               //誰のターンか
 var ready;              //探索中か否か
@@ -20,6 +21,9 @@ var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
 //ctx: { players: [ 1, 2 ] }
 
+\next(gameConfig,b){
+    return clicked(gameConfig,b);
+}
 function clicked(gameConfig,b){
     
     actionsEvents();
@@ -75,7 +79,7 @@ function clicked(gameConfig,b){
         var ns=new Scheduler();
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
-            owner[b.stext]={name:b.stext,owner:turn};//追記
+            //owner[b.stext]={name:b.stext,owner:turn};//追記
             var lines = $stations[b.stext].lines;
             var count = lines.length;
             for (var line of lines) \(line){
@@ -224,7 +228,15 @@ function enemyHasStation(turn){
             res.push({stext:stationPlace.name});
         }
     }
-    print(res[0].stext);
+    //print(res[0].stext);
     return res;
 }
-
+\value(ctx, p):number {
+    var taken=0;
+    for(var st of owner){
+        if(owner[st].owner==p){
+            taken++;
+        }
+    }
+    return taken;
+}
