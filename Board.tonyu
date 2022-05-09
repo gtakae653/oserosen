@@ -18,11 +18,10 @@ var attackChance;
 var prevPlayer;
 var message1 = "塗り替える駅を選んでください";
 var message2 = "塗り替えられる駅が存在しませんでした";
-//ctx: { players: [ 1, 2 ] }
 
 function clicked(gameConfig,b){
     
-    actionsEvents();
+    value(1,1);
     
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
@@ -228,3 +227,12 @@ function enemyHasStation(turn){
     return res;
 }
 
+\value(ctx, p):number {
+    var taken=0;
+    for(var st of owner){
+        if(owner[st].owner==p){
+            taken++;
+        }
+    }
+    return taken;
+}
