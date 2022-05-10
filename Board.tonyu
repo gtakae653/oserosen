@@ -11,10 +11,10 @@ var selected;
 var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
 var getStation;         //prev.turnの人が取った駅
-var prev;               //前のボードの情報
+//var prev;               //前のボードの情報
 var gameOver;
 var attack;
-var lost;
+//var lost;
 var attackChance;
 var prevPlayer;
 var message1 = "塗り替える駅を選んでください";
@@ -29,18 +29,18 @@ function clicked(gameConfig,b){
     
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
-    nb = new Board{owner: Object.assign({}, owner), gameConfig,prev:this ,turnCount:turnCount};
+    nb = new Board{owner: Object.assign({}, owner), gameConfig,/*prev:this ,*/turnCount:turnCount};
     if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
     if(attack){//本当は奪取処理をした後に消したい(消えない)
         attack.die();
     }
-    
-    if(lost){
+    var grp=new Sprites();
+    /*if(lost){
         lost.die();
-    }
-    all(Path).die();
+    }*/
+    //all(Path).die();
     
     //温泉駅を取った次のボードで実行したい処理
     /*if(attackChance){
@@ -80,7 +80,7 @@ function clicked(gameConfig,b){
             var lines = $stations[b.stext].lines;
             var count = lines.length;
             for (var line of lines) \(line){
-                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path,board:nb,_scheduler:ns};
+                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path{layer:grp},board:nb,_scheduler:ns, layer:grp};
                 s.on("result") \(paths) {
                     if(line==="山手線" || line==="大阪環状線"){
                         if(paths[1]){

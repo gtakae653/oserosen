@@ -58,7 +58,7 @@ for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
     }
 }
 
-$Boot.newLimit=10000;
+$Boot.newLimit=null;
 update();
 $name2Node={};
 var stationPlace;
@@ -67,7 +67,6 @@ for (stationPlace of $stationPlace) {
     $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};
     nts.push(stationPlace.name);
 }
-$Boot.newLimit=1000;
 update();
 
 for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さなければいけない為
@@ -125,10 +124,11 @@ print("Game Start (Auto)", $Boot.newLimit);
 $Boot.newLimit=null;//10000000;
 
 var mcts10=new MCTSBot{value,Cp:10, expandThresh:2, iteration:10};
+var mcts20=new MCTSBot{value,Cp:10, expandThresh:2, iteration:20};
 \value(ctx, p, s:Board):number {
     return s.value(ctx,p);
 }
-$gameConfig.bots={"1":/*new RandomBot()*/mcts10, "2": new RandomBot()};
+$gameConfig.bots={"1":new RandomBot()/*mcts20*/, "2": mcts10/*new RandomBot()*/};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
