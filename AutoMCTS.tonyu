@@ -128,7 +128,7 @@ var mcts20=new MCTSBot{value,Cp:10, expandThresh:2, iteration:20};
 \value(ctx, p, s:Board):number {
     return s.value(ctx,p);
 }
-$gameConfig.bots={"1":new RandomBot()/*mcts20*/, "2": mcts10/*new RandomBot()*/};
+$gameConfig.bots={"1":/*new RandomBot()*/mcts10, "2": mcts20/*new RandomBot()*/};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
@@ -138,8 +138,8 @@ var stname;
 
 var g=new GameMaster{state: board, context:$gameConfig };
 while(!g.gameover()) {
-    g.step();
-    print(g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
+    var a=g.step();
+    print(a.stext, g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
     //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
     for (var b1 of all(Button)) {
         if(g.state.owner[b1.stext]){
