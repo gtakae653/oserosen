@@ -103,11 +103,11 @@ var player;
         var v=value(ctx, s.player, endState);
         backup(leaf, v);
     }
-    print ("RN",rootNode);
+    //print ("RN",rootNode);
     var ma=-1,mqc=0;
     for (var a=0;a<rootNode.actions.length;a++) {
         var qc=q(rootNode,a);
-        print("QC", a,qc);
+        //print("QC", a,qc);
         if (ma<0 || qc>=mqc) {
             mqc=qc;
             ma=a;
