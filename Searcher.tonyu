@@ -27,7 +27,7 @@ while(true) {
     }
     
     if (neighbors.length==0) {//nextsが１つしかない場合
-        path.die();
+        //path.die();
         report([]);
     } else if (neighbors.length==1) {//nextsが２つの場合
         prevNode = current.name;
@@ -47,7 +47,7 @@ while(true) {
             };
         }
         
-        path.die();
+        //path.die();
         alpha=128;
         break;
     }
