@@ -114,7 +114,7 @@ var player;
         }
     }
     var acts=s.actionsEvents(ctx);
-    print (acts.length , rootNode.actions.length, ma);
+    //print (acts.length , rootNode.actions.length, ma);
     if (!acts[ma]) throw new Error("Action not found "+ma);
     return acts[ma];
 }

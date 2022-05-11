@@ -18,6 +18,7 @@ var context:Context;
     var action=getBot(state.player).play(context, state);
     state=state.next(context, action);
     if (!state) throw new Error("state is null!");
+    return action;
 }
 \getBot(p:Player) {
     if (p.bot) return p.bot;

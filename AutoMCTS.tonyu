@@ -108,7 +108,7 @@ function sButtonClicked(b) {
     } else {
         board.die();
         board=nb;
-        var log = new CreateFile{logStationName:board.getStation,logOwner:board.prev.turn,rsta:takenCount(1),bsta:takenCount(2)};//通常プレイ時のログ取得
+        var log = new CreateFile{logStationName:board.getStation,logOwner:board.prevPlayer,rsta:takenCount(1),bsta:takenCount(2)};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
@@ -125,10 +125,11 @@ $Boot.newLimit=null;//10000000;
 
 var mcts10=new MCTSBot{value,Cp:10, expandThresh:2, iteration:10};
 var mcts20=new MCTSBot{value,Cp:10, expandThresh:2, iteration:20};
+var mcts100=new MCTSBot{value,Cp:10, expandThresh:2, iteration:100};
 \value(ctx, p, s:Board):number {
     return s.value(ctx,p);
 }
-$gameConfig.bots={"1":new RandomBot()/*mcts20*/, "2": mcts10/*new RandomBot()*/};
+$gameConfig.bots={"1":/*new RandomBot()*/mcts10, "2": mcts100/*new RandomBot()*/};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
@@ -138,8 +139,9 @@ var stname;
 
 var g=new GameMaster{state: board, context:$gameConfig };
 while(!g.gameover()) {
-    g.step();
-    print(g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
+    var pp=g.state.player;
+    var a=g.step();
+    print(pp, a.stext, g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
     //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
     for (var b1 of all(Button)) {
         if(g.state.owner[b1.stext]){

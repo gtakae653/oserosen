@@ -10,7 +10,7 @@ var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか
 var selected;
 var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
-var getStation;         //prev.turnの人が取った駅
+var getStation;         //prevPlayerの人が取った駅
 //var prev;               //前のボードの情報
 var gameOver;
 var attack;

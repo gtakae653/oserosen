@@ -168,7 +168,7 @@ function sButtonClicked(b) {
         //エラーメッセージが表示される
     } else {
         $board=nb;
-        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prev.turn};//通常プレイ時のログ取得
+        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prevPlayer};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
