@@ -1,105 +1,20 @@
-立川	1	undefined	undefined
-西国分寺	2	undefined	undefined
-府中本町	1	undefined	undefined
-武蔵小杉	2	undefined	undefined
-武蔵浦和	1	undefined	undefined
-国立	2	undefined	undefined
-尻手	1	undefined	undefined
-石和温泉	2	undefined	undefined
-浜川崎	1	undefined	undefined
-川崎	2	undefined	undefined
-市ケ谷	1	undefined	undefined
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+NaNゲーム目
+西国分寺	1	undefined	undefined
+立川	2	undefined	undefined
+吉祥寺	1	undefined	undefined
+府中本町	2	undefined	undefined
+八王子	1	undefined	undefined
+新秋津	2	undefined	undefined
+橋本(神)	1	undefined	undefined
 新宿	2	undefined	undefined
-神田	1	undefined	undefined
-原宿	2	undefined	undefined
-代々木	1	undefined	undefined
-大崎	2	undefined	undefined
-池袋	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-学園前	2	undefined	undefined
-東生駒	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-西ノ京	2	undefined	undefined
-大和西大寺	1	undefined	undefined
-学園前	2	undefined	undefined
-西ノ京	1	undefined	undefined
-平城	2	undefined	undefined
-大和西大寺	1	undefined	undefined
-西ノ京	2	undefined	undefined
-学園前	1	undefined	undefined
-近鉄名古屋	2	undefined	undefined
-戸田	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-近鉄名古屋	2	undefined	undefined
-黄金	1	undefined	undefined
-米野	2	undefined	undefined
-近鉄八田	1	undefined	undefined
-戸田	2	undefined	undefined
-富吉	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-学園前	2	undefined	undefined
-富雄	1	undefined	undefined
-東生駒	2	undefined	undefined
-生駒	1	undefined	undefined
-西ノ京	2	undefined	undefined
-近鉄郡山	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-富雄	2	undefined	undefined
-東生駒	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-西ノ京	2	undefined	undefined
-近鉄郡山	1	undefined	undefined
-学園前	2	undefined	undefined
-大和西大寺	1	undefined	undefined
-学園前	2	undefined	undefined
-富雄	1	undefined	undefined
-東生駒	2	undefined	undefined
-西ノ京	1	undefined	undefined
-生駒	2	undefined	undefined
-石切	1	undefined	undefined
-新石切	2	undefined	undefined
-大和西大寺	1	undefined	undefined
-学園前	2	undefined	undefined
-生駒	1	undefined	undefined
-西ノ京	2	undefined	undefined
-南生駒	1	undefined	undefined
-富雄	2	undefined	undefined
-菖蒲池	1	undefined	undefined
-東山	2	undefined	undefined
-布施	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-富雄	2	undefined	undefined
-大和西大寺	1	undefined	undefined
-富雄	2	undefined	undefined
-生駒	1	undefined	undefined
-南生駒	2	undefined	undefined
-竜田川	1	undefined	undefined
-大和西大寺	1	undefined	undefined
-近鉄郡山	2	undefined	undefined
-富雄	1	undefined	undefined
-生駒	2	undefined	undefined
-菜畑	1	undefined	undefined
-東生駒	2	undefined	undefined
-石切	1	undefined	undefined
-一分	2	undefined	undefined
-大和西大寺	1	undefined	undefined
-学園前	2	undefined	undefined
-生駒	1	undefined	undefined
-西ノ京	2	undefined	undefined
-近鉄郡山	1	undefined	undefined
-南生駒	2	undefined	undefined
-新石切	1	undefined	undefined
-王寺	2	undefined	undefined
-NaNゲーム目
-NaNゲーム目
-NaNゲーム目
-NaNゲーム目
-NaNゲーム目
 NaNゲーム目

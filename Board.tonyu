@@ -24,9 +24,6 @@ var message2 = "塗り替えられる駅が存在しませんでした";
     return clicked(gameConfig,b);
 }
 function clicked(gameConfig,b){
-    
-    value(1,1);
-    
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,/*prev:this ,*/turnCount:turnCount};

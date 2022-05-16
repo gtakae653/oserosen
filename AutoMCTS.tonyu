@@ -129,7 +129,8 @@ var mcts100=new MCTSBot{value,Cp:10, expandThresh:2, iteration:100};
 \value(ctx, p, s:Board):number {
     return s.value(ctx,p);
 }
-$gameConfig.bots={"1":/*new RandomBot()*/mcts10, "2": mcts100/*new RandomBot()*/};
+
+$gameConfig.bots={"1":new SanpuBot()/*mcts10*/, "2": mcts100/*new RandomBot()*/};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
@@ -143,6 +144,7 @@ while(!g.gameover()) {
     var a=g.step();
     print(pp, a.stext, g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
     //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
+    //ここでログを取る
     for (var b1 of all(Button)) {
         if(g.state.owner[b1.stext]){
             paint(g.state, b1);//色の変更
