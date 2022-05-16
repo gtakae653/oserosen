@@ -30,11 +30,10 @@ extends Bot;
         }
     }
     if(kouho.length>0){
-        choice=searchCorner(shuffle(kouho));
+        return {stext:searchCorner(shuffle(kouho))};
     }else{
-        choice=acts[rnd(acts.length)];//ランダムを返す
+        return acts[rnd(acts.length)];//ランダムを返す
     }
-    return choice={stext:choice};
 }
 
 \shuffle(stArray){//kouhoを受け取る
