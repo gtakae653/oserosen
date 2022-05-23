@@ -1,4 +1,5 @@
-f=file("freelog.txt");//指定した名前の付いたテキストを先に用意しておく
+textName = String($loopCount)+"_log.txt";
+f=file(textName);//freelog.txt
 /*c="";
 if (f.exists()){
     c=f.text();
@@ -10,7 +11,7 @@ if(logStationName){
     if($firstPlayer){
         f.appendText(taken+"win");
     }
-    f.appendText(count+"ゲーム目\n");
+    //f.appendText(count+"ゲーム目\n");
 }
 
 die();

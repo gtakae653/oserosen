@@ -19,11 +19,17 @@ var player;
     if (node.n<expandThresh) throw new Error(node.n+"<"+expandThresh);
     if (node.actions) throw new Error(node.state+" already expanded");
     node.actions=node.state.actionsEvents(ctx).map \(a) {
+        var q,n;
+        if (isCorner(a)) {//角の駅なら
+            q=new Rational(1,0); n=0;
+        } else {
+            q=new Rational(0,0); n=1;//角じゃない駅は「すでにたどった扱い」にすると，辿りにくくなるかも
+        }
         return {
             parent: node, 
             state: node.state.next(ctx,a),
-            q:new Rational(0,0), 
-            n:0, 
+            q, 
+            n, 
             a:str(a),
             actions: null,
         };

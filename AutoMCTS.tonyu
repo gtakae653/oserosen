@@ -24,8 +24,6 @@ new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
 
-new CreateFile{count:$roopCount+1};//記録用
-
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
 var ready = true;//探索中はfalse
 $searchPrepared = true;//検索ボタンが押されたらfalse
@@ -41,7 +39,7 @@ if($kintetsu==true){
 var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
-new Label{x:430,y:20,fillStyle:"Black",template:"$roopCount"};
+new Label{x:430,y:20,fillStyle:"Black",template:"$loopCount"};
 
 var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
 
@@ -131,7 +129,7 @@ var cmcts100=new CornerMCTSBot{value,Cp:10, expandThresh:2, iteration:100};
     return s.value(ctx,p);
 }
 
-$gameConfig.bots={"1":cmcts100/*mcts10*/, "2": mcts100/*new RandomBot()*/};
+$gameConfig.bots={"1":mcts10/*mcts10*/, "2": new SanpuBot()/*new RandomBot()*/};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
@@ -146,7 +144,7 @@ while(!g.gameover()) {
     print(pp, a.stext, g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
     //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
     //ここでログを取る
-    var log = new CreateFile{logStationName:a.stext,logOwner:pp,rsta:takenCount(1),bsta:takenCount(2)};//通常プレイ時のログ取得
+    var log = new CreateFile{logStationName:a.stext,logOwner:pp,rsta:g.state.value($gameConfig, 1),bsta:g.state.value($gameConfig, 2)};//通常プレイ時のログ取得
     for (var b1 of all(Button)) {
         if(g.state.owner[b1.stext]){
             paint(g.state, b1);//色の変更
@@ -201,13 +199,13 @@ if(takenCount(1) > 145){
     new CreateFile{taken:takenCount(1)};
 }
 
-/*
-if($roopCount<499){//戦わせる回数
-    new CreateFile{count:$roopCount+1};//記録用
-    $roopCount++;
-    loadPage(Auto);
+
+if($loopCount<3){//戦わせる回数
+    new CreateFile{count:$loopCount};//記録用
+    $loopCount++;
+    loadPage(AutoMCTS);
 }
-*/
+
 
 \takenCount(turn){
     var taken=0;

@@ -22,8 +22,7 @@ if($kintetsu==true){
 new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
-
-new CreateFile{count:$roopCount+1};//記録用
+new CreateFile{count:$loopCount};//記録用
 
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
 var ready = true;//探索中はfalse
@@ -40,7 +39,7 @@ if($kintetsu==true){
 var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
-new Label{x:430,y:20,fillStyle:"Black",template:"$roopCount"};
+new Label{x:430,y:20,fillStyle:"Black",template:"$loopCount"};
 
 var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
 
@@ -162,13 +161,13 @@ if(takenCount(1) > 145){
     new CreateFile{taken:takenCount(1)};
 }
 
-/*
-if($roopCount<499){//戦わせる回数
-    new CreateFile{count:$roopCount+1};//記録用
-    $roopCount++;
+
+if($loopCount<3){//戦わせる回数
+    new CreateFile{count:$loopCount};//記録用
+    $loopCount++;
     loadPage(Auto);
 }
-*/
+
 
 \takenCount(turn){
     var taken=0;
