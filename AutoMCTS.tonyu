@@ -129,7 +129,7 @@ var cmcts100=new CornerMCTSBot{value,Cp:10, expandThresh:2, iteration:100};
     return s.value(ctx,p);
 }
 
-$gameConfig.bots={"1":mcts10/*mcts10*/, "2": new SanpuBot()/*new RandomBot()*/};
+$gameConfig.bots={"1":cmcts100/*mcts10*/, "2": new SanpuBot()/*new RandomBot()*/};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;
@@ -192,15 +192,15 @@ while(takenStations != allStations) {
     
 }*/
 
-print("This game is finished!"+"\nFirstPlayer's station:"+takenCount(1));
+print("This game is finished!"+"\nFirstPlayer's station:"+g.state.value($gameConfig, 1));
 $firstPlayer=false;
 if(takenCount(1) > 145){
     $firstPlayer=true;
-    new CreateFile{taken:takenCount(1)};
+    new CreateFile{taken:g.state.value($gameConfig, 1)};
 }
 
 
-if($loopCount<3){//戦わせる回数
+if($loopCount && $loopCount<3){//戦わせる回数
     new CreateFile{count:$loopCount};//記録用
     $loopCount++;
     loadPage(AutoMCTS);

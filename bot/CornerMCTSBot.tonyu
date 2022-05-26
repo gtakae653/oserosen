@@ -139,6 +139,14 @@ var player;
     return state;
 }
 
+\isCorner(a){
+    if($stations[a.stext].nexts.length == $stations[a.stext].lines.length){//角の駅かを判定
+        return true;//角ならtrue
+    }else{
+        return false;
+    }
+}
+
 \playRandom(ctx:Context, s:State):Action {
     //ここを角を取る処理に変える
     if (!ctx) throw new Error("CTX is null");
