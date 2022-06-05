@@ -19,13 +19,14 @@ extends Bot;
     return biggest;
 }
 
-\spraying(acts){
+\jinusi(acts){
+    //じわじわ広げる
     var choice;
     var stn;
     var kouho=[];
     
     for(stn of acts){
-        if($stations[stn.stext].nexts.length == $stations[stn.stext].lines.length){//角の駅かを判定
+        if($stations[stn.stext].nexts.length == $stations[stn.stext].lines.length && $stations[stn.stext].midway!=true){//角の駅かを判定
             kouho.push(stn.stext);//角ならkouhoに追加
         }
     }

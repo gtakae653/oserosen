@@ -5,7 +5,6 @@ var expandThresh;
 var value; // (ctx, player, state)=>number (playerにとってのstateの評価値)
 var iteration;
 var player;
-"field strict";
 //var rootNode={};
 /*Node={
     parent?: Node,
@@ -14,32 +13,25 @@ var player;
     n: number,
     actions: Node[]?
 }*/
-var expcount=0;
 \expand(ctx:Context, node) {
     /*var sk=s.id();
     if (nodes[sk]) throw new Error(sk+" already found");*/
     if (node.n<expandThresh) throw new Error(node.n+"<"+expandThresh);
-    if (node.subnodes) throw new Error("already expanded");
-    expcount++;
-    node.actions=getState(ctx, node).actionsEvents(ctx);
-    var hasCorner=node.actions.some(isCorner);
-    node.subnodes=node.actions.map \(a) {
+    if (node.actions) throw new Error(node.state+" already expanded");
+    node.actions=node.state.actionsEvents(ctx).map \(a) {
         var q,n;
-        if (!hasCorner) {//角の駅がない場合，全部0にする
-            q=new Rational(0,0); n=0;
-        } else if (isCorner(a)) {//角の駅なら，得点up&まだ辿っていない
-            q=new Rational(5,0); n=0;
+        if (isCorner(a)) {//角の駅なら
+            q=new Rational(1,0); n=0;
         } else {
             q=new Rational(0,0); n=1;//角じゃない駅は「すでにたどった扱い」にすると，辿りにくくなるかも
         }
-        //q=new Rational(0,0); n=0;
         return {
             parent: node, 
-            //state: node.state.next(ctx,a),
+            state: node.state.next(ctx,a),
             q, 
             n, 
-            //a:str(a),
-            //actions: null,
+            a:str(a),
+            actions: null,
         };
     };
     return node;
@@ -59,30 +51,30 @@ var expcount=0;
     if (a==null) {
         return node.q.value;
     } else {
-        if (!node.subnodes) throw new Error("Not expanded");
-        return node.subnodes[a].q.value;
+        if (!node.actions) throw new Error(n.state+"Not expanded");
+        return node.actions[a].q.value;
     }
 }
 \n(node, a:Number) {
     if (a==null) {
         return nanc( node.n );
     } else {
-        if (!node.subnodes) throw new Error("Not expanded");
-        return nanc( node.subnodes[a].n );
+        if (!node.actions) throw new Error(n.state+"Not expanded");
+        return nanc( node.actions[a].n );
     }
 }
 \selection(ctx:Context, node) {
     // return leaf node
-    if (!node.subnodes) throw new Error("Not expanded");
+    if (!node.actions) throw new Error(n.state+"Not expanded");
     while (true) {
-        var subs=node.subnodes;
+        var acts=node.actions;
+        var sgn=(node.state.player===player?1:-1);
         node.n+=1;
-        if (!subs || subs.length==0) break;
-        var sgn=(getState(ctx, node).player===player?1:-1);
+        if (!acts || acts.length==0) break;
         var ma=-1,mqc=0,test;
-        for (var a=0;a<subs.length;a++) {
+        for (var a=0;a<acts.length;a++) {
             var qc=q(node,a)*sgn+c(node,a);
-            subs[a].test="q="+q(node,a)*sgn+" c="+c(node,a);
+            acts[a].test="q="+q(node,a)*sgn+" c="+c(node,a);
             if (ma<0 || qc>=mqc) {
                 mqc=qc;
                 ma=a;
@@ -90,12 +82,11 @@ var expcount=0;
         }
         //acts[ma].qc=test;
         //acts[ma].n+=1;
-        node=subs[ma];
+        node=acts[ma];
     }
     return node;
 }
 \play(ctx:Context, s:State):Action {
-    expcount=0;
     var rootNode={
         parent: null, 
         state: s,
@@ -110,18 +101,17 @@ var expcount=0;
         while(true) {
             var leaf=selection(ctx, rootNode);
             if (n(leaf)<expandThresh) break;
-            if (leaf.subnodes && leaf.subnodes.length==0) break;
+            if (leaf.actions && leaf.actions.length==0) break;
             expand(ctx, leaf);
         }
         // print("leaf", leaf);
         var endState=rollout(ctx, leaf);
         var v=value(ctx, s.player, endState);
         backup(leaf, v);
-        if (expcount>=300) break;
     }
     //print ("RN",rootNode);
     var ma=-1,mqc=0;
-    for (var a=0;a<rootNode.subnodes.length;a++) {
+    for (var a=0;a<rootNode.actions.length;a++) {
         var qc=q(rootNode,a);
         //print("QC", a,qc);
         if (ma<0 || qc>=mqc) {
@@ -130,9 +120,8 @@ var expcount=0;
         }
     }
     var acts=s.actionsEvents(ctx);
-    //print (acts.length , rootNode.subnodes.length, ma);
+    //print (acts.length , rootNode.actions.length, ma);
     if (!acts[ma]) throw new Error("Action not found "+ma);
-    print("EXP",expcount);
     return acts[ma];
 }
 \backup(node, value:Number) {
@@ -141,18 +130,8 @@ var expcount=0;
         node=node.parent;
     }
 }
-\getState(ctx, node){
-    if (node.state) return node.state;
-    var p=node.parent;
-    var idx=p.subnodes.indexOf(node);
-    if (idx<0) throw new Error("Index not found");
-    var act=p.actions[idx];
-    if (!act) throw new Error("Action not found "+idx);
-    node.state=getState(ctx, p).next(ctx, act);
-    return node.state;
-}
 \rollout(ctx, node) {
-    var state=getState(ctx, node);
+    var state=node.state;
     while (!state.gameover(ctx)) {
         var a=playRandom(ctx, state);
         state=state.next(ctx, a);
@@ -172,8 +151,7 @@ var expcount=0;
     //ここを角を取る処理に変える
     if (!ctx) throw new Error("CTX is null");
     var acts=s.actionsEvents(ctx);
-    var a=acts[rnd(acts.length)];
-    //var a=spraying(acts);
+    var a=spraying(acts);
     return a;
 }
 \nanc(v) {
@@ -190,12 +168,12 @@ var expcount=0;
     if (!nodes[sk]) throw new Error(sk+" not found");
     return nodes[sk];
 }*/
-/*
+
 \searchCorner(stationArray){//取られていない角の駅の配列を受け取る
     var biggest=stationArray[0];
     for(var i=1;i<stationArray.length;i++){
         if($stations[biggest].nexts.length < $stations[stationArray[i]].nexts.length){
-        //隣接駅数が多ければそちらを最大の角とする
+        /*隣接駅数が多ければそちらを最大の角とする*/
             biggest=stationArray[i];
         }
     }
@@ -231,4 +209,4 @@ var expcount=0;
         }
     }
     return newArray;//ランダムな順になった配列を返す
-}*/
+}
