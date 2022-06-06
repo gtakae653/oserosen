@@ -71,41 +71,51 @@ function clicked(gameConfig,b){
     
     if(gameConfig.debug == true || gameConfig.replay == true || $main.namelengthComparison(b.text.length,diceNum)){
         nb.getStation = b.stext;//次のボードのgetStationに入れる駅の名前
-        var ns=new Scheduler();
+        //var ns=new Scheduler();
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
             var lines = $stations[b.stext].lines;
-            var count = lines.length;
+            //var count = lines.length;
             for (var line of lines) \(line){
-                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path{layer:grp},board:nb,_scheduler:ns, layer:grp};
-                s.on("result") \(paths) {
-                    if(line==="山手線" || line==="大阪環状線"){
-                        if(paths[1]){
-                            if(paths[0].nodes.length == paths[1].nodes.length){
-                            }else if(paths[0].nodes.length > paths[1].nodes.length){
-                                paths.splice(0,1);
-                            }else{
-                                paths.splice(1,1);
-                            }
+                var s=new Searcher{from:$name2Node[b.stext],current:$name2Node[b.stext],lineName:line,owner:nb.owner[b.stext].owner, path:new Path, board:nb,/*_scheduler:ns, layer:grp*/};
+                var paths=s.allPaths;
+                if(line==="山手線" || line==="大阪環状線"){
+                    if(paths[1]){
+                        if(paths[0].nodes.length == paths[1].nodes.length){
+                        }else if(paths[0].nodes.length > paths[1].nodes.length){
+                            paths.splice(0,1);
+                        }else{
+                            paths.splice(1,1);
                         }
                     }
-                    count--;
-                    for (var path of paths) {
-                        for(var node of path.nodes){
-                            if(!(nb.owner[node.name]) || nb.owner[node.name].owner != turn){
-                                if(node.name.indexOf("point") > -1){
+                }
+                    //count--;
+                for (var path of paths) {
+                    for(var node of path.nodes){
+                        if(!(nb.owner[node.name]) || nb.owner[node.name].owner != turn){
+                            if(node.name.indexOf("point") > -1){
                                             //pointオブジェクトは弾く
-                                }else{
-                                    nb.owner[node.name] = {owner:turn};
-                                }
+                            }else{
+                                nb.owner[node.name] = {owner:turn};
                             }
-                                    
                         }
-                                
+                                    
                     }
+                                
+                }
                             
-                    if(count == 0){
-                        /*if(curHotSpring){//選んだのが温泉駅だったら
+                    /*if(count == 0){
+                        
+                    }*/
+                            
+                if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
+                    nb.gameOver=true;
+                                //loadPage(GameSet);
+                }
+                            
+                
+            }(line);
+            /*if(curHotSpring){//選んだのが温泉駅だったら
                             if(nb.enemyHasStation(turn)){
                                 if(choice){
                                     choice.die();
@@ -130,27 +140,18 @@ function clicked(gameConfig,b){
                                 
                         }*/
                                 
-                        nb.selected = b.stext;
-                        prevMyStation[turn-1] = b.stext;
-                        nb.prevMyStation = prevMyStation;
-                        $main.colorCount();
-                        nb.prevPlayer = turn;
+            nb.selected = b.stext;
+            prevMyStation[turn-1] = b.stext;
+            nb.prevMyStation = prevMyStation;
+            $main.colorCount();
+            nb.prevPlayer = turn;
                                 
-                        setNextTurn(gameConfig,nb);//ターン変更
+            setNextTurn(gameConfig,nb);//ターン変更
    
-                        nb.diceNum = $main.dice();
-                        nb.ready=true;
-                        if(onReady) onReady();
-                    }
-                            
-                    if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
-                        nb.gameOver=true;
-                                //loadPage(GameSet);
-                    }
-                            
-                };
-            }(line);
-            while(!nb.ready) ns.stepsAll();        
+            nb.diceNum = $main.dice();
+            nb.ready=true;
+            if(onReady) onReady();
+            //while(!nb.ready) ns.stepsAll();        
                 
         }else{//すでに取られている駅を押した場合
             nb.error = "その駅は既に取られています";
@@ -208,7 +209,7 @@ function enemyHasStation(turn){
     return res;
 }
 
-\value(ctx, p):number {
+\value(ctx, p):Number {
     var taken=0;
     for(var st of owner){
         if(owner[st].owner==p){

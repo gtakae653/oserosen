@@ -1,3 +1,5 @@
+extends TObject;
+native console;
 "field strict";
 var path:Path;
 var from:Node,lineName:Node,owner:Number;
@@ -5,7 +7,7 @@ var from:Node,lineName:Node,owner:Number;
 var current;
 var prevNode;
 var board;
-
+var allPaths=[];
 path.add(current);
 while(true) {
     if (from.name != current.name && board.owner[current.name] && board.owner[current.name].owner === owner) {
@@ -18,8 +20,8 @@ while(true) {
         break;
     }
     
-    x=current.x;
-    y=current.y;
+    //x=current.x;
+    //y=current.y;
     var neighbors=[];
     for (var neighbor of current.allConnected(lineName,prevNode)) {
         if (path.contains(neighbor)) continue;
@@ -29,6 +31,7 @@ while(true) {
     if (neighbors.length==0) {//nextsが１つしかない場合
         //path.die();
         report([]);
+        break;
     } else if (neighbors.length==1) {//nextsが２つの場合
         prevNode = current.name;
         current=neighbors[0];
@@ -36,27 +39,30 @@ while(true) {
     } else {//nextsが３つ以上の場合
         var count=neighbors.length;
         for (var neighbor of neighbors) {
-            var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone(),prevNode:current.name,board, _scheduler, layer};
-            var allPaths=[];
+            var s=new Searcher{current:neighbor,from ,lineName, owner, path:path.clone(),prevNode:current.name,board,};
+            report(s.allPaths);
+            /*var allPaths=[];
             s.on("result") \(paths) {
                 allPaths=allPaths.concat(paths);
                 count--;
                 if (count==0) {
                     report(allPaths);
                 }
-            };
+            };*/
         }
         
         //path.die();
-        alpha=128;
+        //alpha=128;
         break;
     }
-    update();
+    //update();
     //updateEx(5);
 }
+console.log("SRC", allPaths);
 function report(paths) {
-    fireEvent("result",paths);
-    die();
+    allPaths=allPaths.concat(paths);
+    //fireEvent("result",paths);
+    //die();
 }
 
 function isTransferStation(stationName){
