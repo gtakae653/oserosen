@@ -11,21 +11,21 @@ var player;
     state:State,
     q: Rational
     n: number,
-    actions: Node[]?
+    subnodes: Node[]?
 }*/
 \expand(ctx:Context, node) {
     /*var sk=s.id();
     if (nodes[sk]) throw new Error(sk+" already found");*/
     if (node.n<expandThresh) throw new Error(node.n+"<"+expandThresh);
-    if (node.actions) throw new Error(node.state+" already expanded");
-    node.actions=node.state.actionsEvents(ctx).map \(a) {
+    if (node.subnodes) throw new Error(node.state+" already expanded");
+    node.subnodes=node.state.actionsEvents(ctx).map \(a) {
         return {
             parent: node, 
             state: node.state.next(ctx,a),
             q:new Rational(0,0), 
             n:0, 
             a:str(a),
-            actions: null,
+            subnodes: null,
         };
     };
     return node;
@@ -45,23 +45,23 @@ var player;
     if (a==null) {
         return node.q.value;
     } else {
-        if (!node.actions) throw new Error(n.state+"Not expanded");
-        return node.actions[a].q.value;
+        if (!node.subnodes) throw new Error(n.state+"Not expanded");
+        return node.subnodes[a].q.value;
     }
 }
 \n(node, a:Number) {
     if (a==null) {
         return nanc( node.n );
     } else {
-        if (!node.actions) throw new Error(n.state+"Not expanded");
-        return nanc( node.actions[a].n );
+        if (!node.subnodes) throw new Error(n.state+"Not expanded");
+        return nanc( node.subnodes[a].n );
     }
 }
 \selection(ctx:Context, node) {
     // return leaf node
-    if (!node.actions) throw new Error(n.state+"Not expanded");
+    if (!node.subnodes) throw new Error(n.state+"Not expanded");
     while (true) {
-        var acts=node.actions;
+        var acts=node.subnodes;
         var sgn=(node.state.player===player?1:-1);
         node.n+=1;
         if (!acts || acts.length==0) break;
@@ -87,7 +87,7 @@ var player;
         state: s,
         q:new Rational(0,0), 
         n:expandThresh+1, 
-        actions: null,
+        subnodes: null,
     };
     player=s.player;
     nanc(expandThresh);
@@ -127,7 +127,7 @@ var player;
         state: s,
         q:new Rational(0,0), 
         n:expandThresh+1, 
-        actions: null,
+        subnodes: null,
     };
     player=s.player;
     nanc(expandThresh);
@@ -136,7 +136,7 @@ var player;
         while(true) {
             var leaf=selection(ctx, rootNode);
             if (n(leaf)<expandThresh) break;
-            if (leaf.actions && leaf.actions.length==0) break;
+            if (leaf.subnodes && leaf.subnodes.length==0) break;
             expand(ctx, leaf);
         }
         // print("leaf", leaf);
@@ -146,7 +146,7 @@ var player;
     }
     //print ("RN",rootNode);
     var ma=-1,mqc=0;
-    for (var a=0;a<rootNode.actions.length;a++) {
+    for (var a=0;a<rootNode.subnodes.length;a++) {
         var qc=q(rootNode,a);
         //print("QC", a,qc);
         if (ma<0 || qc>=mqc) {
@@ -155,7 +155,7 @@ var player;
         }
     }
     var acts=s.actionsEvents(ctx);
-    //print (acts.length , rootNode.actions.length, ma);
+    //print (acts.length , rootNode.subnodes.length, ma);
     if (!acts[ma]) throw new Error("Action not found "+ma);
     return acts[ma];
 }
@@ -183,7 +183,7 @@ var player;
     var p=node.parent;
     var idx=p.subnodes.indexOf(node);
     if (idx<0) throw new Error("Index not found");
-    var act=p.actions[idx];
+    var act=p.subnodes[idx];
     if (!act) throw new Error("Action not found "+idx);
     node.state=getState(ctx, p).next(ctx, act);
     return node.state;
