@@ -153,9 +153,11 @@ var expcount=0;
 }
 \rollout(ctx, node) {
     var state=getState(ctx, node);
+    var t=new Date().getTime();
     while (!state.gameover(ctx)) {
         var a=playRandom(ctx, state);
         state=state.next(ctx, a);
+        if (new Date().getTime()-t>1) break;
     }
     return state;
 }
