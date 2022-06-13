@@ -81,6 +81,47 @@ var player;
     return node;
 }
 \play(ctx:Context, s:State):Action {
+    expcount=0;
+    var rootNode={
+        parent: null, 
+        state: s,
+        q:new Rational(0,0), 
+        n:expandThresh+1, 
+        actions: null,
+    };
+    player=s.player;
+    nanc(expandThresh);
+    expand(ctx,rootNode);
+    for (var i=0;i<iteration;i++) {
+        while(true) {
+            var leaf=selection(ctx, rootNode);
+            if (n(leaf)<expandThresh) break;
+            if (leaf.subnodes && leaf.subnodes.length==0) break;
+            expand(ctx, leaf);
+        }
+        // print("leaf", leaf);
+        var endState=rollout(ctx, leaf);
+        var v=value(ctx, s.player, endState);
+        backup(leaf, v);
+        if (expcount>=300) break;
+    }
+    //print ("RN",rootNode);
+    var ma=-1,mqc=0;
+    for (var a=0;a<rootNode.subnodes.length;a++) {
+        var qc=q(rootNode,a);
+        //print("QC", a,qc);
+        if (ma<0 || qc>=mqc) {
+            mqc=qc;
+            ma=a;
+        }
+    }
+    var acts=s.actionsEvents(ctx);
+    //print (acts.length , rootNode.subnodes.length, ma);
+    if (!acts[ma]) throw new Error("Action not found "+ma);
+    print("EXP",expcount);
+    return acts[ma];
+}
+/*\play(ctx:Context, s:State):Action {
     var rootNode={
         parent: null, 
         state: s,
@@ -118,6 +159,7 @@ var player;
     if (!acts[ma]) throw new Error("Action not found "+ma);
     return acts[ma];
 }
+*/
 \backup(node, value:Number) {
     while(node) {
         node.q=node.q.inc(value);
@@ -134,6 +176,17 @@ var player;
         if (new Date().getTime()-t>1) break;
     }
     return state;
+}
+
+\getState(ctx, node){
+    if (node.state) return node.state;
+    var p=node.parent;
+    var idx=p.subnodes.indexOf(node);
+    if (idx<0) throw new Error("Index not found");
+    var act=p.actions[idx];
+    if (!act) throw new Error("Action not found "+idx);
+    node.state=getState(ctx, p).next(ctx, act);
+    return node.state;
 }
 
 \playRandom(ctx:Context, s:State):Action {
