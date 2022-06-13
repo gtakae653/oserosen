@@ -124,11 +124,14 @@ var player;
         node=node.parent;
     }
 }
+
 \rollout(ctx, node) {
-    var state=node.state;
+    var state=getState(ctx, node);
+    var t=new Date().getTime();
     while (!state.gameover(ctx)) {
         var a=playRandom(ctx, state);
         state=state.next(ctx, a);
+        if (new Date().getTime()-t>1) break;
     }
     return state;
 }

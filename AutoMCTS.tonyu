@@ -124,12 +124,14 @@ $Boot.newLimit=null;//10000000;
 var mcts10=new MCTSBot{value,Cp:10, expandThresh:3, iteration:10};
 var mcts20=new MCTSBot{value,Cp:10, expandThresh:3, iteration:20};
 var mcts100=new MCTSBot{value,Cp:10, expandThresh:3, iteration:100};
+var mcts300=new MCTSBot{value,Cp:10, expandThresh:3, iteration:300};
 var cmcts100=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:100};
+var cmcts300=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:300};
 \value(ctx, p, s:Board):Number {
     return s.value(ctx,p);
 }
 
-$gameConfig.bots={"1":new SanpuStationsBot()/*mcts10*/, "2": new SanpuLinesBot()};
+$gameConfig.bots={"1":mcts300/*mcts10*/, "2": mcts300};
 var stnames=Object.keys($name2Node);
 var takenStations;
 var allStations=$stationPlace.length;

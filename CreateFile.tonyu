@@ -1,4 +1,4 @@
-textName = String($loopCount)+"_log.txt";
+textName = "../files/MCTS_MCTS_Kintetsu/"+String($loopCount)+"_log.txt";
 f=file(textName);//freelog.txt
 /*c="";
 if (f.exists()){
