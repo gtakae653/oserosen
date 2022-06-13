@@ -5,6 +5,7 @@ var expandThresh;
 var value; // (ctx, player, state)=>number (playerにとってのstateの評価値)
 var iteration;
 var player;
+var timeout;
 "field strict";
 //var rootNode={};
 /*Node={
@@ -114,7 +115,7 @@ var expcount=0;
             expand(ctx, leaf);
         }
         // print("leaf", leaf);
-        var endState=rollout(ctx, leaf);
+        var endState=rollout(ctx, leaf, timeout);
         var v=value(ctx, s.player, endState);
         backup(leaf, v);
         if (expcount>=300) break;
@@ -152,13 +153,13 @@ var expcount=0;
     return node.state;
 }
 
-\rollout(ctx, node) {
+\rollout(ctx, node, timeout) {
     var state=getState(ctx, node);
     var t=new Date().getTime();
     while (!state.gameover(ctx)) {
         var a=playRandom(ctx, state);
         state=state.next(ctx, a);
-        if (new Date().getTime()-t>1) break;
+        if (new Date().getTime()-t>timeout) break;
     }
     return state;
 }

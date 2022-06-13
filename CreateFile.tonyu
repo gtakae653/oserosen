@@ -1,9 +1,7 @@
-textName = "../files/MCTS_MCTS_Kintetsu/"+String($loopCount)+"_log.txt";
+textName = "../files/CMCTS(600_1)_CMCTS(300_2)_Kintetsu/"+String($loopCount)+"_log.txt";
+//textName = "freelog.txt";
 f=file(textName);//freelog.txt
-/*c="";
-if (f.exists()){
-    c=f.text();
-}*/
+
 
 if(logStationName){
     f.appendText(logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");

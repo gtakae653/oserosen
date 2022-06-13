@@ -125,8 +125,9 @@ var mcts10=new MCTSBot{value,Cp:10, expandThresh:3, iteration:10};
 var mcts20=new MCTSBot{value,Cp:10, expandThresh:3, iteration:20};
 var mcts100=new MCTSBot{value,Cp:10, expandThresh:3, iteration:100};
 var mcts300=new MCTSBot{value,Cp:10, expandThresh:3, iteration:300};
-var cmcts100=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:100};
-var cmcts300=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:300};
+var cmcts100=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:100, timeout:1};
+var cmcts600=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:600, timeout:1};
+var cmcts300=new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:300, timeout:2};
 \value(ctx, p, s:Board):Number {
     return s.value(ctx,p);
 }
