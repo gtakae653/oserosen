@@ -1,7 +1,7 @@
+native location;
 textName = "../files/CMCTS(600_1)_CMCTS(300_2)_Kintetsu/"+String($loopCount)+"_log.txt";
 //textName = "freelog.txt";
 f=file(textName);//freelog.txt
-
 
 if(logStationName){
     f.appendText(logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");
