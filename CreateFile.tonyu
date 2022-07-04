@@ -1,4 +1,4 @@
-textName = "../files/CMCTS(600_1)_CMCTS(300_2)_Kintetsu/"+String($loopCount)+"_log.txt";
+textName = "../files/MCTS(600_1)_SanpuStation_Kintetsu/"+String($loopCount)+"_log.txt";
 //textName = "freelog.txt";
 f=file(textName);//freelog.txt
 

@@ -16,8 +16,8 @@ new Button{top:400,left:$screenHeight/2-50,text:"リプレイ",width:100,height:
 
 //ターン数指定
 new Button{top:370,left:$screenHeight/2-50,width:100,height:30,text:"ターン数",onClick:\{parallel("turnC");} };
-
-k = new Button{top:10,left:320,width:130,height:30,text:"近鉄モード",onClick:kintetsu};
+new Button{top:10,left:320,width:130,height:30,text:"近鉄モード",onClick:kintetsu};
+new Button{top:10,left:180,width:130,height:30,text:"個人モード",onClick:solo};
 
 count=0;
 while(count < 10000000){
