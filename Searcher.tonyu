@@ -58,7 +58,7 @@ while(true) {
     //update();
     //updateEx(5);
 }
-console.log("SRC", allPaths);
+//console.log("SRC", allPaths);
 function report(paths) {
     allPaths=allPaths.concat(paths);
     //fireEvent("result",paths);

@@ -2,7 +2,6 @@ textName = "../files/MCTS(600_1)_SanpuStation_Kintetsu/"+String($loopCount)+"_lo
 //textName = "freelog.txt";
 f=file(textName);//freelog.txt
 
-
 if(logStationName){
     f.appendText(logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");
 }else{
