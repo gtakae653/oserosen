@@ -1,14 +1,14 @@
 extends State;
 "field strict";
 var turn;               //誰のターンか
-var ready;              //探索中か否か
-var onReady;            //ready=trueになったら呼ばれる
+//var ready;              //探索中か否か
+//var onReady;            //ready=trueになったら呼ばれる
 var error;
-var diceNum;            //ダイスの出目
+var diceNum;            //ダイスの出目(gameConfig.debug==falseのときのみ有効．undefinedのときは「まだ振っていない」)
 var turnCount;          //何周したか
 var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか(ボタン表示用)
-var selected;
-var choice;             //何文字の駅を選べばいいか(テキスト表示用)
+//var selected;
+//var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
 var getStation;         //prevPlayerの人が取った駅
 //var prev;               //前のボードの情報
@@ -17,13 +17,16 @@ var attack;
 //var lost;
 var attackChance;
 var prevPlayer;
-var message1 = "塗り替える駅を選んでください";
-var message2 = "塗り替えられる駅が存在しませんでした";
+//var message1 = "塗り替える駅を選んでください";
+//var message2 = "塗り替えられる駅が存在しませんでした";
 
 \next(gameConfig,b){
     return clicked(gameConfig,b);
 }
 function clicked(gameConfig,b){
+    if (!gameConfig.debug && !diceNum) {
+        throw new Error("サイコロが振られていません");
+    }
     var curHotSpring=b.stext.indexOf("温泉")>-1;
     var nb;
     nb = new Board{owner: Object.assign({}, owner), gameConfig,/*prev:this ,*/turnCount:turnCount};
@@ -33,11 +36,10 @@ function clicked(gameConfig,b){
     if(attack){//本当は奪取処理をした後に消したい(消えない)
         attack.die();
     }
-    var grp=new Sprites();
+    //var grp=new Sprites();
     /*if(lost){
         lost.die();
     }*/
-    //all(Path).die();
     
     //温泉駅を取った次のボードで実行したい処理
     /*if(attackChance){
@@ -53,8 +55,6 @@ function clicked(gameConfig,b){
             if(attack){
                 attack.die();
             }
-            nb.ready=true;
-            if(onReady) onReady();
             return nb;
         }else{
             if(attack){
@@ -62,8 +62,6 @@ function clicked(gameConfig,b){
             }
             nb.error = "塗り替え可能な駅ではありません";
             nb.attackChance = true;
-            nb.ready = true;
-            if(onReady) onReady();
             return nb;
         }
     }*/
@@ -125,8 +123,6 @@ function clicked(gameConfig,b){
                                 }
                                 nb.turn = turn;
                                 nb.turnCount = turnCount;
-                                nb.ready = true;
-                                if(onReady) onReady();
                                 nb.selected = b.stext;
                                 prevMyStation[turn-1] = b.stext;
                                 nb.prevMyStation = prevMyStation;
@@ -149,20 +145,20 @@ function clicked(gameConfig,b){
             setNextTurn(gameConfig,nb);//ターン変更
    
             nb.diceNum = $main.dice();
-            nb.ready=true;
-            if(onReady) onReady();
+            //nb.ready=true;
+            //if(onReady) onReady();
             //while(!nb.ready) ns.stepsAll();        
                 
         }else{//すでに取られている駅を押した場合
             nb.error = "その駅は既に取られています";
-            nb.ready=true;
-            if(onReady) onReady();
+            //nb.ready=true;
+            //if(onReady) onReady();
             return nb;
         }
     }else{//文字数と一致した駅が選ばれなかった場合
         nb.error = "指定された文字数と一致した駅を選んでください";
-        nb.ready=true;
-        if(onReady) onReady();
+        //nb.ready=true;
+        //if(onReady) onReady();
         return nb;
     }
     return nb;

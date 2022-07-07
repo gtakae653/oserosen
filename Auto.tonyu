@@ -76,28 +76,13 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 
 
 function sButtonClicked(b) {
-    /*if (!board.ready) {
-        return;
-    }
-    if(!$boardPrepared){
-        return;
-    }
-    if(!$searchPrepared){
-        return;
-    }*/
     if(board.gameOver){
         print("This game is finished!");
         print("Thank you for playing!");
         return;
     }
     var nb=board.clicked($gameConfig,b);
-    if (!nb.ready) {
-        throw new Error("Not Ready(こんなはずでは……)");
-        /*searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
-        nb.onReady=function () {
-            searching.die();
-        };*/
-    }
+    
 
     
     if (nb.error) {
@@ -146,8 +131,6 @@ while(takenStations != allStations) {
     print(takenStations,allStations);
     var btn=$name2Button[stname];
     var nb=sButtonClicked(btn);
-    //while(!nb.ready) update();
-    //print(all().length);
     update();
     //自分の駅数がどれくらいあるかを数える(リストで保存するとか)
     //takenCount();
