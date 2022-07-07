@@ -24,6 +24,7 @@ while(count < 10000000){
     if(getkey("d") && getkey("ctrl")){
         debug();
     }
+    update();
     count++;
 }
 

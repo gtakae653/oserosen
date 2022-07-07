@@ -6,13 +6,13 @@ var turn;               //誰のターンか
 var error;
 var diceNum;            //ダイスの出目(gameConfig.debug==falseのときのみ有効．undefinedのときは「まだ振っていない」)
 var turnCount;          //何周したか
-var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか(ボタン表示用)
+//var prevMyStation=[];   //各プレイヤーの１手前にどこを取ったか(ボタン表示用)
 //var selected;
 //var choice;             //何文字の駅を選べばいいか(テキスト表示用)
 var owner;              //誰が保持しているか
 var getStation;         //prevPlayerの人が取った駅
 //var prev;               //前のボードの情報
-var gameOver;
+//var gameOver;
 var attack;
 //var lost;
 var attackChance;
@@ -23,13 +23,19 @@ var prevPlayer;
 \next(gameConfig,b){
     return clicked(gameConfig,b);
 }
+\clone() {
+    return new Board{
+        owner: Object.assign({}, owner), 
+        error, diceNum, turnCount, getStation, attack, attackChance, prevPlayer
+    };
+}
 function clicked(gameConfig,b){
     if (!gameConfig.debug && !diceNum) {
         throw new Error("サイコロが振られていません");
     }
     var curHotSpring=b.stext.indexOf("温泉")>-1;
-    var nb;
-    nb = new Board{owner: Object.assign({}, owner), gameConfig,/*prev:this ,*/turnCount:turnCount};
+    var nb=clone();
+    //nb = new Board{owner: Object.assign({}, owner), /*prev:this ,*/turnCount:turnCount};
     if(gameConfig.replay==true){
         new MapScroll{x:$name2Node[b.stext].x,y:$name2Node[b.stext].y,scale:$scale};
     }
@@ -106,10 +112,12 @@ function clicked(gameConfig,b){
                         
                     }*/
                             
-                if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
+                /*if(gameConfig.limTurn && (gameConfig.limTurn)-0 === turnCount){//ゲーム終了処理
                     nb.gameOver=true;
                                 //loadPage(GameSet);
                 }
+                moved to actionsEvents
+                */
                             
                 
             }(line);
@@ -124,8 +132,6 @@ function clicked(gameConfig,b){
                                 nb.turn = turn;
                                 nb.turnCount = turnCount;
                                 nb.selected = b.stext;
-                                prevMyStation[turn-1] = b.stext;
-                                nb.prevMyStation = prevMyStation;
                                 $main.colorCount();
                                 nb.prevPlayer = turn;
                                 nb.attackChance = true;
@@ -137,8 +143,6 @@ function clicked(gameConfig,b){
                         }*/
                                 
             nb.selected = b.stext;
-            prevMyStation[turn-1] = b.stext;
-            nb.prevMyStation = prevMyStation;
             $main.colorCount();
             nb.prevPlayer = turn;
                                 
@@ -196,6 +200,7 @@ function enemyHasStation(turn){
 /*今のボードからどの駅が取れるかを返す*/
 \actionsEvents(ctx:GameConfig) {
     var res=[];
+    if (ctx.limTurn && (ctx.limTurn)-0 === turnCount) return res;
     for (var stationPlace of $stationPlace) {
         if(!owner[stationPlace.name]){
             res.push({stext:stationPlace.name});

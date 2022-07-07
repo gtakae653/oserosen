@@ -76,7 +76,7 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
 
 
 function sButtonClicked(b) {
-    if(board.gameOver){
+    if(board.gameover($gameConfig)){
         print("This game is finished!");
         print("Thank you for playing!");
         return;
