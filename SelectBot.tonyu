@@ -1,13 +1,18 @@
 $selectBot=this;
 new Button{top:20,left:400,width:50,height:30,text:"戻る",onClick:back};
 new Button{top:50,left:400,width:50,height:30,text:"開始",onClick:start};
-c=0;
+//new Button{top:80,left:400,width:50,height:30,text:"人間",onClick:human};
 botPlayers=[];
 botsName=["Random","SanpuLines","SanpuStations","MCTS","CMCTS","選びなおす"];
-bots=[new RandomBot(),new SanpuLinesBot(),new SanpuStationsBot(),new MCTSBot{value,Cp:10, expandThresh:3, iteration:300, timeout:1},new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:300, timeout:1}];
+bots=[new RandomBot(),new SanpuLinesBot(),new SanpuStationsBot(),new MCTSBot{value,Cp:20, expandThresh:3, iteration:3000, timeout:3},new CornerMCTSBot{value,Cp:10, expandThresh:3, iteration:300, timeout:1}];
 for(var i=0;i<botsName.length;i++){
     playerButton = new Button{top:i*30,left:0,width:150,height:30,text:botsName[i],player:i,onClick:clicked};
 }
+
+\value(ctx, p, s:Board):Number {
+    return s.value(ctx,p);
+}
+
 /*
 new Label{x:350,y:450,template:"Player 1="};
 new Label{x:350,y:500,template:"Player 2="};
@@ -18,27 +23,30 @@ function back(){
 
 function start(){
     if(botPlayers.length==2){
-        loadPage(AutoMCTS);
+        //loadPage(AutoMCTS);
+        loadPage(LoopCount);
     }else{
         print("Botを選んでください");
     }
 }
 
-\value(ctx, p, s:Board):Number {
-    return s.value(ctx,p);
+function human(){
+    if(botPlayers.length==0){
+        print("Botを選んでください");
+    }else{
+        loadPage(Solo);
+    }
 }
 
 function clicked(b){
     if(b.player==botsName.length-1){
-        c=0;
         botPlayers=[];
         print("リセット");
     }else{
-        if(c==0){
+        if(botPlayers.length==0){
             print(botsName[b.player]);
             botPlayers.push(bots[b.player]);
-            c++;
-        }else if(c==1){
+        }else if(botPlayers.length==1){
             print(botsName[b.player]);
             botPlayers.push(bots[b.player]);
         }

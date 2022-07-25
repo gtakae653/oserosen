@@ -71,5 +71,5 @@ function back(){
 }
 
 function bots(){
-    loadPage(SelectBot);    
+    loadPage(SelectBot);
 }
