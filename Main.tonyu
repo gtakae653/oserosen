@@ -23,7 +23,7 @@ for(var p of $pre){
     new Label{x:$pre[p].x*$pixelPerDegree,y:$pre[p].y*$pixelPerDegree,text:$pre[p].name,size:500,fillStyle:"black"};
 }
 */
-
+$prevMyStation=[];
 $search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
@@ -136,29 +136,18 @@ while(true) {
 
 
 function sButtonClicked(b) {
-    if (!$board.ready) {
-        return;
-    }
     if(!$boardPrepared){
         return;
     }
     if(!$searchPrepared){
         return;
     }
-    if($board.gameOver){
+    if($board.gameover($gameConfig)){
         print("This game is finished!");
         print("Thank you for playing!");
         return;
     }
     var nb=$board.clicked($gameConfig,b);
-    if (!nb.ready) {
-        searching = new Label{x:50, y:450,fillStyle:"Black", template:"探索中..."};
-        nb.onReady=function () {
-            
-            searching.die();
-        };
-    } 
-    
     
     
     if (nb.error) {
@@ -167,6 +156,7 @@ function sButtonClicked(b) {
         new PopupLabel{template:"ERROR",x:30,y:480,fillStile:"black"};
         //エラーメッセージが表示される
     } else {
+        $prevMyStation[$board.turn-1]=b.stext;
         $board=nb;
         var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prevPlayer};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
@@ -213,7 +203,7 @@ function click(a){
     }
     panel.fillRect(0,0,300,300);
     
-    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$board.prevMyStation[$board.turn-1],onClick:searchClicked};
+    $prevStation = new Button{top:110,left:140,width:180,height:30,text:$prevMyStation[$board.turn-1],onClick:searchClicked};
     
     var citySta;
     if($kintetsu==true){
