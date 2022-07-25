@@ -31,6 +31,7 @@ function start(){
 function clicked(b){
     if(b.player==botsName.length-1){
         c=0;
+        $gameConfig.players=[];
         print("リセット");
     }else{
         if(c==0){
