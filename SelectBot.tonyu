@@ -1,9 +1,8 @@
 $selectBot=this;
 new Button{top:20,left:400,width:50,height:30,text:"戻る",onClick:back};
 new Button{top:50,left:400,width:50,height:30,text:"開始",onClick:start};
-player_one;
-player_two;
 c=0;
+botPlayers=[];
 botsName=["Random","SanpuLines","SanpuStations","MCTS","CMCTS","選びなおす"];
 bots=[new RandomBot(),new SanpuLinesBot(),new SanpuStationsBot(),new MCTSBot{value,Cp:10, expandThresh:3, iteration:300, timeout:1},new MCTSBot{value,Cp:10, expandThresh:3, iteration:300, timeout:1}];
 for(var i=0;i<botsName.length;i++){
@@ -18,10 +17,7 @@ function back(){
 }
 
 function start(){
-    if($gameConfig.players.length==2){
-        $gameConfig.player = 2/*b.player*/;
-        //$gameConfig.players = [player_one,player_two];
-        $gameConfig.replay = false;
+    if(botPlayers.length==2){
         loadPage(AutoMCTS);
     }else{
         print("Botを選んでください");
@@ -31,18 +27,16 @@ function start(){
 function clicked(b){
     if(b.player==botsName.length-1){
         c=0;
-        $gameConfig.players=[];
+        botPlayers=[];
         print("リセット");
     }else{
         if(c==0){
             print(botsName[b.player]);
-            player_one=bots[b.player];
-            $gameConfig.players.push(player_one);
+            botPlayers.push(bots[b.player]);
             c++;
         }else if(c==1){
             print(botsName[b.player]);
-            player_two=bots[b.player];
-            $gameConfig.players.push(player_two);
+            botPlayers.push(bots[b.player]);
         }
     }
 }
