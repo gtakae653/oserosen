@@ -9,7 +9,7 @@ $gameConfig={
 };
 $kintetsu=true;
 //---Main
-$Screen.setBGColor("black"/*"white"*/);
+$Screen.setBGColor("white");
 $main=this;
 
 var searching;
