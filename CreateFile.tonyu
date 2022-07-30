@@ -1,5 +1,5 @@
-//textName = "../files/Random_SanpuStations_Kintetsu/"+String($loopCount)+"_log.txt";
-textName = "freelog_0.txt";
+textName = "../files/MCTS(10_600_2)_MCTS(1.4_600_2)_Kintetsu/"+String($loopCount)+"_log.txt";
+//textName = "freelog_0.txt";
 f=file(textName);//freelog.txt
 
 if(logStationName){
