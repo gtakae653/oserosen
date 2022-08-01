@@ -363,6 +363,9 @@ function limit(dice){
     }
     return nts;
 }
+
+
+
 /*
 function getStationPlace(n) {
     if (!$stationPlace[n]) throw new Error(n+" not found");

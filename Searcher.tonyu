@@ -66,13 +66,14 @@ function report(paths) {
 }
 
 function isTransferStation(stationName){
-    if(current.name.indexOf("point") > -1){//pointオブジェクトなら
+    if(stationName.indexOf("point") > -1){//pointオブジェクトなら
         return false;
-    }else if($stations[current.name].midway==false){//中間駅ではない
+    }else if($stations[stationName].midway==false){//中間駅ではない
         return true;
-    }else if(!($stations[current.name].midway==true) && $stations[current.name].lines.length > 1){
+    }else if(!($stations[stationName].midway==true) && $stations[stationName].lines.length > 1){
         return true;//midwayがtureではない　かつ　linesが１つより多い場合
     }else{
         return false;
     }
 }
+

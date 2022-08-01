@@ -130,7 +130,7 @@ var allStations=$stationPlace.length;
 var kouho=[];
 var stname;
 
-var g=new GameMaster{state: board, context:$gameConfig };
+var g=new GameMaster{state: board, context:$gameConfig};
 while(!g.gameover()) {
     var pp=g.state.player;
     var a=g.step();
@@ -198,25 +198,6 @@ if($loopCount && $loopCount<500){//戦わせる回数
     return nts;
 }
 
-\sprayingBot(){//散布型Bot
-    var nts=notTakenStations();//取られていない駅
-    var choice;
-    var stn;
-    var kouho=[];
-    
-    for(stn of nts){
-        if($stations[stn].nexts.length == $stations[stn].lines.length){//角の駅かを判定
-            kouho.push(stn);//角ならkouhoに追加
-        }
-    }
-    if(kouho.length>0){
-        choice=searchCorner(shuffle(kouho));
-    }else{
-        choice=nts[rnd(nts.length)];//ランダムを返す
-    }
-    return choice;
-}
-
 \searchCorner(stationArray){//取られていない角の駅の配列を受け取る
     var biggest=stationArray[0];
     for(var i=1;i<stationArray.length;i++){
@@ -228,36 +209,7 @@ if($loopCount && $loopCount<500){//戦わせる回数
     return biggest;
 }
 
-/*シャッフル*/
-\shuffle(stArray){//kouhoを受け取る
-    var newArray=[];
-    var choice;
-    var z;
-    while(true){
-        z=stArray.splice([rnd(stArray.length)],1);
-        newArray.push(z[0]);//ランダムな1駅を選び新たな配列の末尾に追加する
-        if(stArray.length==0){
-            break;
-        }
-    }
-    return newArray;//ランダムな順になった配列を返す
-}
 
-\linesAllStations(stationName){
-    var sum=0;
-    var sLines=$stations[stationName].lines;
-    for(var i=0;i<sLines.length;i++){
-        for (var station of $stationPlace) {
-            //接続駅が選ばれた場合、同じ駅を重複して数えている
-            //あえてこのままにするのも手かもしれない
-            if($stations[station.name].lines.indexOf(sLines[i])>-1){
-                sum+=1;
-            }
-        }
-    }
-    print(sum);
-    return sum;
-}
 
 \colorCount() {
     // dummy
