@@ -184,7 +184,7 @@ function clicked(gameConfig,b){
         //nが接続駅＆空白で，探索済リストにないなら
             stopStations.push(n);
         }else{
-            stopStations.concat(nextSearchStop($name2Button[n],  visited));
+            stopStations.concat(nextSearchStop($name2Button[n],  visited, nb));
         }
     }
     return stopStations; 
