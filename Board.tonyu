@@ -17,7 +17,6 @@ var attack;
 //var lost;
 var attackChance;
 var prevPlayer;
-var visited={};
 //var message1 = "塗り替える駅を選んでください";
 //var message2 = "塗り替えられる駅が存在しませんでした";
 
@@ -79,7 +78,8 @@ function clicked(gameConfig,b){
         //var ns=new Scheduler();
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
-            print(nextSearchStop(b,  visited, nb));
+            //print(nextSearchStops(b,  {}));
+            
             var lines = $stations[b.stext].lines;
             //var count = lines.length;
             for (var line of lines) \(line){
@@ -109,7 +109,6 @@ function clicked(gameConfig,b){
                     }
                                 
                 }
-                            
                     /*if(count == 0){
                         
                     }*/
@@ -143,7 +142,8 @@ function clicked(gameConfig,b){
                             }
                                 
                         }*/
-                                
+            var tmp = lineStations($stations[b.stext].lines[0]);
+            print(isComplete(tmp,turn),b.stext,turn);
             nb.selected = b.stext;
             $main.colorCount();
             nb.prevPlayer = turn;
@@ -171,24 +171,24 @@ function clicked(gameConfig,b){
     //$rsta = residualStation();
 }
 
-\nextSearchStop(station,  visited, nb) {//station:ある駅 visited:探索済みリスト
+// stationに隣接する接続駅を配列で返す．
+\nextSearchStops(station,  visited) {//station:ある駅 visited:探索済みリスト
     var stopStations=[];//結果のリスト
     if (visited[station.stext]){
         return stopStations;
     }
     visited[station.stext]=station;//visited{}にbを追加
-    //print($stations[station.stext].nexts);
     for (var n in $stations[station.stext].nexts){
-        //print(n,isStopStation(n),!nb.owner[n],!visited[n]);
-        if(isStopStation(n) && !nb.owner[n] && !visited[n]){
         //nが接続駅＆空白で，探索済リストにないなら
+        if(isStopStation(n) && !owner[n] && !visited[n]){
             stopStations.push(n);
         }else{
-            stopStations.concat(nextSearchStop($name2Button[n],  visited, nb));
+            stopStations=stopStations.concat(nextSearchStops($name2Button[n],  visited));
         }
     }
     return stopStations; 
 }
+
 
 function isStopStation(stationName){//ある駅についてその駅が探索打ち切り駅か判定する
     if(stationName.indexOf("point") > -1){//pointオブジェクトなら
@@ -202,6 +202,27 @@ function isStopStation(stationName){//ある駅についてその駅が探索打
     }else{
         return false;
     }
+}
+
+function lineStations(lineName){//渡された路線に所属する駅をリストにして返す
+    var lineStations=[];
+    for(var station of $stations){
+        if($stations[station].lines.indexOf(lineName)>-1){
+            lineStations.push(station);
+        }
+    }
+    return lineStations;
+}
+
+function isComplete(stationList,playerTurn){
+    for(var s of stationList){
+        if(!owner[s] || owner[s].owner!=playerTurn){
+            /*現状、owner[s].owner!=playerTurnが常にfalseになっている？*/
+            print(owner[s].owner);
+            return false;
+        }
+    }
+    return true;
 }
 
 function setNextTurn(gameConfig,nb) {
