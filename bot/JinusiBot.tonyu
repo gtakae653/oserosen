@@ -2,9 +2,9 @@ extends Bot;
 
 \play(ctx:Context, s:State):Action {
     if (!ctx) throw new Error("CTX is null");
-    var acts=s.actionsEvents(ctx);
+    var acts=s.actionsEvents(ctx);//取得可能な全ての駅のリスト
     // todo: Event
-    var a=spraying(acts);
+    var a=spread(acts);
     return a;
 }
 
@@ -18,9 +18,11 @@ extends Bot;
     }
     return biggest;
 }
-
-\jinusi(acts){
+\spread(acts){
     //じわじわ広げる
+    
+}
+\spraying(acts){
     var choice;
     var stn;
     var kouho=[];

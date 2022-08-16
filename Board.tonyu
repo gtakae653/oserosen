@@ -79,7 +79,7 @@ function clicked(gameConfig,b){
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
             //print(nextSearchStops(b,  {}));
-            
+            print(b.stext,"point:",evaluatStation(b.stext));
             var lines = $stations[b.stext].lines;
             //var count = lines.length;
             for (var line of lines) \(line){
@@ -143,7 +143,7 @@ function clicked(gameConfig,b){
                                 
                         }*/
             var tmp = lineStations($stations[b.stext].lines[0]);
-            print(isComplete(tmp,turn),b.stext,turn);
+            print(nb.isComplete(tmp,turn),b.stext,turn);
             nb.selected = b.stext;
             $main.colorCount();
             nb.prevPlayer = turn;
@@ -172,7 +172,7 @@ function clicked(gameConfig,b){
 }
 
 // stationに隣接する接続駅を配列で返す．
-\nextSearchStops(station,  visited) {//station:ある駅 visited:探索済みリスト
+\nextSearchStops(station,  visited, ctx:GameConfig) {//station:ある駅 visited:探索済みリスト
     var stopStations=[];//結果のリスト
     if (visited[station.stext]){
         return stopStations;
@@ -189,6 +189,20 @@ function clicked(gameConfig,b){
     return stopStations; 
 }
 
+function evaluatStation(stationName){//ある駅の評価値を返す
+    var s=$stations[stationName];
+    var point=1;//基本点
+    point+=linesAllStations(stationName);//総駅数　+n点
+    point=point+(point*(s.lines.length/10));//路線数　1.n倍点
+    if(s.nexts.length == s.lines.length && s.midway!=true){//角の駅
+        point+=linesAllStations(stationName)/2;//角　+総駅数/2点
+    }
+    return point;
+}
+
+function evaluatBoard(){
+    //まだ
+}
 
 function isStopStation(stationName){//ある駅についてその駅が探索打ち切り駅か判定する
     if(stationName.indexOf("point") > -1){//pointオブジェクトなら
@@ -217,12 +231,25 @@ function lineStations(lineName){//渡された路線に所属する駅をリス�
 function isComplete(stationList,playerTurn){
     for(var s of stationList){
         if(!owner[s] || owner[s].owner!=playerTurn){
-            /*現状、owner[s].owner!=playerTurnが常にfalseになっている？*/
-            print(owner[s].owner);
             return false;
         }
     }
     return true;
+}
+
+function linesAllStations(stationName){//ある駅に所属する路線の総駅数を返す
+    var sum=0;
+    var sLines=$stations[stationName].lines;
+    for(var i=0;i<sLines.length;i++){
+        for (var station of $stationPlace) {
+            //接続駅が選ばれた場合、同じ駅を重複して数えている
+            //あえてこのままにするのも手かもしれない
+            if($stations[station.name].lines.indexOf(sLines[i])>-1){
+                sum+=1;
+            }
+        }
+    }
+    return sum;
 }
 
 function setNextTurn(gameConfig,nb) {
