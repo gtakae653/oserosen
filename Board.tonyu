@@ -79,7 +79,7 @@ function clicked(gameConfig,b){
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
             //print(nextSearchStops(b,  {}));
-            print(b.stext,"point:",evaluatStation(b.stext));
+            print(b.stext,"point:",evaluateStation(b.stext));
             var lines = $stations[b.stext].lines;
             //var count = lines.length;
             for (var line of lines) \(line){
@@ -189,14 +189,16 @@ function clicked(gameConfig,b){
     return stopStations; 
 }
 
-function evaluatStation(stationName){//ある駅の評価値を返す
+function evaluateStation(stationName){//ある駅の評価値を返す
     var s=$stations[stationName];
+    if (s.point) return s.point;
     var point=1;//基本点
     point+=linesAllStations(stationName);//総駅数　+n点
     point=point+(point*(s.lines.length/10));//路線数　1.n倍点
     if(s.nexts.length == s.lines.length && s.midway!=true){//角の駅
         point+=linesAllStations(stationName)/2;//角　+総駅数/2点
     }
+    s.point=point;
     return point;
 }
 
