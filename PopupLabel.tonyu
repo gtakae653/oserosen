@@ -1,5 +1,0 @@
-extends Label;//Labelクラスを継承
-
-// ラベルに対する処理を書く
-updateEx(180);//30フレーム待機
-die();//消える
