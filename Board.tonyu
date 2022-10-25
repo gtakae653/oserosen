@@ -79,7 +79,7 @@ function clicked(gameConfig,b){
         if(! nb.owner[b.stext]){//ownerに押された駅が無かったら
             nb.owner[b.stext]={name:b.stext,owner:turn};//その駅をownerに数値turnで追加する
             //print(nextSearchStops(b,  {}));
-            print(b.stext,"point:",evaluateStation(b.stext));
+            //print(b.stext,"point:",evaluateStation(b.stext));
             var lines = $stations[b.stext].lines;
             //var count = lines.length;
             for (var line of lines) \(line){
@@ -143,7 +143,7 @@ function clicked(gameConfig,b){
                                 
                         }*/
             var tmp = lineStations($stations[b.stext].lines[0]);
-            print(nb.isComplete(tmp,turn),b.stext,turn);
+            //print(nb.isComplete(tmp,turn),b.stext,turn);
             nb.selected = b.stext;
             $main.colorCount();
             nb.prevPlayer = turn;
@@ -303,3 +303,6 @@ function enemyHasStation(turn){
     }
     return taken;
 }
+
+
+

@@ -35,7 +35,7 @@ var diceArray=[];
 if($kintetsu==true){
     diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
 }else{
-    diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+    diceArray=[2,4,2,2,2,2,5,3,3,4,4,5];//ダイスの出目用の配列
 }
 
 $board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
@@ -48,12 +48,14 @@ $name2Button={};
 
 var sta;
 for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
-    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
-    fillStyle:"white",layer=$mainLayer,onClick: sButtonClicked};
+    if($stations[$stationPlace[i].name]){
+        sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
+        fillStyle:"white",layer=$mainLayer,onClick: sButtonClicked};
     
-    $name2Button[$stationPlace[i].name]=sta;
-    if(i%10==0){
-        update();
+        $name2Button[$stationPlace[i].name]=sta;
+        if(i%10==0){
+            update();
+        }
     }
 }
 
@@ -302,7 +304,7 @@ function dice(){
 }
 
 function revengeDice(){
-    //diceNum = dice();
+    var diceNum = dice();
 }
 
 function namelengthComparison(sn,d){

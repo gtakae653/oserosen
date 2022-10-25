@@ -5044,3 +5044,47 @@ $stations={
     "薩摩板敷":{lines:["指宿枕崎線"],nexts:["枕崎","白沢(鹿)"]},
     "枕崎":{lines:["指宿枕崎線"],nexts:["薩摩板敷"]},
 };
+
+var staKeys;
+var delCount=2000;//消す駅数
+
+while(delCount>0){
+    staKeys=Object.keys($stations);//key:駅名のみを配列型で取得
+    delNum=rnd(staKeys.length);
+    if($stations[staKeys[delNum]].lines.length==1 && $stations[staKeys[delNum]].nexts.length==2 && !($stations[staKeys[delNum]].midway==false)){
+        delsta=staKeys[delNum];
+        reConnect(delsta);
+        delete $stations[delsta];
+        delCount--;
+    }
+}
+
+\checkPointStation(staName){
+    var checksta = $stations[staName].nexts;
+    for(var i=0;i<checksta.length;i++){
+        
+    }
+}
+
+\reConnect(staName){
+    var next_0 = $stations[staName].nexts[0];
+    var next_0_len = $stations[next_0].nexts.length;
+    var next_1 = $stations[staName].nexts[1];
+    var next_1_len = $stations[next_1].nexts.length;
+    
+    for(var i=0;i<next_0_len;i++){
+        if($stations[next_0].nexts[i]==staName){
+            $stations[next_0].nexts[i]=next_1;
+        }
+    }
+    for(var i=0;i<next_1_len;i++){
+        if($stations[next_1].nexts[i]==staName){
+            $stations[next_1].nexts[i]=next_0;
+        }
+    }
+}
+
+
+//Object.keys
+//lines==1 && nexts==2 && midway==false
+
