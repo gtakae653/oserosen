@@ -10,6 +10,8 @@ if($kintetsu==true){
 }else{
     new Lines;//路線と駅のデータ
     update();
+    new DeleteStation;//全駅版でやりたいときは消す
+    update();//全駅版でやりたいときは消す
 }
 
 new StationPlace;//各駅の座標のデータ
