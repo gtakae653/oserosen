@@ -1,12 +1,14 @@
 var staKey;
 var notDelete={};
 var delsta;
-var delArea=["北海道"];
+var delArea=["四国"];
 
+/*地方削除用*/
 for(var i=0;i<delArea.length;i++){
     deleteArea(delArea[i]);
 }
 
+/*中間駅間引き用*/
 for(staKey of Object.keys($stations)){//key:駅名のみを配列型で取得
     if($stations[staKey].lines.length==1 && $stations[staKey].nexts.length==2 && 
     checkPointStation(staKey) && (!notDelete[staKey])){
@@ -53,15 +55,50 @@ for(staKey of Object.keys($stations)){//key:駅名のみを配列型で取得
     }
 }
 
-\deleteArea(areas){//このままだと接続駅も消えるので、１駅でも消す地方に紛れ込んでたらアウト(門司とか)
-    delLine=$areas[areas].lines;
+\deleteArea(area){//このままだと接続駅も消えるので、１駅でも消す地方に紛れ込んでたらアウト(門司とか)
+    delLine=$areas[area].lines;
     for(var i=0;i<delLine.length;i++){
         for(staKey of Object.keys($stations)){//key:駅名のみを配列型で取得
             if($stations[staKey].lines.indexOf(delLine[i])>-1){
-                delsta=staKey;
-                delete $stations[delsta];
-                logDeleteStations(delsta);
+                if(isBorder(area,staKey)){
+                    modifyStation(area,staKey);
+                }else{
+                    delsta=staKey;
+                    delete $stations[delsta];
+                    logDeleteStations(delsta);
+                }
             }
         }
     }
 }
+
+\isBorder(area,station){//消す地方と消さない地方を結ぶ路線の駅か判定
+    var lines=$stations[station].lines;
+    for(var i=0;i<lines.length;i++){
+        if($areas[area].lines.indexOf(lines[i])<0){//所属路線に削除する地方の路線以外の路線が入っていたら
+            print(station);
+            return true;
+        }
+    }
+    return false;
+}
+
+\modifyStation(area,station){//消す路線と消さない路線の接続駅の時に消す路線の情報だけ修正する
+    var lines=$stations[station].lines;
+    var tmp=[];
+    for(var i=0;i<lines.length;i++){
+        if($areas[area].lines.indexOf(lines[i])<0){
+            tmp.push(lines[i]);
+        }
+    }
+    $stations[station].lines=tmp;//削除済みの路線リストに書き換え
+    
+}
+
+
+
+
+
+
+
+
