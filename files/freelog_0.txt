@@ -133,3 +133,6 @@
 門司	2	undefined	undefined
 厚狭	1	undefined	undefined
 小野田	2	undefined	undefined
+宇多津	1	undefined	undefined
+児島	2	undefined	undefined
+木見	1	undefined	undefined
