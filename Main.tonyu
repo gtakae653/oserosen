@@ -309,7 +309,7 @@ function dice(){
 }
 
 function revengeDice(){
-    var diceNum = dice();
+    $board.diceNum = dice();
 }
 
 function namelengthComparison(sn,d){
