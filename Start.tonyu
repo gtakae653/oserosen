@@ -68,7 +68,7 @@ function kintetsu(){
 }
 
 function Metro(){
-    $Metro = true;
+    $metro = true;
     new Label{x:460,y:80,align:"right",template:"地下鉄モード"};
 }
 function back(){

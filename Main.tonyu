@@ -7,7 +7,7 @@ var searching;
 if($kintetsu==true){
     new KLines;
     update();
-}else if($Metro==true){
+}else if($metro==true){
     new MLines;
     update();
 }else{
@@ -39,6 +39,8 @@ $hotSpring = false;//温泉駅が選択されたらtrue
 var diceArray=[];
 if($kintetsu==true){
     diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
+}else if($metro==true){
+    diceArray=[2,2,3,3,3,3,3,3,4,4,5,5];
 }else{
     diceArray=[2,4,2,2,2,2,5,3,3,4,4,5];//ダイスの出目用の配列
 }
