@@ -7,6 +7,9 @@ var searching;
 if($kintetsu==true){
     new KLines;
     update();
+}else if($Metro==true){
+    new MLines;
+    update();
 }else{
     new Lines;//路線と駅のデータ
     update();

@@ -16,6 +16,7 @@ new Button{top:400,left:$screenHeight/2-50,text:"リプレイ",width:100,height:
 //ターン数指定
 new Button{top:370,left:$screenHeight/2-50,width:100,height:30,text:"ターン数",onClick:\{parallel("turnC");} };
 new Button{top:10,left:320,width:130,height:30,text:"近鉄モード",onClick:kintetsu};
+new Button{top:40,left:320,width:130,height:30,text:"地下鉄モード",onClick:Metro};
 new Button{top:10,left:180,width:130,height:30,text:"Botモード",onClick:bots};
 
 count=0;
@@ -63,9 +64,13 @@ function turnC(t){
 
 function kintetsu(){
     $kintetsu = true;
-    new Label{x:460,y:20,align:"right",template:"近鉄モード"};
+    new Label{x:460,y:80,align:"right",template:"近鉄モード"};
 }
 
+function Metro(){
+    $Metro = true;
+    new Label{x:460,y:80,align:"right",template:"地下鉄モード"};
+}
 function back(){
     loadPage(Desc);
 }
