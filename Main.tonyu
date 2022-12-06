@@ -102,7 +102,7 @@ new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
 //リプレイモードだったら
 if($gameConfig.replay){
-    $replayStart = new Replay;
+    $replayStart = new Replay{file:"2022_12_05_23_47_49m_mcts_10000_30_cmcts_1000_100_999.txt"};
     waitEvent($replayStart,"replayEnd");
     $replaySet.die();
     update();
@@ -119,7 +119,29 @@ new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$board.getStati
 choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",text:""};
 var panel;
 
-
+/*
+if($gameConfig.replay.file){//リプレイtrueの時
+    //let logger=new Logger;
+    update();
+    var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
+    let replay = new Replay{state: board, context:$gameConfig, logFile: $gameConfig.replay.file };
+    let replayedAll;
+    for (let i=0;i<$gameConfig.replay.turn;i++) {
+        if (!replay.step()) {
+            replayedAll=true;
+            break;
+        }
+    }
+    if (replayedAll) {
+        var g=new GameMaster{state: replay.state, context:$gameConfig, logger};
+        oneMatch(g);
+    } else {
+        let bot=$gameConfig.bots[replay.state.player];
+        replay.dump(bot);
+    }
+    return;
+}
+*/
 while(true) {
     for (var name,n in $name2Node) {
         if (n.name.indexOf("point") < 0){
@@ -167,7 +189,8 @@ function sButtonClicked(b) {
     } else {
         $prevMyStation[$board.turn-1]=b.stext;
         $board=nb;
-        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prevPlayer};//通常プレイ時のログ取得
+        colorCount();
+        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prevPlayer,rsta:$red,bsta:$blue};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
@@ -217,6 +240,8 @@ function click(a){
     var citySta;
     if($kintetsu==true){
         citySta=[$board.selected,"近鉄名古屋","大和西大寺","京都","大阪難波","大和八木","古市","吉野","王寺","伊勢中川","賢島","近鉄四日市","尺土","大阪阿部野橋"];
+    }else if($metro==true){
+        citySta=[$board.selected,"大手町","北綾瀬","西船橋","新木場","西馬込","中目黒","代々木上原","中野坂上","和光市","西高島平","押上","篠崎","市ケ谷"];
     }else{
         citySta=[$board.selected,"札幌","函館","秋田","仙台","新潟","東京","名古屋","金沢","大阪","高松(香)","広島","博多","鹿児島"];
     }
@@ -234,7 +259,7 @@ function click(a){
     }
     
     var RDice = new Button{top:110,left:330,width:30,height:30,text:"D",onClick:revengeDice};
-    
+    var CSta = new Button{top:110,left:100,width:30,height:30,text:"C",onClick:colorCount};
     $staBox = new Button{top:360,left:170,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
     var lineArea = new Button{top:360,left:270,width:100,height:30,text:"路線範囲",onClick:lineAreaTable};
     //$resta = new Label{x:250,y:400,fillStyle:"white",template:"残り=$rsta駅"};
@@ -372,8 +397,6 @@ function limit(dice){
     }
     return nts;
 }
-
-
 
 /*
 function getStationPlace(n) {

@@ -218,3 +218,4 @@ if($loopCount && $loopCount<500){//戦わせる回数
     // dummy(debug mode)
     return 3;
 }
+

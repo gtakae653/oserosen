@@ -1,7 +1,7 @@
 var staKey;
 var notDelete={};
 var delsta;
-var delArea=["北海道","四国","九州","孤立"];
+var delArea=["北海道","四国","九州","孤立","手間1"];
 var deleteLines={};
 
 
