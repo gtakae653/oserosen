@@ -100,14 +100,6 @@ new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
-//リプレイモードだったら
-if($gameConfig.replay){
-    $replayStart = new Replay{file:"2022_12_05_23_47_49m_mcts_10000_30_cmcts_1000_100_999.txt"};
-    waitEvent($replayStart,"replayEnd");
-    $replaySet.die();
-    update();
-}
-
 var choice;
 
 var start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
@@ -118,6 +110,27 @@ new Label{x:460, y:430,align:"right",fillStyle:"Black",template:"$board.prevPlay
 new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$board.getStation駅を取りました"};
 choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",text:""};
 var panel;
+
+
+//リプレイモードだったら
+if($gameConfig.replay){
+    var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
+    $replayStart = new Replay{state: board, context:$gameConfig,
+    logFile:"2022_12_05_23_47_49m_mcts_10000_30_cmcts_1000_100_999.txt"};
+    update();
+    let diceL=new Label{x:100,y:100,size:20,fillStyle:"black",text="dice"};
+    let tc=1;
+    while($replayStart.step()) {
+        $board=$replayStart.state;
+        diceL.text="turn="+tc+"dice="+$board.diceNum;
+        tc++;
+        //print($replayStart.state);
+        paintAll();
+        //  1 || >30  ->   !=1 && <=30
+        while (getkey("space")!=1 && getkey("space")<=30) update();
+        update();
+    }
+}
 
 /*
 if($gameConfig.replay.file){//リプレイtrueの時
@@ -295,7 +308,11 @@ function iBox(a){
         }
     }
 }
-
+function paintAll() {
+    for (let stext, _  in $board.owner) {
+        paint($name2Button[stext]);
+    }
+}
 function paint(b) {
     if($board.owner[b.stext].owner==1){
         b.fillStyle = new Color("red");
