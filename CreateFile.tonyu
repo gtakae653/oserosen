@@ -1,10 +1,19 @@
-f=file("freelog.txt");//指定した名前の付いたテキストを先に用意しておく
-c="";
-if (f.exists()){
-    c=f.text();
+//textName = "../files/MCTS(10_600_2)_MCTS(1.4_600_2)_Kintetsu/"+String($loopCount)+"_log.txt";
+textName = "freelog_1.txt";
+f=file(textName);//freelog.txt
+
+if(logStationName){
+    f.appendText(logStationName+"\t"+logOwner+"\t"+rsta+"\t"+bsta+"\n");
+}else{
+    if($firstPlayer){
+        f.appendText(taken+"win");
+    }
+    //f.appendText(count+"ゲーム目\n");
 }
 
-f.text(c+logStationName+"\t"+logOwner+"\n");
+die();
+/*
 if(attackedStation){
-    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attack+"\n");
+    f.text(c+attackedStation+"\t"+attackedPlayer+"\t"+attacked+"\t"+rsta+"\t"+bsta+"\n");
 }
+*/

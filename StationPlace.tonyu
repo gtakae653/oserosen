@@ -1,15 +1,20 @@
 if($kintetsu==true){
     f=file("../static/kintetsu.txt");
+}else if($metro==true){
+    f=file("../static/Metro_'88_11.txt");
 }else{
     f=file("../static/location.txt");
 }
 $stationPlace=[];
 if($kintetsu==true){
     $pixelPerDegree =7000;
+}else if($metro==true){
+    $pixelPerDegree =15000;
 }else{
     $pixelPerDegree =5000;//(緯度経度が)1度当たりのピクセル数
 }
 name;
+
 
 for(var line of f.lines()){
     if(line){
@@ -19,12 +24,16 @@ for(var line of f.lines()){
     if($kintetsu==true){
         ax=(a[0]-135.7826855)*$pixelPerDegree;
         ay=-(a[1]-34.6937895)*$pixelPerDegree;
+    }else if($metro==true){
+        ax=(a[0]-139.7631049)*$pixelPerDegree;
+        ay=-(a[1]-35.685288)*$pixelPerDegree;
     }else{
         ax=(a[0]-139.7671248)*$pixelPerDegree;
         ay=-(a[1]-35.6812362)*$pixelPerDegree;
     }
     name=field[0];
     $stationPlace.push({name:name,x:ax,y:ay});
+    //var log = new CreateFile{logStationName:name,logOwner:0};
 }
 
 /*北　稚内、東　東根室、南　西大山、西　佐世保

@@ -1,0 +1,260 @@
+"field strict";
+$gameConfig={
+    debug=true,
+    players = [1,2],
+    replay = false,
+};
+$kintetsu=true;
+//---Main
+$Screen.setBGColor("white");
+$main=this;
+
+var searching;
+
+if($kintetsu==true){
+    new KLines;
+    update();
+}else{
+    new Lines;//路線と駅のデータ
+    update();
+}
+
+new StationPlace;//各駅の座標のデータ
+update();
+new MapScroll{x:0,y:0,scale:1};
+new CreateFile{count:$loopCount};//記録用
+
+$boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
+var ready = true;//探索中はfalse
+$searchPrepared = true;//検索ボタンが押されたらfalse
+$hotSpring = false;//温泉駅が選択されたらtrue
+
+var diceArray=[];
+if($kintetsu==true){
+    diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
+}else{
+    diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
+}
+
+var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
+
+new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
+new Label{x:430,y:20,fillStyle:"Black",template:"$loopCount"};
+
+var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
+
+$name2Button={};
+
+var sta;
+for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
+    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
+    fillStyle:"white",layer=$mainLayer/*onClick: sButtonClicked*/};
+    
+    $name2Button[$stationPlace[i].name]=sta;
+    if(i%10==0){
+        update();
+    }
+}
+
+$Boot.newLimit=10000;
+update();
+$name2Node={};
+var stationPlace;
+var nts=[];
+for (stationPlace of $stationPlace) {
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};
+    nts.push(stationPlace.name);
+}
+$Boot.newLimit=1000;
+update();
+
+for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さなければいけない為
+    if(stations.indexOf("point") > -1){
+        $name2Node[stations]=new Node{name:stations,x:0,y:0};
+    }
+}
+
+
+function sButtonClicked(b) {
+    if(board.gameover($gameConfig)){
+        print("This game is finished!");
+        print("Thank you for playing!");
+        return;
+    }
+    var nb=board.clicked($gameConfig,b);
+    
+
+    
+    if (nb.error) {
+        //printの代わりにLabelを作って消えるようにする
+        new PopupLabel{template:"ERROR",x:30,y:480};
+        //エラーメッセージが表示される
+    } else {
+        board.die();
+        board=nb;
+        var log = new CreateFile{logStationName:board.getStation,logOwner:board.prevPlayer,rsta:takenCount(1),bsta:takenCount(2)};//通常プレイ時のログ取得
+        if($gameConfig.replay == true){
+            var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
+        }
+    }
+    return nb;
+}
+
+
+loading.die();
+$boardPrepared = true;//全ての駅のボタンとNodeの配置完了
+print("Game Start (Auto)");
+
+var stnames=Object.keys($name2Node);
+var takenStations;
+var allStations=$stationPlace.length;
+
+var kouho=[];
+var stname;
+while(takenStations != allStations) {
+    while(true) {
+        var ns=notTakenStations();
+        if(ns.length==0) break;
+        
+        if(board.turn==1){
+            stname=sprayingBot();
+            //stname=ns[rnd(ns.length)];
+        }else{
+            stname=sprayingBot();
+            //stname=ns[rnd(ns.length)];
+        }
+        if (stname.match(/point/)) continue;
+        break;
+    }
+    takenStations=Object.keys(board.owner).length;
+    print(stname,linesAllStations(stname));
+    print(takenStations,allStations);
+    var btn=$name2Button[stname];
+    var nb=sButtonClicked(btn);
+    update();
+    //自分の駅数がどれくらいあるかを数える(リストで保存するとか)
+    //takenCount();
+    
+}
+
+print("This game is finished!"+"\nFirstPlayer's station:"+takenCount(1));
+$firstPlayer=false;
+if(takenCount(1) > 145){
+    $firstPlayer=true;
+    new CreateFile{taken:takenCount(1)};
+}
+
+
+if($loopCount<3){//戦わせる回数
+    new CreateFile{count:$loopCount};//記録用
+    $loopCount++;
+    loadPage(Auto);
+}
+
+
+\takenCount(turn){
+    var taken=0;
+    var sn;
+    for(sn of board.owner){
+        if(board.owner[sn].owner==turn){
+            taken++;
+        }
+    }
+    return taken;
+}
+
+\notTakenStations(){
+    var taken_s;
+    for(taken_s of board.owner){
+        var index=nts.indexOf(taken_s);
+        if(index>-1){
+            nts.splice(index,1);
+        }
+    }
+    return nts;
+}
+
+\sprayingBot(){//散布型Bot
+    var nts=notTakenStations();//取られていない駅
+    var choice;
+    var stn;
+    var kouho=[];
+    
+    for(stn of nts){
+        if($stations[stn].nexts.length == $stations[stn].lines.length){//角の駅かを判定
+            kouho.push(stn);//角ならkouhoに追加
+        }
+    }
+    if(kouho.length>0){
+        choice=searchCorner(shuffle(kouho));
+    }else{
+        choice=nts[rnd(nts.length)];//ランダムを返す
+    }
+    return choice;
+}
+
+\nextCrossStations(station){
+    //取った駅から見て次の分岐駅・接続駅のリストを返す
+}
+
+\searchCorner(stationArray){//取られていない角の駅の配列を受け取る
+    var biggest=stationArray[0];
+    for(var i=1;i<stationArray.length;i++){
+        if($stations[biggest].nexts.length < $stations[stationArray[i]].nexts.length){
+        /*隣接駅数が多ければそちらを最大の角とする*/
+            biggest=stationArray[i];
+        }
+    }
+    return biggest;
+}
+
+/*シャッフル*/
+\shuffle(stArray){//kouhoを受け取る
+    var newArray=[];
+    var choice;
+    var z;
+    while(true){
+        z=stArray.splice([rnd(stArray.length)],1);
+        newArray.push(z[0]);//ランダムな1駅を選び新たな配列の末尾に追加する
+        if(stArray.length==0){
+            break;
+        }
+    }
+    return newArray;//ランダムな順になった配列を返す
+}
+
+\linesAllStations(stationName){
+    var sum=0;
+    var sLines=$stations[stationName].lines;
+    for(var i=0;i<sLines.length;i++){
+        for (var station of $stationPlace) {
+            //接続駅が選ばれた場合、同じ駅を重複して数えている
+            //あえてこのままにするのも手かもしれない
+            if($stations[station.name].lines.indexOf(sLines[i])>-1){
+                sum+=1;
+            }
+        }
+    }
+    print(sum);
+    return sum;
+}
+
+function paint(b) {
+    if(board.owner[b.stext].owner==1){
+        b.fillStyle = new Color("red");
+    }else if(board.owner[b.stext].owner==2){
+        b.fillStyle = new Color("cyan");
+    }else if(board.owner[b.stext].owner==3){
+        b.fillStyle = new Color("yellow");
+    }else{
+        b.fillStyle = new Color("green");
+    }
+}
+
+\colorCount() {
+    // dummy
+}
+\dice(){
+    // dummy(debug mode)
+    return 3;
+}

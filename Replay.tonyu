@@ -1,4 +1,27 @@
-f=file("freelog.txt");//途中からの場合は事前にここのファイル名を書き換える
+let logFle;
+let state: State;
+let context: Context;
+let lines: String[];
+\new(params) {
+    super(params);
+    logFile=file(logFile);
+    lines=logFile.lines();
+}
+\step():Boolean {
+    let pat=/Action:(.*)/;
+    while (true) {
+        let r=lines.shift();
+        if (!r) return false;
+        let m=pat.exec(r);
+        if (!m) continue;
+        let a=$JSON.parse(m[1]);
+        //print(a);
+        state=state.next(context, a);
+        return true;
+    }
+}
+/*
+f=file("00_log.txt");//途中からの場合は事前にここのファイル名を書き換える
 player=2;
 co = 0;
 
@@ -16,7 +39,7 @@ for(var line of f.lines()){
 }
     
 
-$Player = player;
+$gameConfig.player = player;
 $nowReplay = true;
 nowloading = new Label{x:0, y:70,align:"left",fillStyle:"Black",template:"盤面を再現しています。しばらくお待ちください"};
 $replaySet = new Label{x:0, y:90,align:"left",fillStyle:"Black",template:"$logsを取りました"};
@@ -45,7 +68,7 @@ for(var line of f.lines()){
 
 nowloading.die();
 update();
-$replay = false;
+$gameConfig.replay = false;
 $nowReplay = false;
 fireEvent("replayEnd");
 
@@ -53,3 +76,4 @@ function findButton(logStationName){
     if (!$name2Button[logStationName]) throw new Error(logStationName+" not found");
     return $name2Button[logStationName];
 }
+*/

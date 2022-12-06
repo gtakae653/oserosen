@@ -1,4 +1,46 @@
+
+
+print("This game is finished!"+"\nFirstPlayer's station:"+g.state.value($gameConfig, 1));
+$firstPlayer=false;
+if(takenCount(1) > 145){
+    $firstPlayer=true;
+    new CreateFile{taken:g.state.value($gameConfig, 1)};
+}
+
+
+if($loopCount && $loopCount<500){//戦わせる回数
+    new CreateFile{count:$loopCount};//記録用
+    $loopCount++;
+    loadPage(AutoMCTS);
+}
+
+
+\takenCount(turn){
+    var taken=0;
+    var sn;
+    for(sn of board.owner){
+        if(board.owner[sn].owner==turn){
+            taken++;
+        }
+    }
+    return taken;
+}
+
+\notTakenStations(){
+    var taken_s;
+    for(taken_s of board.owner){
+        var index=nts.indexOf(taken_s);
+        if(index>-1){
+            nts.splice(index,1);
+        }
+    }
+    return nts;
+}
+//---------------------------------------------------------------------------
+native $;
+native location;
 "field strict";
+//---Main
 $Screen.setBGColor("white");
 $main=this;
 
@@ -7,29 +49,14 @@ var searching;
 if($kintetsu==true){
     new KLines;
     update();
-}else if($metro==true){
-    new MLines;
-    update();
 }else{
     new Lines;//路線と駅のデータ
     update();
-    new DeleteStation;//全駅版でやりたいときは消す
-    update();//全駅版でやりたいときは消す
 }
 
 new StationPlace;//各駅の座標のデータ
 update();
 new MapScroll{x:0,y:0,scale:1};
-
-/*
-new Prefectural;
-update();
-for(var p of $pre){
-    new Label{x:$pre[p].x*$pixelPerDegree,y:$pre[p].y*$pixelPerDegree,text:$pre[p].name,size:500,fillStyle:"black"};
-}
-*/
-$prevMyStation=[];
-$search = new Button{top:10,left:380,width:80,height:30,text:"検索",onClick:click};
 
 $boardPrepared = false;//全ての駅のボタンとノードの配置が完了したらtrue
 var ready = true;//探索中はfalse
@@ -39,15 +66,14 @@ $hotSpring = false;//温泉駅が選択されたらtrue
 var diceArray=[];
 if($kintetsu==true){
     diceArray=[2,2,2,2,3,3,3,4,4,4,5,5];
-}else if($metro==true){
-    diceArray=[2,2,3,3,3,3,3,3,4,4,5,5];
 }else{
-    diceArray=[2,4,2,2,2,2,5,3,3,4,4,5];//ダイスの出目用の配列
+    diceArray=[2,2,2,2,2,2,3,3,3,4,4,5];//ダイスの出目用の配列
 }
 
-$board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
+var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
 
 new Label{x:0, y:10,align:"left",fillStyle:"Red", template:"描画範囲:bキー 拡大:aキー 標準:cキー 広域:dキー"};
+new Label{x:430,y:20,fillStyle:"Black",template:"$loopCount"};
 
 var loading = new Label{x:50, y:450,fillStyle:"Black", template:"駅生成中..."};
 
@@ -55,27 +81,24 @@ $name2Button={};
 
 var sta;
 for(var i=0;i<$stationPlace.length;i++){//駅名を表示する
-    if($stations[$stationPlace[i].name]){
-        sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
-        fillStyle:"white",layer=$mainLayer,onClick: sButtonClicked};
+    sta = new SButton{left:$stationPlace[i].x,top:$stationPlace[i].y,width:40,height:30,text:$stationPlace[i].name.replace(/\(.*/,""),stext:$stationPlace[i].name,
+    fillStyle:"white",layer=$mainLayer/*onClick: sButtonClicked*/};
     
-        $name2Button[$stationPlace[i].name]=sta;
-        if(i%10==0){
-            update();
-        }
+    $name2Button[$stationPlace[i].name]=sta;
+    if(i%10==0){
+        update();
     }
 }
 
-$Boot.newLimit=10000;
+$Boot.newLimit=null;
 update();
 $name2Node={};
 var stationPlace;
 var nts=[];
 for (stationPlace of $stationPlace) {
-    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0}; 
+    $name2Node[stationPlace.name]=new Node{name:stationPlace.name, x:stationPlace.x, y:stationPlace.y, owner:0};
     nts.push(stationPlace.name);
 }
-$Boot.newLimit=1000;
 update();
 
 for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さなければいけない為
@@ -83,7 +106,6 @@ for(var stations,z in $stations){//,zはTonyuの仕様の関係で何か渡さ�
         $name2Node[stations]=new Node{name:stations,x:0,y:0};
     }
 }
-
 
 loading.die();
 $boardPrepared = true;//全ての駅のボタンとNodeの配置完了
@@ -100,6 +122,14 @@ new Label{x:460,y:370,fillStyle:"Black",align:"right",template:"青=$blue駅"};
 new Label{x:460,y:390,fillStyle:"Black",align:"right",template:"黄=$yellow駅"};
 new Label{x:460,y:410,fillStyle:"Black",align:"right",template:"緑=$green駅"};
 
+//リプレイモードだったら
+if($gameConfig.replay){
+    $replayStart = new Replay;
+    waitEvent($replayStart,"replayEnd");
+    $replaySet.die();
+    update();
+}
+
 var choice;
 
 var start = new Label{x:$screenWidth/2,y:$screenHeight/2-50,size:50,template:"Game Start!!",fillStyle:"red"};
@@ -111,51 +141,8 @@ new Label{x:460, y:450,align:"right",fillStyle:"Black",template:"$board.getStati
 choice = new Label{x:0, y:50,align:"left",fillStyle:"Black",text:""};
 var panel;
 
-
-//リプレイモードだったら
-if($gameConfig.replay){
-    var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
-    $replayStart = new Replay{state: board, context:$gameConfig,
-    logFile:"2022_12_05_23_47_49m_mcts_10000_30_cmcts_1000_100_999.txt"};
-    update();
-    let diceL=new Label{x:100,y:100,size:20,fillStyle:"black",text="dice"};
-    let tc=1;
-    while($replayStart.step()) {
-        $board=$replayStart.state;
-        diceL.text="turn="+tc+"dice="+$board.diceNum;
-        tc++;
-        //print($replayStart.state);
-        paintAll();
-        //  1 || >30  ->   !=1 && <=30
-        while (getkey("space")!=1 && getkey("space")<=30) update();
-        update();
-    }
-}
-
-/*
-if($gameConfig.replay.file){//リプレイtrueの時
-    //let logger=new Logger;
-    update();
-    var board = new Board{turn: 1, turnCount:1, ready: true,diceNum:dice(),owner:{}, gameConfig: $gameConfig};
-    let replay = new Replay{state: board, context:$gameConfig, logFile: $gameConfig.replay.file };
-    let replayedAll;
-    for (let i=0;i<$gameConfig.replay.turn;i++) {
-        if (!replay.step()) {
-            replayedAll=true;
-            break;
-        }
-    }
-    if (replayedAll) {
-        var g=new GameMaster{state: replay.state, context:$gameConfig, logger};
-        oneMatch(g);
-    } else {
-        let bot=$gameConfig.bots[replay.state.player];
-        replay.dump(bot);
-    }
-    return;
-}
-*/
-while(true) {
+var g=new GameMaster{state: board, context:$gameConfig };
+while(!g.gameover()) {
     for (var name,n in $name2Node) {
         if (n.name.indexOf("point") < 0){
             continue;
@@ -175,44 +162,63 @@ while(true) {
     }else{
         choice.text=$board.diceNum+" 文字の駅を選んでください";
     }
+    
     update();
 }
 
 
+$gameConfig.bots={"1":$selectBot.botPlayers[0]/*mcts10*/, "2":$selectBot.botPlayers[1]};
+var stnames=Object.keys($name2Node);
+var takenStations;
+var allStations=$stationPlace.length;
+
+var kouho=[];
+var stname;
+
+var g=new GameMaster{state: board, context:$gameConfig };
+while(!g.gameover()) {
+    var pp=g.state.player;
+    var a=g.step();
+    print(pp, a.stext, g.state.value($gameConfig, 1), g.state.value($gameConfig, 2));
+    //print(players.map\(p) {return value(context, p, g.state);}.join(" "));
+    //ここでログを取る
+    var log = new CreateFile{logStationName:a.stext,logOwner:pp,rsta:g.state.value($gameConfig, 1),bsta:g.state.value($gameConfig, 2)};//通常プレイ時のログ取得
+    for (var b1 of all(Button)) {
+        if(g.state.owner[b1.stext]){
+            paint(g.state, b1);//色の変更
+        }
+    }
+    update();
+}
+if (location.href.match(/localhost/) || location.href.match(/\/sotu\//)) {
+    $.post("data.php") {filename:log.textName, content:file(log.textName).text()};
+}
+
+
+
 function sButtonClicked(b) {
-    if(!$boardPrepared){
-        return;
-    }
-    if(!$searchPrepared){
-        return;
-    }
-    if($board.gameover($gameConfig)){
+    if(board.gameover($gameConfig)){
         print("This game is finished!");
         print("Thank you for playing!");
         return;
     }
-    var nb=$board.clicked($gameConfig,b);
-    
+    var nb=board.clicked($gameConfig,b);
+
+
     
     if (nb.error) {
         //printの代わりにLabelを作って消えるようにする
-        print("This");
-        new PopupLabel{template:"ERROR",x:30,y:480,fillStile:"black"};
+        new PopupLabel{template:"ERROR",x:30,y:480};
         //エラーメッセージが表示される
     } else {
-        $prevMyStation[$board.turn-1]=b.stext;
-        $board=nb;
-        colorCount();
-        var log = new CreateFile{logStationName:$board.getStation,logOwner:$board.prevPlayer,rsta:$red,bsta:$blue};//通常プレイ時のログ取得
+        board.die();
+        board=nb;
+        //var log = new CreateFile{logStationName:board.getStation,logOwner:board.prevPlayer,rsta:takenCount(1),bsta:takenCount(2)};//通常プレイ時のログ取得
         if($gameConfig.replay == true){
             var tlog = new CreateTerritoryfile{rsta:$red,ysta:$yellow,gsta:$green,bsta:$blue};
         }
-        for (var b1 of all(Button)) {
-            if($board.owner[b1.stext]){
-                paint(b1);//色の変更
-            }
-        }
     }
+    return nb;
 }
 
 
@@ -253,8 +259,6 @@ function click(a){
     var citySta;
     if($kintetsu==true){
         citySta=[$board.selected,"近鉄名古屋","大和西大寺","京都","大阪難波","大和八木","古市","吉野","王寺","伊勢中川","賢島","近鉄四日市","尺土","大阪阿部野橋"];
-    }else if($metro==true){
-        citySta=[$board.selected,"大手町","北綾瀬","西船橋","新木場","西馬込","中目黒","代々木上原","中野坂上","和光市","西高島平","押上","篠崎","市ケ谷"];
     }else{
         citySta=[$board.selected,"札幌","函館","秋田","仙台","新潟","東京","名古屋","金沢","大阪","高松(香)","広島","博多","鹿児島"];
     }
@@ -272,7 +276,7 @@ function click(a){
     }
     
     var RDice = new Button{top:110,left:330,width:30,height:30,text:"D",onClick:revengeDice};
-    var CSta = new Button{top:110,left:100,width:30,height:30,text:"C",onClick:colorCount};
+    
     $staBox = new Button{top:360,left:170,width:100,height:30,text:"駅名検索",onClick:\{parallel("iBox");} };
     var lineArea = new Button{top:360,left:270,width:100,height:30,text:"路線範囲",onClick:lineAreaTable};
     //$resta = new Label{x:250,y:400,fillStyle:"white",template:"残り=$rsta駅"};
@@ -308,17 +312,13 @@ function iBox(a){
         }
     }
 }
-function paintAll() {
-    for (let stext, _  in $board.owner) {
-        paint($name2Button[stext]);
-    }
-}
-function paint(b) {
-    if($board.owner[b.stext].owner==1){
+
+function paint(state, b) {
+    if(state.owner[b.stext].owner==1){
         b.fillStyle = new Color("red");
-    }else if($board.owner[b.stext].owner==2){
+    }else if(state.owner[b.stext].owner==2){
         b.fillStyle = new Color("cyan");
-    }else if($board.owner[b.stext].owner==3){
+    }else if(state.owner[b.stext].owner==3){
         b.fillStyle = new Color("yellow");
     }else{
         b.fillStyle = new Color("green");
@@ -353,7 +353,7 @@ function dice(){
 }
 
 function revengeDice(){
-    $board.diceNum = dice();
+    //diceNum = dice();
 }
 
 function namelengthComparison(sn,d){
@@ -393,9 +393,6 @@ function limit(dice){
     }
     
     print(dice,stalim.length);
-    /*for(i=0;i<stalim.length;i++){
-        print(stalim[i]);
-    }*/
 
     if(stalim.length==0){
         return true;
@@ -415,9 +412,4 @@ function limit(dice){
     return nts;
 }
 
-/*
-function getStationPlace(n) {
-    if (!$stationPlace[n]) throw new Error(n+" not found");
-    return $stationPlace[n];
-}
-*/
+
