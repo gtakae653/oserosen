@@ -21,6 +21,12 @@ var prevPlayer;
 //var message2 = "塗り替えられる駅が存在しませんでした";
 
 \next(gameConfig,b){
+    if (typeof b.num==="number") {
+        let nb=clone();
+        nb.diceNum=b.num;
+        nb.turn=turn;
+        return nb;
+    }
     return clicked(gameConfig,b);
 }
 \clone() {

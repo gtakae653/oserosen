@@ -15,6 +15,7 @@ let lines: String[];
         let m=pat.exec(r);
         if (!m) continue;
         let a=$JSON.parse(m[1]);
+        //print(a);
         state=state.next(context, a);
         return true;
     }
